@@ -14,15 +14,15 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 # Customer
 | Field Name   | Field Type | Group   | Description                                   | Comments  |
 | ------------ | ---------- | ------- | --------------------------------------------- | --------- |
-| id           | string     | default | Entity id                                     |           |
-| created_at   | number     | default | Creation time                                 |           |
-| mobile       | string     | default | Customer's mobile phone                       | Validated |
-| autocomplete | string     | address | Full address as captured by Google Places API |           |
-| street_num   | string     | address | Street number                                 |           |
-| street_route | string     | address | Street name                                   |           |
-| apartment    | string     | address | Apartment                                     |           |
-| city         | string     | address | City                                          |           |
-| state        | string     | address | State                                         |           |
-| zip          | string     | address | Zip code                                      |           |
-| lat          | string     | address | Latitude                                      |           |
-| lng          | string     | address | Longtitude                                    |           |
+| id           | `string`   | default | Entity id                                     |           |
+| created_at   | `number`   | default | Creation time                                 |           |
+| mobile       | `string`   | default | Customer's mobile phone                       | Validated |
+| autocomplete | `string`   | address | Full address as captured by Google Places API |           |
+| street_num   | `string`   | address | Street number                                 |           |
+| street_route | `string`   | address | Street name                                   |           |
+| apartment    | `string`   | address | Apartment                                     |           |
+| city         | `string`   | address | City                                          |           |
+| state        | `string`   | address | State                                         |           |
+| zip          | `string`   | address | Zip code                                      |           |
+| lat          | `string`   | address | Latitude                                      |           |
+| lng          | `string`   | address | Longtitude                                    |           |
