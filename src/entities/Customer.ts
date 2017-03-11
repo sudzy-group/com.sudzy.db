@@ -1,5 +1,6 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
+import { identity } from 'lodash';
 
 /**
  * Represent a customer entity
@@ -10,7 +11,8 @@ export class Customer extends Entity {
         group: "default",
         name: "mobile",
         validate: mobile,
-        description: "Customer's mobile phone"
+        description: "Customer's mobile phone",
+        search_by: [ identity ] 
     })
     public mobile: string;
 

@@ -53,7 +53,7 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
     function getDescription(properties) {
         let o = {}
         for (let p of properties) {
-            o[p.key.name] = p.value.value || p.value.raw || p.value.name;
+            o[p.key.name] = p.value.value || p.value.raw || p.value.name || p.value.type;
         }
         return o;
     }
@@ -70,9 +70,7 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
                     var e = d.substr(l, d.length - l - 1);
                     var result = parse('(' + e + ')');
                     var description = getDescription(result.body[0].expression.properties);
-                    if (m.type) {
-                        description.type = _.trim(m.type.getFullText());
-                    }
+                    description.type = m.type ? _.trim(m.type.getFullText()) : "";
                     fields.push(description);
                 }               
             }

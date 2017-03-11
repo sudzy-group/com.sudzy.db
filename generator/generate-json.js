@@ -48,7 +48,7 @@ function generateDocumentation(fileNames, options) {
         var o = {};
         for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
             var p = properties_1[_i];
-            o[p.key.name] = p.value.value || p.value.raw || p.value.name;
+            o[p.key.name] = p.value.value || p.value.raw || p.value.name || p.value.type;
         }
         return o;
     }
@@ -65,9 +65,7 @@ function generateDocumentation(fileNames, options) {
                     var e = d.substr(l, d.length - l - 1);
                     var result = acorn_1.parse('(' + e + ')');
                     var description = getDescription(result.body[0].expression.properties);
-                    if (m.type) {
-                        description.type = _.trim(m.type.getFullText());
-                    }
+                    description.type = m.type ? _.trim(m.type.getFullText()) : "";
                     fields.push(description);
                 }
             }

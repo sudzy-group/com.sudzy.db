@@ -7,7 +7,11 @@ _.forIn(entities, function(properties, name) {
     console.log("# " + name);
     var t = [headers];
     _.each(properties, function(prop) {
-        t.push([prop.name,'`' + prop.type + '`', prop.group, prop.description, prop.validate ? "Validated" : ""]);
+        var comments = [];
+        prop.validate && comments.push("Validated");
+        prop.search_by && comments.push( "Searchable");
+        
+        t.push([prop.name,'`' + prop.type + '`', prop.group, prop.description, comments.join(", ")]);
     })
     console.log(table(t));
 })
