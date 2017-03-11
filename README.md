@@ -15,7 +15,7 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | Field Name   | Field Type | Group   | Description                                   | Comments  |
 | ------------ | ---------- | ------- | --------------------------------------------- | --------- |
 | id           | `string`   | default | Entity id                                     |           |
-| created_at   | `number`   | default | Creation time                                 |           |
+| created_at   | `number`   | default | Creation datetime (unix)                      |           |
 | mobile       | `string`   | default | Customer's mobile phone                       | Validated |
 | autocomplete | `string`   | address | Full address as captured by Google Places API |           |
 | street_num   | `string`   | address | Street number                                 |           |
