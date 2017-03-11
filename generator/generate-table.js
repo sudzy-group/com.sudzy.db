@@ -10,7 +10,8 @@ _.forIn(entities, function(properties, name) {
         var comments = [];
         prop.validate && comments.push("Validated");
         prop.search_by && comments.push( "Searchable");
-        
+        prop.name == "id" && comments.push("Auto-generated")
+        prop.name == "created_at" && comments.push("Auto-generated")
         t.push([prop.name,'`' + prop.type + '`', prop.group, prop.description, comments.join(", ")]);
     })
     console.log(table(t));
