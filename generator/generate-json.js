@@ -54,6 +54,8 @@ function generateDocumentation(fileNames, options) {
     }
     function visitMembers(members) {
         var fields = [];
+        fields.push({ name: "id", type: "string", group: "default", description: "Entity id" });
+        fields.push({ name: "created_at", type: "number", group: "default", description: "Creation time" });
         for (var _i = 0, members_1 = members; _i < members_1.length; _i++) {
             var m = members_1[_i];
             if (m.decorators && m.decorators.length == 1) {

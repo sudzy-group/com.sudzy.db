@@ -60,6 +60,8 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
 
     function visitMembers(members) {
         let fields = [];
+        fields.push({ name : "id", type: "string", group: "default", description: "Entity id"})
+        fields.push({ name : "created_at", type: "number", group: "default", description: "Creation time"})
         for (let m of members) {
             if (m.decorators && m.decorators.length == 1) {
                 let d = _.trim(m.decorators[0].getFullText());
@@ -75,6 +77,7 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
                 }               
             }
         }
+
         return fields;
     }
 
