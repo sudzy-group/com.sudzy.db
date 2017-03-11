@@ -14,13 +14,13 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 # Customer
 | Field Name   | Field Type | Group   | Description                                   | Comments  |
 | ------------ | ---------- | ------- | --------------------------------------------- | --------- |
-| mobile       |            | default | Customer's mobile phone                       | Validated |
-| autocomplete |            | address | Full address as captured by Google Places API |           |
-| street_num   |            | address | Street number                                 |           |
-| street_route |            | address | Street name                                   |           |
-| apartment    |            | address | Apartment                                     |           |
-| city         |            | address | City                                          |           |
-| state        |            | address | State                                         |           |
-| zip          |            | address | Zip code                                      |           |
-| lat          |            | address | Latitude                                      |           |
-| lng          |            | address | Longtitude                                    |           |
+| mobile       | string     | default | Customer's mobile phone                       | Validated |
+| autocomplete | string     | address | Full address as captured by Google Places API |           |
+| street_num   | string     | address | Street number                                 |           |
+| street_route | string     | address | Street name                                   |           |
+| apartment    | string     | address | Apartment                                     |           |
+| city         | string     | address | City                                          |           |
+| state        | string     | address | State                                         |           |
+| zip          | string     | address | Zip code                                      |           |
+| lat          | string     | address | Latitude                                      |           |
+| lng          | string     | address | Longtitude                                    |           |
