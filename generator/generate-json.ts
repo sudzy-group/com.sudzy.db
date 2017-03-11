@@ -3,16 +3,6 @@ import * as fs from "fs";
 import * as _ from 'lodash';
 import { parse } from 'acorn';
 
-interface DocEntry {
-    name?: string,
-    fileName?: string,
-    documentation?: string,
-    type?: string,
-    constructors?: DocEntry[],
-    parameters?: DocEntry[],
-    decorators?: DocEntry[],
-    returnType?: string
-};
 
 /** Generate documention for all classes in a set of .ts files */
 function generateDocumentation(fileNames: string[], options: ts.CompilerOptions): void {
@@ -21,8 +11,6 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
 
     // Get the checker, we will use it to find more about classes
     let checker = program.getTypeChecker();
-
-    let output: DocEntry[] = [];
 
     let entities = {}
 
@@ -79,7 +67,11 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
                     let l = "@EntityField(".length;
                     var e = d.substr(l, d.length - l - 1);
                     var result = parse('(' + e + ')');
-                    fields.push(getDescription(result.body[0].expression.properties));
+                    var description = getDescription(result.body[0].expression.properties);
+                    if (m.type) {
+                        description.type = _.trim(m.type.getFullText());
+                    }
+                    fields.push(description);
                 }               
             }
         }
@@ -97,51 +89,6 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
             }
         }
         return;
-    }
-
-    /** Serialize a symbol into a json object */
-    function serializeSymbol(symbol: ts.Symbol): DocEntry {
-        return {
-            name: symbol.getName(),
-            documentation: ts.displayPartsToString(symbol.getDocumentationComment()),
-            type: checker.typeToString(checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration))
-        };
-    }
-
-    /** Serialize a class symbol infomration */
-    function serializeClass(node: ts.ClassDeclaration) {
-        let symbol = checker.getSymbolAtLocation(node.name);
-        console.log(symbol.getName());
-        return {};
-        let details = serializeSymbol(symbol);
-        // Get the construct signatures
-        details.decorators = node.decorators.map(serializeDecorator);
-        let constructorType = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
-        details.constructors = constructorType.getConstructSignatures().map(serializeSignature);
-
-        return details;
-    }
-
-    function serializeDecorator(decorator: ts.Decorator) {
-        let symbol = checker.getSymbolAtLocation(decorator.expression.getFirstToken());
-        let decoratorType = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
-        let details = serializeSymbol(symbol);
-        details.constructors = decoratorType.getCallSignatures().map(serializeSignature);
-        return details;
-    }
-
-    /** Serialize a signature (call or construct) */
-    function serializeSignature(signature: ts.Signature) {
-        return {
-            parameters: signature.parameters.map(serializeSymbol),
-            returnType: checker.typeToString(signature.getReturnType()),
-            documentation: ts.displayPartsToString(signature.getDocumentationComment())
-        };
-    }
-
-    /** True if this is visible outside this file, false otherwise */
-    function isNodeExported(node: ts.Node): boolean {
-        return (node.flags & ts.NodeFlags.Export) !== 0 || (node.parent && node.parent.kind === ts.SyntaxKind.SourceFile);
     }
 }
 
