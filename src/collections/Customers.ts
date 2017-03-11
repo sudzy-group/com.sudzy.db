@@ -6,10 +6,6 @@ import { Customer } from "../entities/Customer";
  */
 export class Customers extends Collection<Customer> {
 
-    public constructor(db, ctor) {
-        super(db, ctor);
-    }
-
     public getPrefix() {
         return "customer";
     }

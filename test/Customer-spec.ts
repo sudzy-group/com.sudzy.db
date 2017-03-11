@@ -20,25 +20,18 @@ class CustomerTest {
       CustomerTest.db.destroy(() => done());
   }
 
-  @test("should phave correct prefix")
-  public asserts_pass(done) {
+  @test("should return correct prefix")
+  public testPrefix() {
     const customers = new Customers(CustomerTest.db, Customer);
     expect(customers.getPrefix()).to.equal("customer");
   }
 
   @test("should phave correct prefix")
-  public asserts_pass(done) {
+  public testInsert(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile : "6465490560" }).then(() => {
-      expect(customers.getPrefix()).to.equal("customer");
-      
-
+    customers.insert({ mobile : "6465490561" }).then((c) => {
+      expect(c.mobile).to.equal("6465490561");
+      done();
     }).catch(_.noop);
-
-    
   }
-
-
-    
-
 }
