@@ -13,9 +13,6 @@
       "taskName": "clean"
     },
     {
-      "taskName": "lint"
-    },
-    {
       "taskName": "test",
       "isTestCommand": true
     }

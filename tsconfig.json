@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "outDir": "./lib",
+    "experimentalDecorators": true,
+    "sourceMap": true,
     "preserveConstEnums": true,
+    "outDir": "./lib",
     "removeComments": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "**/*-spec.ts"
+    "node_modules"
   ]
 }

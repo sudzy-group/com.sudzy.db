@@ -1,3 +1,5 @@
-import { Greeter } from "./greeter";
+import { Customers } from "./collections/Customers";
+import { Customer } from "./entities/Customer";
 
-export { Greeter };
+export { Customer };
+export { Customers };
