@@ -1,4 +1,4 @@
-Run tests:
+Run tests and also run compiler:
 npm run test
 
 Compile typescript:

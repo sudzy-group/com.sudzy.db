@@ -11,8 +11,9 @@ export class Customer extends Entity {
         group: "default",
         name: "mobile",
         validate: mobile,
+        mandatory: true,
         description: "Customer's mobile phone",
-        search_by: [ identity ] 
+        search_by: [ "last4", identity ] 
     })
     public mobile: string;
 
@@ -79,4 +80,7 @@ export class Customer extends Entity {
     })
     public lng: string;
 
+     protected last4(mobile) {
+        return mobile.substr(-4);
+    }
 }
