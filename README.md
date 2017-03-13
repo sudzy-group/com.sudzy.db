@@ -1,3 +1,13 @@
+Run tests:
+npm run test
+
+Compile typescript:
+tsc 
+
+Run generator to get table:
+cd generator/./generators.sh
+
+
 # Sudzy Database
 This module allows to access the data of the Sudzy POS.
 
