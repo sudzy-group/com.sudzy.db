@@ -8,8 +8,7 @@ import * as metaphone from 'metaphone';
  * Represent a customer entity
  */
 export class Customer extends Entity {
-
-
+    
     @EntityField({
         group: "default",
         name: "mobile",

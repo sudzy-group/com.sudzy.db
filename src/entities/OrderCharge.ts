@@ -29,7 +29,7 @@ export class OrderCharge extends Entity {
         mandatory: true,
         description: "Amount charged"
     })
-    public amount: string;
+    public amount: number;
 
     @EntityField({
         group: "default",
@@ -65,5 +65,5 @@ export class OrderCharge extends Entity {
         name: "amount_refunded",
         description: "Amount refunded"
     })
-    public amount_refunded: string;
+    public amount_refunded: number;
 }

@@ -50,28 +50,28 @@ export class Order extends Entity {
         name: "tax",
         description: "Tax"
     })
-    public tax: string;
+    public tax: number;
 
     @EntityField({
         group: "payment",
         name: "tip",
         description: "Tip"
     })
-    public tip: string;
+    public tip: number;
 
     @EntityField({
         group: "payment",
         name: "discount_percent",
         description: "Discount percent"
     })
-    public discount_percent: string;
+    public discount_percent: number;
 
     @EntityField({
         group: "payment",
         name: "discount_fixed",
         description: "Discount in dollar amount"
     })
-    public discount_fixed: string;
+    public discount_fixed: number;
 
     @EntityField({
         group: "balance",

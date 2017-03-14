@@ -18,6 +18,6 @@ export class OrderTag extends Entity {
         name: "tag_number",
         description: "Tag number"
     })
-    public tag_number: string;
+    public tag_number: number;
 	
 }

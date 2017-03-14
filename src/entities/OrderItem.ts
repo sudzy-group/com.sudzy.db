@@ -28,14 +28,14 @@ export class OrderItem extends Entity {
         name: "total_price",
         description: "Total price" 
     })
-    public total_price: string;
+    public total_price: number;
 
     @EntityField({
         group: "pricing",
         name: "quantity",
         description: "Quantity of item" 
     })
-    public quantity: string;
+    public quantity: number;
 
     @EntityField({
         group: "notes",
