@@ -31,7 +31,9 @@ class WorkflowTest {
   static customers: Customers;
   static customer_cards: CustomerCards;
   static orders: Orders;
+  static deliveries: Deliveries;
 
+//Object definitions
   private customerObj: any = {
       mobile: "19292778399",
       name: "Joseph Shmoo",
@@ -68,7 +70,7 @@ class WorkflowTest {
 
    private orderObj: any = {
      order_id: "e5d4707d-cd54-bed3-7570-6e9dbec307zz",
-     due_datetime: "2017-03-14T00:00:00.000Z",
+     due_datetime: new Date().getTime(),
      rack: "222",
      notes: "Please do quickly",
      tax: 1.00,
@@ -81,11 +83,27 @@ class WorkflowTest {
      delivery_dropoff_id: "del_0BRnIfvg8xbH8z"
    };
 
+   private deliveryPickupObj: any = {
+     is_pickup: true,
+     delivery_time: new Date().getTime(),
+     delivery_person: "Jason",
+     is_confirmed: true
+   }
+
+   private deliveryDropoffObj: any = {
+     is_pickup: false,
+     delivery_time: new Date().getTime(),
+     express_id: "del_g2RnIfvg8xbH8k"
+   }
+
+
+//Database before and after
   static before() {
     WorkflowTest.db = new PouchDB("default");
     WorkflowTest.customers = new Customers(WorkflowTest.db, Customer);
     WorkflowTest.customer_cards = new CustomerCards(WorkflowTest.db, CustomerCard);
     WorkflowTest.orders = new Orders(WorkflowTest.db, Order);
+    WorkflowTest.deliveries = new Deliveries(WorkflowTest.db, Delivery);
   }
 
   static after(done: Function) {
@@ -97,6 +115,7 @@ class WorkflowTest {
     let customers = WorkflowTest.customers;
     let customer_cards = WorkflowTest.customer_cards;
     let orders = WorkflowTest.orders;
+    let deliveries = WorkflowTest.deliveries;
     let t = this;
 
 //Insert customer
@@ -104,6 +123,8 @@ class WorkflowTest {
       t.customerDefaultCardObj["customer_id"] = cust.id; 
       t.customerSecondCardObj["customer_id"] = cust.id; 
       t.orderObj["customer_id"] = cust.id; 
+      t.deliveryPickupObj["customer_id"] = cust.id; 
+      t.deliveryDropoffObj["customer_id"] = cust.id; 
 //Insert default card      
       return customer_cards.insert(t.customerDefaultCardObj); 
     }).then((cust_default_card) => {
@@ -114,13 +135,19 @@ class WorkflowTest {
     }).then((cust_second_card) => {
       expect(cust_second_card.customer_id).to.exist;
       expect(cust_second_card.is_default).to.equal(false);
+//Insert delivery pickup      
+      return deliveries.insert(t.deliveryPickupObj);
+     }).then((delivPickup) => {  
+       expect(delivPickup.customer_id).to.exist;
 //Insert order
       return orders.insert(t.orderObj);
     }).then((ord) => {
       expect(ord.customer_id).to.exist;
+    //   return
+    // }).then((order_item) => {
       
       done();
-    } ).catch(_.noop);
+    }).catch(_.noop);
   } 
 }
 
