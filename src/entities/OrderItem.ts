@@ -10,7 +10,8 @@ export class OrderItem extends Entity {
         group: "default",
         name: "order_id",
         mandatory: true,
-        description: "Order id" 
+        description: "Order id",
+        search_by: [ identity ]  
     })
     public order_id: string;
 
