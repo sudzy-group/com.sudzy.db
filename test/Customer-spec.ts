@@ -27,7 +27,7 @@ class CustomerTest {
     expect(customers.getPrefix()).to.equal("customer");
   }
 
-  @test("should have correct mobile")
+  @test("should be able to insert customer")
   public testInsert(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({ mobile: "6465490561" }).then((c) => {
@@ -36,11 +36,11 @@ class CustomerTest {
     }).catch(_.noop);
   }
 
-  @test("should be searchable by last4")
-  public testLast4(done) {
+  @test("should be searchable by mobile")
+  public testFindMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({mobile: "6465490562"}).then((c) => {
-      return customers.find("mobile", "0562")
+      return customers.find("mobile", "6465490562")
     }).then((cs) => {
       expect(cs.length).to.equal(1);
       expect(cs[0].mobile).to.equal("6465490562");
@@ -48,10 +48,22 @@ class CustomerTest {
     }).catch(_.noop);
   }
 
-  @test("should find by metaphone")
+  @test("should be searchable by last4")
+  public testLast4(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({mobile: "6465490563"}).then((c) => {
+      return customers.find("mobile", "0563")
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].mobile).to.equal("6465490563");
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should be searchable by metaphone")
   public testMetaphone(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ name: "Roy Ganor", mobile: "6465490563" }).then((c) => {
+    customers.insert({ name: "Roy Ganor", mobile: "6465490564" }).then((c) => {
       return customers.findByName("Roi Gnor");
     }).then((cs) => {
       expect(cs.length).to.equal(1);
@@ -63,7 +75,7 @@ class CustomerTest {
   @test("should allow valid email")
   public testValidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({mobile: "6465490564", email: "jshmo@gmail.com" }).then((c) => {
+    customers.insert({mobile: "6465490565", email: "jshmo@gmail.com" }).then((c) => {
      expect(c.email).to.equal("jshmo@gmail.com");
       done();
     }).catch(_.noop);
@@ -72,7 +84,7 @@ class CustomerTest {
   @test("should not allow invalid email") 
   public testInvalidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile: "6465490564", email: "jshmo" }).then(_.noop
+    customers.insert({ mobile: "6465490566", email: "jshmo" }).then(_.noop
     ).catch((c) => {
       done();
     });
