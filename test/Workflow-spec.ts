@@ -34,6 +34,7 @@ class WorkflowTest {
   static deliveries: Deliveries;
   static order_items: OrderItems;
   static order_tags: OrderTags;
+  static order_charges: OrderCharges;
 
 //Object definitions
   private customerObj: any = {
@@ -134,6 +135,11 @@ class WorkflowTest {
      tag_number: 333
    };
 
+   private orderChargeObj: any = {
+     amount: 100.00,
+     charge_id: "ch_19p52VDMuhhpO1mOP08I3P3B"
+   };
+
 
 //Database before and after
   static before() {
@@ -144,6 +150,7 @@ class WorkflowTest {
     WorkflowTest.deliveries = new Deliveries(WorkflowTest.db, Delivery);
     WorkflowTest.order_items = new OrderItems(WorkflowTest.db, OrderItem);
     WorkflowTest.order_tags = new OrderTags(WorkflowTest.db, OrderTag);
+    WorkflowTest.order_charges = new OrderCharges(WorkflowTest.db, OrderCharge);
   }
 
   static after(done: Function) {
@@ -158,6 +165,7 @@ class WorkflowTest {
     let deliveries = WorkflowTest.deliveries;
     let order_items = WorkflowTest.order_items;
     let order_tags = WorkflowTest.order_tags;
+    let order_charges = WorkflowTest.order_charges;
     let t = this;
 
 //Insert customer
@@ -172,6 +180,7 @@ class WorkflowTest {
     }).then((cust_default_card) => {
        expect(cust_default_card.customer_id).to.exist;
        expect(cust_default_card.is_default).to.equal(true);
+       t.orderChargeObj["card_id"] = cust_default_card.id;
 //Insert second card       
        return customer_cards.insert(t.customerSecondCardObj); 
     }).then((cust_second_card) => {
@@ -189,6 +198,7 @@ class WorkflowTest {
       t.orderItem2Obj["order_id"] = ord.id; 
       t.orderItem3Obj["order_id"] = ord.id; 
       t.orderTagObj["order_id"] = ord.id; 
+      t.orderChargeObj["order_id"] = ord.id;
 //Insert order item 1      
       return order_items.insert(t.orderItem1Obj);
     }).then((ord_item_1) => {
@@ -200,10 +210,16 @@ class WorkflowTest {
 //Insert order item 3
       return order_items.insert(t.orderItem3Obj);
     }).then((ord_item_3) => {
+//Insert order tag      
       expect(ord_item_3.order_id).to.exist;
       return order_tags.insert(t.orderTagObj);
     }).then((ord_tag) => {
       expect(ord_tag.order_id).to.exist;
+//Insert order charge
+      return order_charges.insert(t.orderChargeObj);
+    }).then((ord_charge) => {
+      expect(ord_charge.order_id).to.exist;
+      expect(ord_charge.card_id).to.exist;
       
       done();
     }).catch(_.noop);
