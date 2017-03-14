@@ -30,6 +30,7 @@ class WorkflowTest {
 
   static customers: Customers;
   static customer_cards: CustomerCards;
+  static orders: Orders;
 
   private customerObj: any = {
       mobile: "19292778399",
@@ -49,41 +50,60 @@ class WorkflowTest {
       cleaning_notes: "Clean slowly",
       payment_customer_id: "cus_9xJOnv9Enc98S",
       payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
-   }
+   };
 
    private customerDefaultCardObj: any = {
      card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
      brand: "Visa",
      last4: "4242",
      is_default: true
-   }
+   };
 
    private customerSecondCardObj: any = {
      card_id: "card_19lh5ADMuhhpO1mOISZJFYt0",
      brand: "Visa",
      last4: "0341",
      is_default: false
-   }
+   };
+
+   private orderObj: any = {
+     order_id: "e5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     due_datetime: "2017-03-14T00:00:00.000Z",
+     rack: "222",
+     notes: "Please do quickly",
+     tax: 1.00,
+     tip: 3.00,
+     discount_fixed: 5.00,
+     balance: 100.00,
+     all_ready: true,
+     all_pickedup: true,
+     delivery_pickup_id: "del_0BRnIfvg8xbH8k",
+     delivery_dropoff_id: "del_0BRnIfvg8xbH8z"
+   };
 
   static before() {
     WorkflowTest.db = new PouchDB("default");
     WorkflowTest.customers = new Customers(WorkflowTest.db, Customer);
     WorkflowTest.customer_cards = new CustomerCards(WorkflowTest.db, CustomerCard);
+    WorkflowTest.orders = new Orders(WorkflowTest.db, Order);
   }
 
   static after(done: Function) {
     WorkflowTest.db.destroy(() => done());
   }
 
-  @test("should create customer, customercard")
+  @test("should create customer, customercards, order")
   public testCreateCustomerAndCustomerCard(done) {
     let customers = WorkflowTest.customers;
     let customer_cards = WorkflowTest.customer_cards;
+    let orders = WorkflowTest.orders;
     let t = this;
+
 //Insert customer
     customers.insert(this.customerObj).then((cust) => {
       t.customerDefaultCardObj["customer_id"] = cust.id; 
       t.customerSecondCardObj["customer_id"] = cust.id; 
+      t.orderObj["customer_id"] = cust.id; 
 //Insert default card      
       return customer_cards.insert(t.customerDefaultCardObj); 
     }).then((cust_default_card) => {
@@ -94,6 +114,11 @@ class WorkflowTest {
     }).then((cust_second_card) => {
       expect(cust_second_card.customer_id).to.exist;
       expect(cust_second_card.is_default).to.equal(false);
+//Insert order
+      return orders.insert(t.orderObj);
+    }).then((ord) => {
+      expect(ord.customer_id).to.exist;
+      
       done();
     } ).catch(_.noop);
   } 
