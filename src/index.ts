@@ -2,19 +2,19 @@
  * Sudzy Database Exports
  */
 export { Customers } from "./collections/Customers";
-export {CustomerCards} from "./collection/CustomerCards";
-export {Orders} from "./collection/Orders";
-export {OrderItems} from "./collection/OrderItems";
-export {OrderTags} from "./collection/OrderTags";
-export {OrderCharges} from "./collection/OrderCharges";
-export {Deliveries} from "./collection/Deliveries";
-export {Items} from "./collection/Items";
+export {CustomerCards} from "./collections/CustomerCards";
+export {Orders} from "./collections/Orders";
+export {OrderItems} from "./collections/OrderItems";
+export {OrderTags} from "./collections/OrderTags";
+export {OrderCharges} from "./collections/OrderCharges";
+export {Deliveries} from "./collections/Deliveries";
+export {Items} from "./collections/Items";
 
 export {Customer} from "./entities/Customer";
-export {CustomerCards} from "./entities/CustomerCard";
-export {Orders} from "./entities/Order";
-export {OrderItems} from "./entities/OrderItem";
-export {OrderTags} from "./entities/OrderTag";
-export {OrderCharges} from "./entities/OrderCharge";
-export {Deliveries} from "./entities/Delivery";
-export {Items} from "./entities/Item";
+export {CustomerCard} from "./entities/CustomerCard";
+export {Order} from "./entities/Order";
+export {OrderItem} from "./entities/OrderItem";
+export {OrderTag} from "./entities/OrderTag";
+export {OrderCharge} from "./entities/OrderCharge";
+export {Delivery} from "./entities/Delivery";
+export {Item} from "./entities/Item";
