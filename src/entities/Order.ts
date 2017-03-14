@@ -109,8 +109,8 @@ export class Order extends Entity {
     })
     public delivery_dropoff_id: string;
 
-     protected existingBalance(balance) {
-        if balance > 0 {
+    protected existingBalance(balance) {
+        if (balance > 0) {
             return balance;
         } else {
             return undefined;
