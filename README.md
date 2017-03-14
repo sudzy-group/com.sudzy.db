@@ -2,16 +2,15 @@
 This module allows to access the data of the Sudzy POS.
 
 # Contributin to sudzy-db
-Run tests and also run compiler:
-npm run test
+
+`npm run generate` to generate the documentation
+
+`npm run test` to run tests 
+
+`npm run cover` to run the coverage 
 
 Compile typescript:
 tsc 
-
-Run generator to get table:
-cd generator/./generate.sh
-
-Instanbul for code coverage:
 
 # Using this module in other modules
 - To use the `sudzy-db` classes in a TypeScript file -
