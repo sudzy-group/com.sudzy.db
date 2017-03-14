@@ -9,14 +9,6 @@ import * as metaphone from 'metaphone';
  */
 export class Customer extends Entity {
 
-    @EntityField({
-        group: "default",
-        name: "name",
-        mandatory: true,
-        description: "Customer's name",
-        search_by: [ metaphone, identity ] 
-    })
-    public name: string;
 
     @EntityField({
         group: "default",
@@ -27,6 +19,14 @@ export class Customer extends Entity {
         search_by: [ "last4", identity ] 
     })
     public mobile: string;
+
+    @EntityField({
+        group: "name",
+        name: "name",
+        description: "Customer's name",
+        search_by: [ metaphone, identity ] 
+    })
+    public name: string;
 
     @EntityField({
         group: "email",
