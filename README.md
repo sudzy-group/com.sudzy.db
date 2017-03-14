@@ -5,7 +5,10 @@ Compile typescript:
 tsc 
 
 Run generator to get table:
-cd generator/./generators.sh
+cd generator/./generate.sh
+
+Instanbul for code coverage:
+
 
 
 # Sudzy Database
