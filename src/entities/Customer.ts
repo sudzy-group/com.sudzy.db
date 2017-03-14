@@ -1,5 +1,6 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
+import { email } from "../validators/email";
 import { identity } from 'lodash';
 import * as metaphone from 'metaphone';
 
@@ -29,6 +30,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "email",
         name: "email",
+        validate: email,
         description: "Customer's email"
     })
     public email: string;
