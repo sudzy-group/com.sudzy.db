@@ -32,6 +32,7 @@ class WorkflowTest {
   static customer_cards: CustomerCards;
   static orders: Orders;
   static deliveries: Deliveries;
+  static order_items: OrderItems;
 
 //Object definitions
   private customerObj: any = {
@@ -96,6 +97,38 @@ class WorkflowTest {
      express_id: "del_g2RnIfvg8xbH8k"
    }
 
+   private orderItem1Obj: any = {
+     item_id: "1234",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     notes: "Clean hard",
+     separate: true,
+     wash: true,
+     detergent: "Tide"
+   };
+
+   private orderItem2Obj: any = {
+     item_id: "2a2a",
+     total_price: 15.40,
+     name: "Pants",
+     quantity: 3,
+     dry: true,
+     color: "black"
+   };
+
+   private orderItem3Obj: any = {
+     item_id: "2a2a",
+     total_price: 4.20,
+     name: "Skirts",
+     quantity: 1,
+     dry: true,
+     color: "red",
+     brand: "Zara",
+     pattern: "zebra",
+     alteration_type: "Sew zipper"
+   };
+
 
 //Database before and after
   static before() {
@@ -104,6 +137,7 @@ class WorkflowTest {
     WorkflowTest.customer_cards = new CustomerCards(WorkflowTest.db, CustomerCard);
     WorkflowTest.orders = new Orders(WorkflowTest.db, Order);
     WorkflowTest.deliveries = new Deliveries(WorkflowTest.db, Delivery);
+    WorkflowTest.order_items = new OrderItems(WorkflowTest.db, OrderItem);
   }
 
   static after(done: Function) {
@@ -116,6 +150,7 @@ class WorkflowTest {
     let customer_cards = WorkflowTest.customer_cards;
     let orders = WorkflowTest.orders;
     let deliveries = WorkflowTest.deliveries;
+    let order_items = WorkflowTest.order_items;
     let t = this;
 
 //Insert customer
@@ -143,13 +178,25 @@ class WorkflowTest {
       return orders.insert(t.orderObj);
     }).then((ord) => {
       expect(ord.customer_id).to.exist;
-    //   return
-    // }).then((order_item) => {
-      
+      t.orderItem1Obj["order_id"] = ord.id; 
+      t.orderItem2Obj["order_id"] = ord.id; 
+      t.orderItem3Obj["order_id"] = ord.id; 
+//Insert order item 1      
+      return order_items.insert(t.orderItem1Obj);
+    }).then((ord_item_1) => {
+      expect(ord_item_1.order_id).to.exist;
+//Insert order item 2
+      return order_items.insert(t.orderItem2Obj);
+    }).then((ord_item_2) => {
+      expect(ord_item_2.order_id).to.exist;
+//Insert order item 3
+      return order_items.insert(t.orderItem3Obj);
+    }).then((ord_item_3) => {
+      expect(ord_item_3.order_id).to.exist;
+     
       done();
     }).catch(_.noop);
   } 
 }
-
 
 

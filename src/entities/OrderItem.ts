@@ -24,6 +24,14 @@ export class OrderItem extends Entity {
     public item_id: string;
 
     @EntityField({
+        group: "default",
+        name: "name",
+        mandatory: true,
+        description: "Item name" 
+    })
+    public name: string;
+
+    @EntityField({
         group: "pricing",
         name: "total_price",
         description: "Total price" 
