@@ -1,6 +1,7 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
 import { identity } from 'lodash';
+import * as metaphone from 'metaphone';
 
 /**
  * Represent a customer entity
@@ -10,9 +11,8 @@ export class Customer extends Entity {
     @EntityField({
         group: "default",
         name: "name",
-        mandatory: true,
         description: "Customer's name",
-        search_by: [ "metaphone", identity ] 
+        search_by: [ metaphone, identity ] 
     })
     public name: string;
 
@@ -123,12 +123,6 @@ export class Customer extends Entity {
         description: "Payment token"
     })
     public payment_token: string;
-
-
-    protected metaphone(name) {
-        //TODO metaphone function
-        return true;
-    }
 
     protected last4(mobile) {
         return mobile.substr(-4);

@@ -2,6 +2,7 @@ import * as ts from "typescript";
 import * as fs from "fs";
 import * as _ from 'lodash';
 import { parse } from 'acorn';
+import { ClassDeclaration } from "typescript";
 
 
 /** Generate documention for all classes in a set of .ts files */
@@ -69,7 +70,7 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
                     let l = "@EntityField(".length;
                     var e = d.substr(l, d.length - l - 1);
                     var result = parse('(' + e + ')');
-                    var description = getDescription(result.body[0].expression.properties);
+                    var description: any = getDescription(result.body[0].expression.properties);
                     description.type = m.type ? _.trim(m.type.getFullText()) : "";
                     fields.push(description);
                 }               
@@ -82,10 +83,11 @@ function generateDocumentation(fileNames: string[], options: ts.CompilerOptions)
     /** visit nodes finding exported classes */
     function visit(node: ts.Node) {
         if (node.kind === ts.SyntaxKind.ClassDeclaration) {
-            if (isEntity(node.heritageClauses)) {
-                let entityName = node.name.getFullText().trim();
+            let cd = (<ClassDeclaration> node);
+            if (isEntity(cd.heritageClauses)) {
+                let entityName = cd.name.getFullText().trim();
                 let fields = []
-                let decs = visitMembers(node.members);
+                let decs = visitMembers(cd.members);
                 entities[entityName] = decs;
             }
         }

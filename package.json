@@ -14,14 +14,17 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
+    "generate": "npm run build && cd generator && ./generate.sh && cd ..",
     "clean": "rimraf lib",
     "build": "npm run clean && echo Using TypeScript && tsc --version && tsc --pretty",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+    "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
     "lodash": "^4.17.4",
+    "metaphone": "^1.0.1",
     "pouchable": "^1.1.1",
     "pouchdb": "^6.1.2"
   },
@@ -35,6 +38,7 @@
     "markdown-table": "^1.1.0",
     "mocha": "^3.0.0",
     "mocha-typescript": "^1.0.22",
+    "nyc": "^10.1.2",
     "rimraf": "^2.0.0",
     "ts-node": "^1.0.0",
     "tspoon": "^1.0.328",
