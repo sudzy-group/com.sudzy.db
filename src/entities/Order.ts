@@ -76,9 +76,10 @@ export class Order extends Entity {
     @EntityField({
         group: "balance",
         name: "balance",
-        description: "Balance remaining"
+        description: "Balance remaining",
+        search_by: [ "existingBalance" ]
     })
-    public balance: string;
+    public balance: number;
 
     @EntityField({
         group: "status",
@@ -107,5 +108,13 @@ export class Order extends Entity {
         description: "Delivery dropoff id"
     })
     public delivery_dropoff_id: string;
+
+     protected existingBalance(balance) {
+        if balance > 0 {
+            return balance;
+        } else {
+            return undefined;
+        }
+    }
 	
 }
