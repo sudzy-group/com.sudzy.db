@@ -27,7 +27,7 @@ class CustomerTest {
     expect(customers.getPrefix()).to.equal("customer");
   }
 
-  @test("should phave correct prefix")
+  @test("should have correct mobile")
   public testInsert(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({ mobile: "6465490561" }).then((c) => {

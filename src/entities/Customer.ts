@@ -12,6 +12,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "default",
         name: "name",
+        mandatory: true,
         description: "Customer's name",
         search_by: [ metaphone, identity ] 
     })
