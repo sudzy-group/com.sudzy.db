@@ -1,3 +1,7 @@
+# Sudzy Database
+This module allows to access the data of the Sudzy POS.
+
+# Contributin to sudzy-db
 Run tests and also run compiler:
 npm run test
 
@@ -8,11 +12,6 @@ Run generator to get table:
 cd generator/./generate.sh
 
 Instanbul for code coverage:
-
-
-
-# Sudzy Database
-This module allows to access the data of the Sudzy POS.
 
 # Using this module in other modules
 - To use the `sudzy-db` classes in a TypeScript file -
