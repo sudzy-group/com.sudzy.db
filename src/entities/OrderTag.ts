@@ -7,10 +7,17 @@ import { identity } from 'lodash';
 export class OrderTag extends Entity {
 	@EntityField({
         group: "default",
-        name: "test",
-        mandatory: true,
-        description: "test"
+        name: "order_id",
+        description: "Order id",
+        search_by: [ identity ] 
     })
-    public test: string;
+    public order_id: string;
+
+    @EntityField({
+        group: "default",
+        name: "number",
+        description: "Tag number"
+    })
+    public number: string;
 	
 }
