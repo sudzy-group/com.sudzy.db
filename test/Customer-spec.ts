@@ -57,7 +57,6 @@ class CustomerTest {
       payment_customer_id: "cus_9xJOnv9Enc98S",
       payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
     }
-
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
       _.forIn(customerObj, function(value, key){
@@ -66,6 +65,7 @@ class CustomerTest {
       done();
     }).catch(_.noop);
   }
+
 
   @test("should be searchable by mobile")
   public testSearchMobile(done) {
@@ -115,11 +115,53 @@ class CustomerTest {
     }).catch(_.noop);
   }  
 
+  @test("should update parameters")
+  public testUpdate(done) {
+    let customerObj = {
+      mobile: "19292778391",
+      name: "Mud Park",
+      email: "mpark@gmail.com",
+      autocomplete: "199 Orchard St, New York, NY 10002, USA",
+      street_num: "199",
+      street_route: "Orchard Street",
+      apartment: "2D",
+      city: "New York",
+      state: "NY",
+      zip: "10002",
+      lat: "40.72224",
+      lng: "-73.988152",
+      is_doorman: true,
+      delivery_notes: "Ring bell twice",
+      cleaning_notes: "Clean slowly",
+      payment_customer_id: "cus_9xJOnv9Enc98S",
+      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+    }
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert(customerObj).then((c) => {
+      _.forIn(customerObj, function(value, key){
+        expect(c[key]).to.equal(value);
+      });
+      let updatedCustomerObj = {
+        name: "Muddy Parks",
+        email: "muddyparks@gmail.com",
+        is_doorman: false,
+        delivery_notes: "Turn around"
+      } 
+      return customers.update(c, updatedCustomerObj);
+    }).then((cus) => {
+       expect(cus.mobile).to.equal("19292778391");
+       expect(cus.name).to.equal("Muddy Parks");
+       expect(cus.is_doorman).to.equal(false);
+       expect(cus.autocomplete).to.equal("199 Orchard St, New York, NY 10002, USA");
+      done();
+    }).catch(_.noop);
+  }
+  
   @test("should allow valid email")
   public testValidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({mobile: "6465490566", email: "jshmo@gmail.com" }).then((c) => {
-     expect(c.email).to.equal("jshmo@gmail.com");
+      expect(c.email).to.equal("jshmo@gmail.com");
       done();
     }).catch(_.noop);
   }  
@@ -131,7 +173,7 @@ class CustomerTest {
     ).catch((c) => {
       done();
     });
-  }  
+  } 
 
 }
 
