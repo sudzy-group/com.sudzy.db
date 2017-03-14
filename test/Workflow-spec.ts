@@ -33,6 +33,7 @@ class WorkflowTest {
   static orders: Orders;
   static deliveries: Deliveries;
   static order_items: OrderItems;
+  static order_tags: OrderTags;
 
 //Object definitions
   private customerObj: any = {
@@ -129,6 +130,10 @@ class WorkflowTest {
      alteration_type: "Sew zipper"
    };
 
+   private orderTagObj: any = {
+     tag_number: 333
+   };
+
 
 //Database before and after
   static before() {
@@ -138,6 +143,7 @@ class WorkflowTest {
     WorkflowTest.orders = new Orders(WorkflowTest.db, Order);
     WorkflowTest.deliveries = new Deliveries(WorkflowTest.db, Delivery);
     WorkflowTest.order_items = new OrderItems(WorkflowTest.db, OrderItem);
+    WorkflowTest.order_tags = new OrderTags(WorkflowTest.db, OrderTag);
   }
 
   static after(done: Function) {
@@ -151,6 +157,7 @@ class WorkflowTest {
     let orders = WorkflowTest.orders;
     let deliveries = WorkflowTest.deliveries;
     let order_items = WorkflowTest.order_items;
+    let order_tags = WorkflowTest.order_tags;
     let t = this;
 
 //Insert customer
@@ -181,6 +188,7 @@ class WorkflowTest {
       t.orderItem1Obj["order_id"] = ord.id; 
       t.orderItem2Obj["order_id"] = ord.id; 
       t.orderItem3Obj["order_id"] = ord.id; 
+      t.orderTagObj["order_id"] = ord.id; 
 //Insert order item 1      
       return order_items.insert(t.orderItem1Obj);
     }).then((ord_item_1) => {
@@ -193,7 +201,10 @@ class WorkflowTest {
       return order_items.insert(t.orderItem3Obj);
     }).then((ord_item_3) => {
       expect(ord_item_3.order_id).to.exist;
-     
+      return order_tags.insert(t.orderTagObj);
+    }).then((ord_tag) => {
+      expect(ord_tag.order_id).to.exist;
+      
       done();
     }).catch(_.noop);
   } 
