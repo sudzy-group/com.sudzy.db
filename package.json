@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
+    "metaphone": "^1.0.1",
     "pouchable": "^1.1.1",
     "pouchdb": "^6.1.2"
   },

@@ -1,6 +1,7 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
 import { identity } from 'lodash';
+import * as metaphone from 'metaphone';
 
 /**
  * Represent a customer entity
@@ -123,10 +124,8 @@ export class Customer extends Entity {
     })
     public payment_token: string;
 
-
     protected metaphone(name) {
-        //TODO metaphone function
-        return true;
+        return metaphone(name);
     }
 
     protected last4(mobile) {

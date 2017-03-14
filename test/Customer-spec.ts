@@ -4,6 +4,7 @@ import { Customer } from "../src/entities/Customer";
 import { Customers } from "../src/collections/Customers";
 import * as PouchDB from "pouchdb";
 import * as _ from 'lodash';
+import * as metaphone from 'metaphone';
 
 const expect = chai.expect;
 
@@ -46,6 +47,18 @@ class CustomerTest {
       done();
     }).catch(_.noop);
   }
+
+  @test("should find by metaphone")
+  public testMetaphone(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ name: "Roy Ganor", mobile: "6465490563" }).then((c) => {
+      return customers.findByName("Roi Gnor");
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].name).to.equal("Roy Ganor");
+      done();
+    }).catch(_.noop);
+  }  
 
 }
 
