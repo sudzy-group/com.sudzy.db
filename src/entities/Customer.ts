@@ -121,10 +121,17 @@ export class Customer extends Entity {
 
     @EntityField({
         group: "payment",
-        name: "payment_token",
-        description: "Payment token"
+        name: "payment_customer_token",
+        description: "Payment customer token"
     })
-    public payment_token: string;
+    public payment_customer_token: string;
+
+    @EntityField({
+        group: "payment",
+        name: "payment_customer_id",
+        description: "Payment customer id"
+    })
+    public payment_customer_id: string;
 
     protected last4(mobile) {
         return mobile.substr(-4);

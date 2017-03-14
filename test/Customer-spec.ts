@@ -27,11 +27,42 @@ class CustomerTest {
     expect(customers.getPrefix()).to.equal("customer");
   }
 
-  @test("should be able to insert customer with mobile")
-  public testInsert(done) {
+  @test("should insert customer with mobile")
+  public testInsertMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({ mobile: "6465490561" }).then((c) => {
       expect(c.mobile).to.equal("6465490561");
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should insert all parameters")
+  public testInsertAll(done) {
+    let customerObj = {
+      mobile: "19292778399",
+      name: "Joseph Shmoo",
+      email: "joesh@gmail.com",
+      autocomplete: "199 Orchard St, New York, NY 10002, USA",
+      street_num: "199",
+      street_route: "Orchard Street",
+      apartment: "2D",
+      city: "New York",
+      state: "NY",
+      zip: "10002",
+      lat: "40.72224",
+      lng: "-73.988152",
+      is_doorman: true,
+      delivery_notes: "Ring bell twice",
+      cleaning_notes: "Clean slowly",
+      payment_customer_id: "cus_9xJOnv9Enc98S",
+      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+    }
+
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert(customerObj).then((c) => {
+      _.forIn(customerObj, function(value, key){
+        expect(c[key]).to.equal(value);
+      })
       done();
     }).catch(_.noop);
   }
