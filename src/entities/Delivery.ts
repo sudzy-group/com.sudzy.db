@@ -23,7 +23,7 @@ export class Delivery extends Entity {
     public is_pickup: boolean;
 
     @EntityField({
-        group: "time",
+        group: "default",
         name: "delivery_time",
         mandatory: true,
         description: "Delivery time",
@@ -52,9 +52,4 @@ export class Delivery extends Entity {
     })
     public express_id: string;
 
-
-    protected boolean(is_pickup) {
-        //TODO boolean function
-        return true;
-    }
 }
