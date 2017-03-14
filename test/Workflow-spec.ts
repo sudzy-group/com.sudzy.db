@@ -27,7 +27,7 @@ const expect = chai.expect;
 class WorkflowTest {
 
   static db;
-
+//Static variable definitions
   static customers: Customers;
   static customer_cards: CustomerCards;
   static orders: Orders;
