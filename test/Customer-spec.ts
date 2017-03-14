@@ -39,7 +39,7 @@ class CustomerTest {
   @test("should be searchable by last4")
   public testLast4(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile: "6465490562" }).then((c) => {
+    customers.insert({mobile: "6465490562"}).then((c) => {
       return customers.find("mobile", "0562")
     }).then((cs) => {
       expect(cs.length).to.equal(1);
@@ -58,6 +58,24 @@ class CustomerTest {
       expect(cs[0].name).to.equal("Roy Ganor");
       done();
     }).catch(_.noop);
+  }  
+
+  @test("should allow valid email")
+  public testValidEmail(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({mobile: "6465490564", email: "jshmo@gmail.com" }).then((c) => {
+     expect(c.email).to.equal("jshmo@gmail.com");
+      done();
+    }).catch(_.noop);
+  }  
+
+  @test("should not allow invalid email") 
+  public testInvalidEmail(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6465490564", email: "jshmo" }).then(_.noop
+    ).catch((c) => {
+      done();
+    });
   }  
 
 }
