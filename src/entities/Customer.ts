@@ -8,7 +8,7 @@ import { identity } from 'lodash';
 export class Customer extends Entity {
 
     @EntityField({
-        group: "name",
+        group: "default",
         name: "name",
         mandatory: true,
         description: "Customer's name",

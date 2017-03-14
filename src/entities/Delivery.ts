@@ -19,7 +19,7 @@ export class Delivery extends Entity {
         name: "is_pickup",
         mandatory: true,
         description: "Whether delivery is pickup",
-        search_by: [ boolean ] 
+        search_by: [ "bool" ] 
     })
     public is_pickup: boolean;
 
@@ -52,8 +52,7 @@ export class Delivery extends Entity {
     })
     public express_id: string;
 
-
-    protected boolean(is_pickup) {
+    protected bool(is_pickup) {
         //TODO boolean function
         return true;
     }
