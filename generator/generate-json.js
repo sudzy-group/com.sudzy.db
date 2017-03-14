@@ -75,10 +75,11 @@ function generateDocumentation(fileNames, options) {
     /** visit nodes finding exported classes */
     function visit(node) {
         if (node.kind === ts.SyntaxKind.ClassDeclaration) {
-            if (isEntity(node.heritageClauses)) {
-                var entityName = node.name.getFullText().trim();
+            var cd = node;
+            if (isEntity(cd.heritageClauses)) {
+                var entityName = cd.name.getFullText().trim();
                 var fields = [];
-                var decs = visitMembers(node.members);
+                var decs = visitMembers(cd.members);
                 entities[entityName] = decs;
             }
         }
