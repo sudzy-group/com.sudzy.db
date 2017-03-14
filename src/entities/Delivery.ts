@@ -18,8 +18,7 @@ export class Delivery extends Entity {
         group: "default",
         name: "is_pickup",
         mandatory: true,
-        description: "Whether delivery is pickup",
-        search_by: [ boolean ] 
+        description: "Whether delivery is pickup"
     })
     public is_pickup: boolean;
 
@@ -27,7 +26,8 @@ export class Delivery extends Entity {
         group: "time",
         name: "delivery_time",
         mandatory: true,
-        description: "Delivery time"
+        description: "Delivery time",
+        search_by: [ identity ] 
     })
     public delivery_time: string;
 

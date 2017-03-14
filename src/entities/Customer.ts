@@ -10,7 +10,6 @@ export class Customer extends Entity {
     @EntityField({
         group: "name",
         name: "name",
-        mandatory: true,
         description: "Customer's name",
         search_by: [ "metaphone", identity ] 
     })
