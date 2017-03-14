@@ -9,7 +9,7 @@ import * as metaphone from 'metaphone';
 export class Customer extends Entity {
 
     @EntityField({
-        group: "name",
+        group: "default",
         name: "name",
         description: "Customer's name",
         search_by: [ metaphone, identity ] 
