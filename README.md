@@ -44,7 +44,6 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | delivery_notes | `string`   | address | Delivery Notes                                |                       |
 | cleaning_notes | `string`   | notes   | Cleaning Notes                                |                       |
 | payment_token  | `string`   | payment | Payment token                                 |                       |
-
 # CustomerCard
 | Field Name  | Field Type | Group    | Description              | Comments       |
 | ----------- | ---------- | -------- | ------------------------ | -------------- |
@@ -55,7 +54,6 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | brand       | `string`   | default  | Card brand               |                |
 | last4       | `string`   | default  | Last 4 digits of card    |                |
 | is_default  | `boolean`  | settings | Whether card is default  |                |
-
 # Order
 | Field Name          | Field Type | Group    | Description                         | Comments       |
 | ------------------- | ---------- | -------- | ----------------------------------- | -------------- |
@@ -75,7 +73,6 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | all_pickedup        | `boolean`  | status   | Whether order is back with customer |                |
 | delivery_pickup_id  | `string`   | delivery | Delivery pickup id                  |                |
 | delivery_dropoff_id | `string`   | delivery | Delivery dropoff id                 |                |
-
 # OrderItem
 | Field Name      | Field Type | Group       | Description                 | Comments       |
 | --------------- | ---------- | ----------- | --------------------------- | -------------- |
@@ -95,7 +92,6 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | brand           | `string`   | description | Brand                       |                |
 | fabric          | `string`   | description | Fabric                      |                |
 | alteration_type | `string`   | description | Alteration type             |                |
-
 # OrderTag
 | Field Name | Field Type | Group   | Description              | Comments       |
 | ---------- | ---------- | ------- | ------------------------ | -------------- |
@@ -103,7 +99,6 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | created_at | `number`   | default | Creation datetime (unix) | Auto-generated |
 | order_id   | `string`   | default | Order id                 | Searchable     |
 | number     | `string`   | default | Tag number               |                |
-
 # OrderCharge
 | Field Name      | Field Type | Group   | Description                                    | Comments       |
 | --------------- | ---------- | ------- | ---------------------------------------------- | -------------- |
@@ -117,15 +112,14 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 | date_cash       | `string`   | default | Get all cash deposited today in drawer if cash |                |
 | refund_id       | `string`   | refund  | Refund id                                      |                |
 | amount_refunded | `string`   | refund  | Amount refunded                                |                |
-
 # Delivery
 | Field Name      | Field Type | Group   | Description                      | Comments       |
 | --------------- | ---------- | ------- | -------------------------------- | -------------- |
 | id              | `string`   | default | Entity id                        | Auto-generated |
 | created_at      | `number`   | default | Creation datetime (unix)         | Auto-generated |
 | customer_id     | `string`   | default | Customer id                      |                |
-| is_pickup       | `boolean`  | default | Whether delivery is pickup       | Searchable     |
-| delivery_time   | `string`   | time    | Delivery time                    |                |
+| is_pickup       | `boolean`  | default | Whether delivery is pickup       |                |
+| delivery_time   | `string`   | time    | Delivery time                    | Searchable     |
 | delivery_person | `string`   | person  | Delivery person                  |                |
 | is_confirmed    | `boolean`  | status  | Whether store confirmed delivery |                |
 | express_id      | `string`   | express | Express id                       |                |
