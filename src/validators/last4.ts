@@ -1,3 +1,3 @@
-export function last4(input) {
+export function 4digitsLong(input) {
     return input.length == 4;
 }

@@ -35,7 +35,7 @@ export class CustomerCard extends Entity {
     @EntityField({
         group: "default",
         name: "last4",
-        validate: last4,
+        validate: 4digitsLong,
         mandatory: true,
         description: "Last 4 digits of card"
     })
