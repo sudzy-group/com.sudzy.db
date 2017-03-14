@@ -18,7 +18,7 @@
     "clean": "rimraf lib",
     "build": "npm run clean && echo Using TypeScript && tsc --version && tsc --pretty",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
-    "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register",
+    "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },

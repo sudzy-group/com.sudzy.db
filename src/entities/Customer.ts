@@ -12,7 +12,7 @@ export class Customer extends Entity {
         group: "name",
         name: "name",
         description: "Customer's name",
-        search_by: [ "metaphone", identity ] 
+        search_by: [ metaphone, identity ] 
     })
     public name: string;
 
@@ -123,10 +123,6 @@ export class Customer extends Entity {
         description: "Payment token"
     })
     public payment_token: string;
-
-    protected metaphone(name) {
-        return metaphone(name);
-    }
 
     protected last4(mobile) {
         return mobile.substr(-4);
