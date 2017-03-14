@@ -220,8 +220,12 @@ class WorkflowTest {
     }).then((ord_charge) => {
       expect(ord_charge.order_id).to.exist;
       expect(ord_charge.card_id).to.exist;
-      
-      done();
+//Insert delivery dropoff      
+      return deliveries.insert(t.deliveryDropoffObj);
+     }).then((delivDropoff) => {  
+       expect(delivDropoff.customer_id).to.exist;
+  
+       done();
     }).catch(_.noop);
   } 
 }
