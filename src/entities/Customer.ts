@@ -8,6 +8,15 @@ import { identity } from 'lodash';
 export class Customer extends Entity {
 
     @EntityField({
+        group: "name",
+        name: "name",
+        mandatory: true,
+        description: "Customer's name",
+        search_by: [ "metaphone", identity ] 
+    })
+    public name: string;
+
+    @EntityField({
         group: "default",
         name: "mobile",
         validate: mobile,
@@ -16,6 +25,13 @@ export class Customer extends Entity {
         search_by: [ "last4", identity ] 
     })
     public mobile: string;
+
+    @EntityField({
+        group: "email",
+        name: "email",
+        description: "Customer's email"
+    })
+    public email: string;
 
     @EntityField({
         group: "address",
@@ -80,7 +96,41 @@ export class Customer extends Entity {
     })
     public lng: string;
 
-     protected last4(mobile) {
+    @EntityField({
+        group: "address",
+        name: "is_doorman",
+        description: "Whether building has doorman"
+    })
+    public is_doorman: boolean;
+
+    @EntityField({
+        group: "address",
+        name: "delivery_notes",
+        description: "Delivery Notes"
+    })
+    public delivery_notes: string;
+
+    @EntityField({
+        group: "notes",
+        name: "cleaning_notes",
+        description: "Cleaning Notes"
+    })
+    public cleaning_notes: string;
+
+    @EntityField({
+        group: "payment",
+        name: "payment_token",
+        description: "Payment token"
+    })
+    public payment_token: string;
+
+
+    protected metaphone(name) {
+        //TODO metaphone function
+        return true;
+    }
+
+    protected last4(mobile) {
         return mobile.substr(-4);
     }
 }
