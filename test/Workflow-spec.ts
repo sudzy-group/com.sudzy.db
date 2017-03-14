@@ -210,11 +210,17 @@ class WorkflowTest {
 //Insert order item 3
       return order_items.insert(t.orderItem3Obj);
     }).then((ord_item_3) => {
-//Insert order tag      
+//Insert 5 order tag      
       expect(ord_item_3.order_id).to.exist;
       return order_tags.insert(t.orderTagObj);
-    }).then((ord_tag) => {
-      expect(ord_tag.order_id).to.exist;
+    }).then((ord_tag1) => {
+      expect(ord_tag1.order_id).to.exist;
+      return order_tags.insert(t.orderTagObj);
+    }).then((ord_tag2) => {
+      expect(ord_tag2.order_id).to.exist;
+      return order_tags.insert(t.orderTagObj);
+    }).then((ord_tag3) => {
+      expect(ord_tag3.order_id).to.exist;
 //Insert order charge
       return order_charges.insert(t.orderChargeObj);
     }).then((ord_charge) => {
