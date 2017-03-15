@@ -26,7 +26,7 @@ class CustomerTest {
     const customers = new Customers(CustomerTest.db, Customer);
     expect(customers.getPrefix()).to.equal("customer");
   }
-//Insertion  
+  //Insertion  
   @test("should insert customer with mobile")
   public testInsertMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
@@ -59,18 +59,18 @@ class CustomerTest {
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
-      _.forIn(customerObj, function(value, key){
+      _.forIn(customerObj, function(value, key) {
         expect(c[key]).to.equal(value);
       })
       done();
     }).catch(_.noop);
   }
 
-//Search
+  //Search
   @test("should be searchable by mobile")
   public testSearchMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({mobile: "6465490562"}).then((c) => {
+    customers.insert({ mobile: "6465490562" }).then((c) => {
       return customers.find("mobile", "6465490562")
     }).then((cs) => {
       expect(cs.length).to.equal(1);
@@ -82,7 +82,7 @@ class CustomerTest {
   @test("should be searchable by last4")
   public testSearchLast4(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({mobile: "6465490563"}).then((c) => {
+    customers.insert({ mobile: "6465490563" }).then((c) => {
       return customers.find("mobile", "0563")
     }).then((cs) => {
       expect(cs.length).to.equal(1);
@@ -101,7 +101,7 @@ class CustomerTest {
       expect(cs[0].name).to.equal("Roy Ganor");
       done();
     }).catch(_.noop);
-  }  
+  }
 
   @test("should be searchable by name")
   public testSearchMetaphone(done) {
@@ -113,9 +113,9 @@ class CustomerTest {
       expect(cs[0].name).to.equal("Roo Ganor");
       done();
     }).catch(_.noop);
-  } 
+  }
 
-//Update
+  //Update
   @test("should update parameters")
   public testUpdate(done) {
     let customerObj = {
@@ -139,7 +139,7 @@ class CustomerTest {
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
-      _.forIn(customerObj, function(value, key){
+      _.forIn(customerObj, function(value, key) {
         expect(c[key]).to.equal(value);
       });
       let updatedCustomerObj = {
@@ -147,13 +147,13 @@ class CustomerTest {
         email: "muddyparks@gmail.com",
         is_doorman: false,
         delivery_notes: "Turn around"
-      } 
+      }
       return customers.update(c, updatedCustomerObj);
     }).then((cus) => {
-       expect(cus.mobile).to.equal("19292778391");
-       expect(cus.name).to.equal("Muddy Parks");
-       expect(cus.is_doorman).to.equal(false);
-       expect(cus.autocomplete).to.equal("199 Orchard St, New York, NY 10002, USA");
+      expect(cus.mobile).to.equal("19292778391");
+      expect(cus.name).to.equal("Muddy Parks");
+      expect(cus.is_doorman).to.equal(false);
+      expect(cus.autocomplete).to.equal("199 Orchard St, New York, NY 10002, USA");
       done();
     }).catch(_.noop);
   }
@@ -169,18 +169,18 @@ class CustomerTest {
       expect(c.mobile).to.equal("19292778392");
       let updatedCustomerObj = {
         mobile: "19292778322"
-      } 
+      }
       return customers.update(c, updatedCustomerObj);
-     }).then(_.noop)
-     .catch((c) => {
-      done();
-    });
+    }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
   }
 
 
-//Delete
-@test("should delete customer with just mobile")
- public testDeleteCustomerMobile(done) {
+  //Delete
+  @test("should delete customer with just mobile")
+  public testDeleteCustomerMobile(done) {
     let id = "";
     let customerObj = {
       mobile: "19292778387"
@@ -189,20 +189,20 @@ class CustomerTest {
     customers.insert(customerObj).then((c) => {
       id = c.id;
       return customers.get(id);
-     }).then((cus) => {  
+    }).then((cus) => {
       expect(cus.mobile).to.equal("19292778387");
       return customers.remove(cus);
-     }).then((e) => {
-        return customers.get(id);
-     }).then(_.noop)
-     .catch((c) => {
-      done();
-    });
+    }).then((e) => {
+      return customers.get(id);
+    }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
   }
 
 
- @test("should delete customer with many params")
- public testDeleteCustomerAllParams(done) {
+  @test("should delete customer with many params")
+  public testDeleteCustomerAllParams(done) {
     let id = "";
     let customerObj = {
       mobile: "19292778388",
@@ -227,48 +227,131 @@ class CustomerTest {
     customers.insert(customerObj).then((c) => {
       id = c.id;
       return customers.get(id);
-     }).then((cus) => {  
+    }).then((cus) => {
       expect(cus.mobile).to.equal("19292778388");
       return customers.remove(cus);
-     }).then((e) => {
-        return customers.get(id);
-     }).then(_.noop)
-     .catch((c) => {
-      done();
-    });
+    }).then((e) => {
+      return customers.get(id);
+    }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
   }
 
-  
 
-// //Validators  
-@test("should not allow invalid mobile")
+
+  // //Validators  
+  @test("should not allow invalid mobile")
   public testInvalidMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({mobile: "646549056"}) 
-    .then(_.noop)
-     .catch((c) => {
-      done();
-    });
-}  
+    customers.insert({ mobile: "646549056" })
+      .then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
 
+  @test("should not allow name with less than 2 characters")
+  public testInvalidName(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490566", name: "a" })
+      .then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
+
+  @test("shouldn't allow autocomplete that doesn't begin in number")
+  public testInvalidAutocomplete(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490566", autocomplete: "A Big Street, New York, NY, USA" })
+      .then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
+
+  @test("shouldn't allow invalid zip")
+  public testInvalidZip(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490561", zip: "1002" })
+      .then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
+
+
+  @test("should allow valid longitude")
+  public testValidLng(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490561", lng: "-73.988152" }).then((c) => {
+      expect(c.lng).to.equal("-73.988152");
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("shouldn't allow invalid longitude")
+  public testInvalidLng(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490561", lng: "-181" }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
+
+  @test("should allow valid latitude")
+  public testValidLat(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490561", lat: "41.25" }).then((c) => {
+      expect(c.lat).to.equal("41.25");
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("shouldn't allow invalid latitude")
+  public testInvalidLat(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490561", lat: "-91" }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
 
   @test("should allow valid email")
   public testValidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({mobile: "6465490566", email: "jshmo@gmail.com" }).then((c) => {
+    customers.insert({ mobile: "6465490566", email: "jshmo@gmail.com" }).then((c) => {
       expect(c.email).to.equal("jshmo@gmail.com");
       done();
     }).catch(_.noop);
-  }  
+  }
 
-  @test("should not allow invalid email") 
+  @test("should not allow invalid email")
   public testInvalidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({ mobile: "6465490567", email: "jshmo" }).then(_.noop
     ).catch((c) => {
       done();
     });
-  } 
+  }
 
+  @test("shouldn't allow payment_customer_id with whitespace")
+  public testInvalidPaymentCustomerId(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490563", payment_customer_id: "tok 123" }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
+
+  @test("shouldn't allow payment_customer_token with whitespace")
+  public testInvalidPaymentCustomerToken(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6165490564", payment_customer_token: "tok 123" }).then(_.noop)
+      .catch((c) => {
+        done();
+      });
+  }
 }
 
