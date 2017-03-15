@@ -1,4 +1,5 @@
 import * as PouchDB from 'pouchdb';
+import Promise from 'ts-promise';
 PouchDB.plugin(require('pouchdb-authentication'));
 
 /**
@@ -30,36 +31,47 @@ export class Database {
             throw new Error("Internal - cannot connect to local/remote server")
         }
         let url = remoteHost + "/" + remoteDb;
-        this._remoteDb = new PouchDB(url, { skip_setup: true});
-        let t = this;
+        this._remoteDb = new PouchDB(url, {
+            auth: {
+                username: remoteUser,
+                password: remotePass
+            }
+        });
         let opts = {
             body : {name: remoteUser, password: remotePass}
         }
         return this._remoteDb.login(remoteUser, remotePass, opts);
     }
 
-    public sync(options?) {
-        return this._db.sync(this._remoteDb, options)  
-    }
-
+    /**
+     * Direct access to local database
+     */
     get db() {
         return this._db;
     }
 
-    public status(error, response)  {
-        if (!this._remoteDb) {
-            return error("remote not connected");
-        }
-
-        this._remoteDb.getSession(function (err, response) {
-            if (err) {
-                error(err)
-            } else if (!response.userCtx.name) {
-                error("no one connected")
-            } else {
-                response(response);
-            }
-        });
+    /**
+     * Query remote database status
+     */
+    public remoteStatus()  {
+        return this._remoteDb.info();
     }
+
+    /**
+     * Query local database status
+     */
+    public localStatus()  {
+        return this._db.info();
+    }
+
+    /**
+     * sync the local with remote
+     * @param options 
+     */
+    public sync(options?) {
+        return this._db.sync(this._remoteDb, options)  
+    }
+
+
 
 }
