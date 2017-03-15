@@ -6,3 +6,7 @@ lib/
 generator/*.json
 .vscode/symbols.json
 default/
+_replicator/
+_users/
+log.txt
+pouch__all_dbs__/
