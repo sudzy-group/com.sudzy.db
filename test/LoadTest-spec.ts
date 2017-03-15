@@ -276,9 +276,20 @@ class LoadTest {
           return customers.find("name", "Joe Shmoe");
         }).then((cs2) => {
           console.log("We searched after 1000 insertions");
-          expect(cs2[0].name).to.equal("Joe Shmoe");        
- 
-          done();
+          expect(cs2[0].name).to.equal("Joe Shmoe");   
+//About to test 5000     
+          let ps = [];
+          _.times(5000, function(){
+            ps.push(t.testWorkflow());
+          })
+          Promise.all(ps).then(()=> {
+            console.log("50000 promises done");
+            return customers.find("name", "Joe Shmoe");
+          }).then((cs2) => {
+            console.log("We searched after 5000 insertions");
+            expect(cs2[0].name).to.equal("Joe Shmoe");   
+            done();
+          });
         });
       });
     });
