@@ -158,7 +158,7 @@ class LoadTest {
     LoadTest.db.destroy(() => done());
   }
 
-  public testWorkflow(){
+  public testLoad(){
      return new Promise((res, rej) => {
       let customers = LoadTest.customers;
       let customer_cards = LoadTest.customer_cards;
@@ -244,13 +244,18 @@ class LoadTest {
   public testLoadedWorkflows(done) {
     let customers = LoadTest.customers;
     let t = this;
+    let d0 = new Date().getTime(), d1 = 0, d2 = 0, d3 = 0,d4 = 0,d5 = 0;
 //About to test 100
     let ps = [];
     _.times(100, function(){
       ps.push(t.testWorkflow());
     })
     Promise.all(ps).then(()=> {
+      d1 = new Date().getTime();
       console.log("100 promises done");
+      console.log("-----------------");
+      console.log("total time inserting workflows: ", d1-d0);
+      console.log("average workflow insertion time: ", (d1-d0)/100);
       return customers.find("name", "Joe Shmoe");
     }).then((cs) => {
       console.log("We searched after 100 workflows");
@@ -261,7 +266,11 @@ class LoadTest {
         ps.push(t.testWorkflow());
       })
       Promise.all(ps).then(()=> {
+        d2 = new Date().getTime();
         console.log("500 promises done");
+        console.log("-----------------");
+        console.log("total time inserting workflows: ", d2-d1);
+        console.log("average workflow insertion time: ", (d2-d1)/500);
         return customers.find("name", "Joe Shmoe");
       }).then((cs2) => {
         console.log("We searched after 500 workflows");
@@ -272,7 +281,11 @@ class LoadTest {
           ps.push(t.testWorkflow());
         })
         Promise.all(ps).then(()=> {
+          d3 = new Date().getTime();
           console.log("1000 promises done");
+          console.log("-----------------");
+          console.log("total time inserting workflows: ", d3-d2);
+          console.log("average workflow insertion time: ", (d3-d2)/1000);
           return customers.find("name", "Joe Shmoe");
         }).then((cs2) => {
           console.log("We searched after 1000 workflows");
@@ -283,7 +296,11 @@ class LoadTest {
             ps.push(t.testWorkflow());
           })
           Promise.all(ps).then(()=> {
-            console.log("50000 promises done");
+            d4 = new Date().getTime();
+            console.log("5000 promises done");
+            console.log("-----------------");
+            console.log("total time inserting workflows: ", d4-d3);
+            console.log("average workflow insertion time: ", (d4-d3)/5000);
             return customers.find("name", "Joe Shmoe");
           }).then((cs2) => {
             console.log("We searched after 5000 workflows");
@@ -294,10 +311,13 @@ class LoadTest {
               ps.push(t.testWorkflow());
             })
             Promise.all(ps).then(()=> {
+              d5 = new Date().getTime();
               console.log("10000 promises done");
+              console.log("-----------------");
+              console.log("total time inserting workflows: ", d5-d4);
+              console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-              console.log("We searched after 10000 workflows");
               expect(cs2[0].name).to.equal("Joe Shmoe");             
               done();
             });
