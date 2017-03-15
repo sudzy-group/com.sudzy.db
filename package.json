@@ -26,7 +26,8 @@
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
     "pouchable": "^1.1.1",
-    "pouchdb": "^6.1.2"
+    "pouchdb": "^6.1.2",
+    "ts-promise": "^0.3.4"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
@@ -42,7 +43,8 @@
     "rimraf": "^2.0.0",
     "ts-node": "^1.0.0",
     "tspoon": "^1.0.328",
-    "typescript": "^2.0.0"
+    "typescript": "^2.0.0",
+    "faker": "^4.1.0"
   },
   "engines": {
     "node": ">=4.0.0"
