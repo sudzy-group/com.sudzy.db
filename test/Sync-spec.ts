@@ -8,7 +8,6 @@ import * as express from "express";
 import * as expressPouchdb from "express-pouchdb";
 import * as Security from 'pouchdb-security'
 import * as Authentication from 'pouchdb-authentication';
-import * as InMemPouchDB from 'memdown';
 import * as rimraf from 'rimraf';
 
 @suite("Access Database")
