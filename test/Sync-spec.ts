@@ -42,20 +42,22 @@ class DatabaseAccess {
     @test("should connect remotely") @timeout(20000)
     public testRemote(done) {
         let access = new Database("aa0c19ba");
-        // access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba", function(m) {
-        access.connect("http://localhost:5555", "aa0c19ba", "aa0c19ba", "aa0c19ba").then(() => {
+        access.connect("http://localhost:5555", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {
+        // access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {    
+            return access.remoteStatus();
+        }).then((response) => {
             const customers = new Customers(access.db, Customer);
             return customers.insert({ mobile: "6465490561" });
         }).then((c) => {
             access.sync().on('complete', () => {
-                DatabaseAccess._db.info().then(function (result) {
+                access.remoteStatus().then(function (result) {
                     if (result.doc_count == 0) {
                         console.log(result);
                         throw new Error("couldn't sync with database");
                     }
                     done()
                 }).catch(_.noop);
-            });
+            }).on(_.noop);
         }).catch(_.noop);
     }
 }
