@@ -2,6 +2,7 @@ import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
 import { fourDigitsLong } from "../validators/fourDigitsLong";
 
+
 /**
  * Represent a CustomerCard entity
  */
