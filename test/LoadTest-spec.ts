@@ -158,7 +158,7 @@ class LoadTest {
     LoadTest.db.destroy(() => done());
   }
 
-  public testLoad(){
+  public testWorkflow(){
      return new Promise((res, rej) => {
       let customers = LoadTest.customers;
       let customer_cards = LoadTest.customer_cards;
