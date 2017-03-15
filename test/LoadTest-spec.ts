@@ -248,7 +248,7 @@ class LoadTest {
 //About to test 100
     let ps = [];
     _.times(100, function(){
-      ps.push(t.testWorkflow());
+      ps.push(t.testLoadedWorkflows());
     })
     Promise.all(ps).then(()=> {
       d1 = new Date().getTime();
@@ -263,7 +263,7 @@ class LoadTest {
 //About to test 500
       let ps = [];
       _.times(500, function(){
-        ps.push(t.testWorkflow());
+        ps.push(t.testLoadedWorkflows());
       })
       Promise.all(ps).then(()=> {
         d2 = new Date().getTime();
@@ -278,7 +278,7 @@ class LoadTest {
 //About to test 1000
         let ps = [];
         _.times(1000, function(){
-          ps.push(t.testWorkflow());
+          ps.push(t.testLoadedWorkflows());
         })
         Promise.all(ps).then(()=> {
           d3 = new Date().getTime();
@@ -293,7 +293,7 @@ class LoadTest {
 //About to test 5000     
           let ps = [];
           _.times(5000, function(){
-            ps.push(t.testWorkflow());
+            ps.push(t.testLoadedWorkflows());
           })
           Promise.all(ps).then(()=> {
             d4 = new Date().getTime();
@@ -308,7 +308,7 @@ class LoadTest {
 // //About to test 10,000  
             let ps = [];
             _.times(10000, function(){
-              ps.push(t.testWorkflow());
+              ps.push(t.testLoadedWorkflows());
             })
             Promise.all(ps).then(()=> {
               d5 = new Date().getTime();
