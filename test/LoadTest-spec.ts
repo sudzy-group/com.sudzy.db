@@ -26,8 +26,8 @@ import {Delivery} from "../src/entities/Delivery";
 
 const expect = chai.expect;
 
-@suite("Workflow test")
-class WorkflowTest {
+@suite("Load test")
+class LoadTest {
 
   static db;
 //Static variable definitions
@@ -41,7 +41,7 @@ class WorkflowTest {
 
 //Object definitions
   private customerObj: any = {
-      name: faker.name.findName(),
+      name: "Joe Shmoe",
       email: faker.internet.email(),
       autocomplete: "199 Orchard St, New York, NY 10002, USA",
       street_num: faker.random.number(),
@@ -144,30 +144,29 @@ class WorkflowTest {
 
 //Database before and after
   static before() {
-    WorkflowTest.db = new PouchDB("default");
-    WorkflowTest.customers = new Customers(WorkflowTest.db, Customer);
-    WorkflowTest.customer_cards = new CustomerCards(WorkflowTest.db, CustomerCard);
-    WorkflowTest.orders = new Orders(WorkflowTest.db, Order);
-    WorkflowTest.deliveries = new Deliveries(WorkflowTest.db, Delivery);
-    WorkflowTest.order_items = new OrderItems(WorkflowTest.db, OrderItem);
-    WorkflowTest.order_tags = new OrderTags(WorkflowTest.db, OrderTag);
-    WorkflowTest.order_charges = new OrderCharges(WorkflowTest.db, OrderCharge);
+    LoadTest.db = new PouchDB("default");
+    LoadTest.customers = new Customers(LoadTest.db, Customer);
+    LoadTest.customer_cards = new CustomerCards(LoadTest.db, CustomerCard);
+    LoadTest.orders = new Orders(LoadTest.db, Order);
+    LoadTest.deliveries = new Deliveries(LoadTest.db, Delivery);
+    LoadTest.order_items = new OrderItems(LoadTest.db, OrderItem);
+    LoadTest.order_tags = new OrderTags(LoadTest.db, OrderTag);
+    LoadTest.order_charges = new OrderCharges(LoadTest.db, OrderCharge);
   }
 
   static after(done: Function) {
-    WorkflowTest.db.destroy(() => done());
+    LoadTest.db.destroy(() => done());
   }
 
   public testWorkflow(){
      return new Promise((res, rej) => {
-      console.log("inside test workflow");
-      let customers = WorkflowTest.customers;
-      let customer_cards = WorkflowTest.customer_cards;
-      let orders = WorkflowTest.orders;
-      let deliveries = WorkflowTest.deliveries;
-      let order_items = WorkflowTest.order_items;
-      let order_tags = WorkflowTest.order_tags;
-      let order_charges = WorkflowTest.order_charges;
+      let customers = LoadTest.customers;
+      let customer_cards = LoadTest.customer_cards;
+      let orders = LoadTest.orders;
+      let deliveries = LoadTest.deliveries;
+      let order_items = LoadTest.order_items;
+      let order_tags = LoadTest.order_tags;
+      let order_charges = LoadTest.order_charges;
       let t = this;
       t.customerObj["mobile"] = faker.phone.phoneNumberFormat();
     //Insert customer
@@ -241,20 +240,23 @@ class WorkflowTest {
   }
 
 
-  @test("should create customer, customercards, order")
-  public testCreateCustomerAndCustomerCard(done) {
+  @test("Time 100 workflows") @timeout(20000)
+  public test100Workflows(done) {
     let ps = [];
     let t = this;
-    _.times(3, function(){
+    _.times(100, function(){
       ps.push(t.testWorkflow());
     })
-    Promise.all(ps).then(function(){
-      console.log("promises done")
+    Promise.all(ps).then(()=> {
+      console.log("100 promises done");
+      let customers = LoadTest.customers;
+      return customers.find("name", "Joe Shmoe");
+      }).then((cs) => {
+      console.log("We searched after 100 insertions");
+      expect(cs[0].name).to.equal("Joe Shmoe");
       done();
     });
   } 
-
-  
 }
 
 
