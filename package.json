@@ -27,6 +27,7 @@
     "metaphone": "^1.0.1",
     "pouchable": "^1.1.1",
     "pouchdb": "^6.1.2",
+    "ts-promise": "^0.3.4",
     "pouchdb-authentication": "^0.5.5"
   },
   "devDependencies": {
@@ -45,7 +46,8 @@
     "rimraf": "^2.6.1",
     "ts-node": "^1.0.0",
     "tspoon": "^1.0.328",
-    "typescript": "^2.0.0"
+    "typescript": "^2.0.0",
+    "faker": "^4.1.0"
   },
   "engines": {
     "node": ">=4.0.0"
