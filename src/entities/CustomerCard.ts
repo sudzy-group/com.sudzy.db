@@ -1,6 +1,6 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
-import { last4 } from "../validators/last4";
+import { cardDigits } from "../validators/last4";
 
 /**
  * Represent a CustomerCard entity
@@ -35,7 +35,7 @@ export class CustomerCard extends Entity {
     @EntityField({
         group: "default",
         name: "last4",
-        validate: 4digitsLong,
+        validate: cardDigits,
         mandatory: true,
         description: "Last 4 digits of card"
     })

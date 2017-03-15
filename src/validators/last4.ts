@@ -1,3 +1,3 @@
-export function 4digitsLong(input) {
+export function cardDigits(input) {
     return input.length == 4;
 }
