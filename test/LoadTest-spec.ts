@@ -253,7 +253,7 @@ class LoadTest {
       console.log("100 promises done");
       return customers.find("name", "Joe Shmoe");
     }).then((cs) => {
-      console.log("We searched after 100 insertions");
+      console.log("We searched after 100 workflows");
       expect(cs[0].name).to.equal("Joe Shmoe");
 //About to test 500
       let ps = [];
@@ -264,7 +264,7 @@ class LoadTest {
         console.log("500 promises done");
         return customers.find("name", "Joe Shmoe");
       }).then((cs2) => {
-        console.log("We searched after 500 insertions");
+        console.log("We searched after 500 workflows");
         expect(cs2[0].name).to.equal("Joe Shmoe");
 //About to test 1000
         let ps = [];
@@ -275,7 +275,7 @@ class LoadTest {
           console.log("1000 promises done");
           return customers.find("name", "Joe Shmoe");
         }).then((cs2) => {
-          console.log("We searched after 1000 insertions");
+          console.log("We searched after 1000 workflows");
           expect(cs2[0].name).to.equal("Joe Shmoe");   
 //About to test 5000     
           let ps = [];
@@ -286,9 +286,9 @@ class LoadTest {
             console.log("50000 promises done");
             return customers.find("name", "Joe Shmoe");
           }).then((cs2) => {
-            console.log("We searched after 5000 insertions");
+            console.log("We searched after 5000 workflows");
             expect(cs2[0].name).to.equal("Joe Shmoe");  
-//About to test 10,000  
+// //About to test 10,000  
             let ps = [];
             _.times(10000, function(){
               ps.push(t.testWorkflow());
@@ -297,7 +297,7 @@ class LoadTest {
               console.log("10000 promises done");
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-              console.log("We searched after 10000 insertions");
+              console.log("We searched after 10000 workflows");
               expect(cs2[0].name).to.equal("Joe Shmoe");             
               done();
             });
