@@ -177,7 +177,7 @@ class CustomerTest {
     });
   }
 
-  
+
 //Delete
 @test("should delete customer with just mobile")
  public testDeleteCustomerMobile(done) {
@@ -240,7 +240,18 @@ class CustomerTest {
 
   
 
-//Validators  
+// //Validators  
+@test("should not allow invalid mobile")
+  public testInvalidMobile(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({mobile: "646549056"}) 
+    .then(_.noop)
+     .catch((c) => {
+      done();
+    });
+}  
+
+
   @test("should allow valid email")
   public testValidEmail(done) {
     const customers = new Customers(CustomerTest.db, Customer);

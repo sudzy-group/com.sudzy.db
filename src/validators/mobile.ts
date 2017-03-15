@@ -1,5 +1,7 @@
-import { isString } from 'lodash';
-
 export function mobile(input) {
-    return isString(input) && input.length < 32;
+	let phoneRegex =  /^[1-9][0-9]{9,14}$/;
+	console.log("regex for") 
+	console.log(input)
+	console.log(phoneRegex.test(input))
+    return phoneRegex.test(input);
 }
