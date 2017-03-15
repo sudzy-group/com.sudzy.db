@@ -18,6 +18,7 @@
     "clean": "rimraf lib _users _replicator pouch__all_dbs__ config.json log.txt",
     "build": "npm run clean && echo Using TypeScript && tsc --version && tsc --pretty",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
+    "test:load": "npm run build && mocha --compilers ts:ts-node/register --recursive test-load/**/*-spec.ts",
     "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
