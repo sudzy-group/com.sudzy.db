@@ -240,21 +240,47 @@ class LoadTest {
   }
 
 
-  @test("Time 100 workflows") @timeout(20000)
-  public test100Workflows(done) {
-    let ps = [];
+  @test("Time loaded workflows") @timeout(500000)
+  public testLoadedWorkflows(done) {
+    let customers = LoadTest.customers;
     let t = this;
+//About to test 100
+    let ps = [];
     _.times(100, function(){
       ps.push(t.testWorkflow());
     })
     Promise.all(ps).then(()=> {
       console.log("100 promises done");
-      let customers = LoadTest.customers;
       return customers.find("name", "Joe Shmoe");
-      }).then((cs) => {
+    }).then((cs) => {
       console.log("We searched after 100 insertions");
       expect(cs[0].name).to.equal("Joe Shmoe");
-      done();
+//About to test 500
+      let ps = [];
+      _.times(500, function(){
+        ps.push(t.testWorkflow());
+      })
+      Promise.all(ps).then(()=> {
+        console.log("500 promises done");
+        return customers.find("name", "Joe Shmoe");
+      }).then((cs2) => {
+        console.log("We searched after 500 insertions");
+        expect(cs2[0].name).to.equal("Joe Shmoe");
+//About to test 1000
+        let ps = [];
+        _.times(1000, function(){
+          ps.push(t.testWorkflow());
+        })
+        Promise.all(ps).then(()=> {
+          console.log("1000 promises done");
+          return customers.find("name", "Joe Shmoe");
+        }).then((cs2) => {
+          console.log("We searched after 1000 insertions");
+          expect(cs2[0].name).to.equal("Joe Shmoe");        
+ 
+          done();
+        });
+      });
     });
   } 
 }
