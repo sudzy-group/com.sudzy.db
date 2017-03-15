@@ -157,8 +157,8 @@ class WorkflowTest {
     WorkflowTest.db.destroy(() => done());
   }
 
-  @test("should create customer, customercards, order")
-  public testCreateCustomerAndCustomerCard(done) {
+  @test("should create workflow")
+  public testCreateWorkflow(done) {
     let customers = WorkflowTest.customers;
     let customer_cards = WorkflowTest.customer_cards;
     let orders = WorkflowTest.orders;
