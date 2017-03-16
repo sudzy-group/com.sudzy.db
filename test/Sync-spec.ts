@@ -57,7 +57,9 @@ class DatabaseAccess {
                     }
                     done()
                 }).catch(_.noop);
-            }).on(_.noop);
-        }).catch(_.noop);
+            }).on('error', _.noop);
+        }).catch((m) => {
+            console.log(m)
+        });
     }
 }
