@@ -512,27 +512,10 @@ class LoadTest {
               console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-<<<<<<< HEAD
               console.log("Cs2 lenght")
               console.log(cs2.length);
               expect(cs2[0].name).to.equal("Joe Shmoe");
-              let access = new Database("default");
-              access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {    
-                  return access.remoteStatus();
-              }).then((response) => {
-                  access.sync().on('complete', () => {
-                      access.remoteStatus().then(function (result) {
-                          if (result.doc_count == 0) {
-                              console.log(result);
-                              throw new Error("couldn't sync with database");
-                          }
-                          done()
-                      }).catch(_.noop);
-                  }).on(_.noop);
-=======
-                expect(cs2[0].name).to.equal("Joe Shmoe");             
-               done();
->>>>>>> 2f5dbfd8f89d60a65efa10d773969b7eadf8d65a
+              done();
               }).catch(_.noop);
             });
         });
