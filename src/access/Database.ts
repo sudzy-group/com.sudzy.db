@@ -27,20 +27,20 @@ export class Database {
     }
 
     public connect(remoteHost: string, remoteDb: string, remoteUser: string, remotePass: string) {
-        if (!remoteHost || !remoteUser || !remotePass) {
-            throw new Error("Internal - cannot connect to local/remote server")
-        }
-        let url = remoteHost + "/" + remoteDb;
-        this._remoteDb = new PouchDB(url, {
-            auth: {
-                username: remoteUser,
-                password: remotePass
+        let t = this;
+        return new Promise((resolved, rejected) => {
+            if (!remoteHost || !remoteUser || !remotePass) {
+                throw new Error("Internal - cannot connect to local/remote server")
             }
-        });
-        let opts = {
-            body : {name: remoteUser, password: remotePass}
-        }
-        return this._remoteDb.login(remoteUser, remotePass, opts);
+            let url = remoteHost + "/" + remoteDb;
+            t._remoteDb = new PouchDB(url, {
+                auth: {
+                    username: remoteUser,
+                    password: remotePass
+                }
+            });
+            resolved(t);
+        }) 
     }
 
     /**
