@@ -72,7 +72,7 @@ class WorkflowTest {
    };
 
    private orderObj: any = {
-     order_id: "e5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     readable_id: "e5d4707d-cd54-bed3-7570-6e9dbec307zz",
      due_datetime: new Date().getTime(),
      rack: "222",
      notes: "Please do quickly",

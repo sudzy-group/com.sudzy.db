@@ -17,12 +17,12 @@ export class Order extends Entity {
 
     @EntityField({
         group: "default",
-        name: "order_id",
+        name: "readable_id",
         mandatory: true,
-        description: "Order id",
+        description: "Human readable id",
         search_by: [ identity ] 
     })
-    public order_id: string;
+    public readable_id: string;
 
     @EntityField({
         group: "due",
