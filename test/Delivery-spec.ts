@@ -215,7 +215,7 @@ class DeliveryTest {
     }).catch(_.noop);
   }
 
-    @test("should be able to update is_canceled")
+  @test("should be able to update is_canceled")
   public testUpdateIsCanceled(done) {
     let customers = DeliveryTest.customers;
     let deliveries = DeliveryTest.deliveries;

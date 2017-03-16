@@ -221,23 +221,95 @@ class OrderTest {
     }).catch(_.noop);
   }  
 
+  @test("should update delivery ids")
+  public testUpdateDeliveryIds(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "h2h",
+     readable_id: "iid4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      let orderUpdated = {
+         delivery_pickup_id: "abc",
+         delivery_dropoff_id: "efg"
+      }
+      return orders.update(ord, orderUpdated);
+     }).then((ordUpdated) => {   
+       expect(ordUpdated.delivery_pickup_id).to.equal("abc");
+       expect(ordUpdated.delivery_dropoff_id).to.equal("efg");
+       done();
+    }).catch(_.noop);
+  }  
 
+  @test("should update note")
+  public testUpdateNote(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "i2i",
+     readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      let orderUpdated = {
+         notes: "Perdy outfit"
+      }
+      return orders.update(ord, orderUpdated);
+     }).then((ordUpdated) => {   
+       expect(ordUpdated.notes).to.equal("Perdy outfit");
+       done();
+    }).catch(_.noop);
+  }  
 
-  //Should delivery_pickup_id
-  //Should delivery_dropoff_id
-  //Should note
-  //Should update payment info and balance
-
+  @test("should update payment info")
+  public testUpdatePayment(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "k2k",
+     readable_id: "lld4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      let orderUpdated = {
+         tax: 1.00,
+         tip: 3.00,
+         discount_percent: 5,
+         balance: 250.40
+      }
+      return orders.update(ord, orderUpdated);
+     }).then((ordUpdated) => {   
+       expect(ordUpdated.tax).to.equal(1.00);
+       expect(ordUpdated.tip).to.equal(3.00);
+       expect(ordUpdated.discount_percent).to.equal(5);
+       expect(ordUpdated.balance).to.equal(250.40);
+       done();
+    }).catch(_.noop);
+  } 
 
 
   //Delete
-  //Delete order
+  @test("should delete order")
+  public testDeleteOrder(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "a3a",
+     readable_id: "1114707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   let id = "";
+   orders.insert(orderObj).then((ord) => {
+      id = ord.id;
+      return orders.remove(ord);
+   }).then((e) => {
+      return orders.get(id);
+   }).then(_.noop)
+   .catch((c) => {
+       done();
+   });
+  }
+
 
   //Validators
 //Balance shouldnt be less than 0
 //0 balance ok
 //Positive balance ok
-
+//Delivery pickup id shouldnt have whitespace
 
 
 
