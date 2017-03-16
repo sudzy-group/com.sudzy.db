@@ -1,6 +1,8 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
-
+import { amount0OrGreater } from '../validators/amount0OrGreater';
+import { noWhitespace } from '../validators/noWhitespace';
+import { lengthGreater1 } from "../validators/lengthGreater1";
 /**
  * Represent a Order entity
  */
@@ -17,12 +19,13 @@ export class Order extends Entity {
 
     @EntityField({
         group: "default",
-        name: "order_id",
+        name: "readable_id",
         mandatory: true,
-        description: "Order id",
+        validate: noWhitespace,
+        description: "Human readable id",
         search_by: [ identity ] 
     })
-    public order_id: string;
+    public readable_id: string;
 
     @EntityField({
         group: "due",
@@ -77,6 +80,7 @@ export class Order extends Entity {
         group: "balance",
         name: "balance",
         description: "Balance remaining",
+        validate: amount0OrGreater,
         search_by: [ "existingBalance" ]
     })
     public balance: number;
@@ -98,6 +102,7 @@ export class Order extends Entity {
     @EntityField({
         group: "delivery",
         name: "delivery_pickup_id",
+        validate: noWhitespace,
         description: "Delivery pickup id"
     })
     public delivery_pickup_id: string;
@@ -105,6 +110,7 @@ export class Order extends Entity {
     @EntityField({
         group: "delivery",
         name: "delivery_dropoff_id",
+        validate: noWhitespace,
         description: "Delivery dropoff id"
     })
     public delivery_dropoff_id: string;

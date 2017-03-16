@@ -48,6 +48,13 @@ export class Delivery extends Entity {
     public is_confirmed: boolean;
 
     @EntityField({
+        group: "status",
+        name: "is_canceled",
+        description: "Whether delivery is canceled"
+    })
+    public is_canceled: boolean;
+
+    @EntityField({
         group: "express",
         name: "express_id",
         validate: noWhitespace,

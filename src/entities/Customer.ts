@@ -60,6 +60,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "street_route",
+        validate: lengthGreater1,
         description: "Street name"
     })
     public street_route: string;
@@ -74,6 +75,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "city",
+        validate: lengthGreater1,
         description: "City"
     })
     public city: string;
@@ -81,6 +83,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "state",
+        validate: lengthGreater1,
         description: "State"
     })
     public state: string;
