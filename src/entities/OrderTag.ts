@@ -16,7 +16,7 @@ export class OrderTag extends Entity {
     @EntityField({
         group: "default",
         name: "tag_number",
-        description: "Tag number"
+        description: "Tag number" 
     })
     public tag_number: number;
 	

@@ -1,6 +1,12 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
+import { lengthGreater1 } from "../validators/lengthGreater1";
 import { email } from "../validators/email";
+import { autocomplete } from '../validators/autocomplete';
+import { zip } from '../validators/zip';
+import { latitude } from '../validators/latitude';
+import { longitude } from '../validators/longitude';
+import { noWhitespace } from '../validators/noWhitespace';
 import { identity } from 'lodash';
 import * as metaphone from 'metaphone';
 
@@ -23,6 +29,7 @@ export class Customer extends Entity {
         group: "name",
         name: "name",
         description: "Customer's name",
+        validate: lengthGreater1,
         search_by: [ metaphone, identity ] 
     })
     public name: string;
@@ -38,6 +45,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "autocomplete",
+        validate: autocomplete,
         description: "Full address as captured by Google Places API"
     })
     public autocomplete: string;
@@ -80,6 +88,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "zip",
+        validate: zip,
         description: "Zip code"
     })
     public zip: string;
@@ -87,6 +96,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "lat",
+        validate: latitude,
         description: "Latitude"
     })
     public lat: string;
@@ -94,6 +104,7 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "lng",
+        validate: longitude,
         description: "Longtitude"
     })
     public lng: string;
@@ -122,13 +133,15 @@ export class Customer extends Entity {
     @EntityField({
         group: "payment",
         name: "payment_customer_token",
-        description: "Payment customer token"
+        description: "Payment customer token",
+        validate: noWhitespace
     })
     public payment_customer_token: string;
 
     @EntityField({
         group: "payment",
         name: "payment_customer_id",
+        validate: noWhitespace,
         description: "Payment customer id"
     })
     public payment_customer_id: string;

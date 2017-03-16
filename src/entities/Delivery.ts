@@ -1,6 +1,7 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
-
+import { lengthGreater1 } from "../validators/lengthGreater1";
+import { noWhitespace } from '../validators/noWhitespace';
 /**
  * Represent a Delivery entity
  */
@@ -34,6 +35,7 @@ export class Delivery extends Entity {
     @EntityField({
         group: "person",
         name: "delivery_person",
+        validate: lengthGreater1,
         description: "Delivery person"
     })
     public delivery_person: string;
@@ -48,6 +50,7 @@ export class Delivery extends Entity {
     @EntityField({
         group: "express",
         name: "express_id",
+        validate: noWhitespace,
         description: "Express id"
     })
     public express_id: string;

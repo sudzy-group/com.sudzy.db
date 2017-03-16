@@ -1,8 +1,8 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
 import { fourDigitsLong } from "../validators/fourDigitsLong";
-
-
+import { lengthGreater1 } from "../validators/lengthGreater1";
+import { noWhitespace } from '../validators/noWhitespace';
 /**
  * Represent a CustomerCard entity
  */
@@ -21,6 +21,7 @@ export class CustomerCard extends Entity {
         group: "default",
         name: "card_id",
         mandatory: true,
+        validate: noWhitespace,
         description: "Card id"
     })
     public card_id: string;
@@ -29,6 +30,7 @@ export class CustomerCard extends Entity {
         group: "default",
         name: "brand",
         mandatory: true,
+        validate: lengthGreater1,
         description: "Card brand"
     })
     public brand: string;
