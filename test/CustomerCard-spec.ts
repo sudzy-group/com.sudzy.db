@@ -54,6 +54,34 @@ class CustomerCardTest {
   }
 
 
+ @test("should insert two cards")
+  public testInsertTwoCard(done) {
+    let customers = CustomerCardTest.customers;
+    let customer_cards = CustomerCardTest.customer_cards;
+    customers.insert({ mobile: "6465490520" }).then((cust) => {
+      let cardObj1 = {
+        customer_id: cust.id,
+        card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
+        brand: "Visa",
+        last4: "4242",
+        is_default: true
+      }
+      return customer_cards.insert(cardObj1);
+    }).then((card1) => {
+      expect(card1.last4).to.equal("4242");
+      let cardObj2 = {
+        customer_id: card1.customer_id,
+        card_id: "card_19lhGEDMuhhpO1mOmpfsdX4X",
+        brand: "Mastercard",
+        last4: "2222"
+      }
+      return customer_cards.insert(cardObj2);
+    }).then((card2) => {
+      expect(card2.last4).to.equal("2222");
+      done();
+    }).catch(_.noop);
+  }
+
 //Search 
 @test("should be searchable by customer id")
   public testSearchByCustomerId(done) {
