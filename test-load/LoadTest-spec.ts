@@ -429,7 +429,7 @@ class LoadTest {
   }
 
 
-  @test("Time loaded workflows") @timeout(500000000)
+  @test("Time loaded workflows") @timeout(900000)
   public testLoadedWorkflows(done) {
     let customers = LoadTest.customers;
     let t = this;
@@ -512,6 +512,7 @@ class LoadTest {
               console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
+<<<<<<< HEAD
               console.log("Cs2 lenght")
               console.log(cs2.length);
               expect(cs2[0].name).to.equal("Joe Shmoe");
@@ -528,9 +529,12 @@ class LoadTest {
                           done()
                       }).catch(_.noop);
                   }).on(_.noop);
+=======
+                expect(cs2[0].name).to.equal("Joe Shmoe");             
+               done();
+>>>>>>> 2f5dbfd8f89d60a65efa10d773969b7eadf8d65a
               }).catch(_.noop);
             });
-          });
         });
       });
     });
