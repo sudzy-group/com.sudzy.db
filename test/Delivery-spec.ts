@@ -215,6 +215,29 @@ class DeliveryTest {
     }).catch(_.noop);
   }
 
+    @test("should be able to update is_canceled")
+  public testUpdateIsCanceled(done) {
+    let customers = DeliveryTest.customers;
+    let deliveries = DeliveryTest.deliveries;
+    customers.insert({ mobile: "6265490565" }).then((cust) => {
+      let delivObj = {
+        customer_id: cust.id,
+        is_pickup: false,
+        delivery_time: new Date().getTime()
+      }
+      return deliveries.insert(delivObj);
+    }).then((deliv) => {
+      expect(deliv.customer_id).to.exist;
+      let updatedDeliv = {
+          is_canceled: true
+      }
+      return deliveries.update(deliv, updatedDeliv);
+    }).then((updated_deliv) => {
+      expect(updated_deliv.is_canceled).to.equal(true);
+      done();
+    }).catch(_.noop);
+  }
+
 
 @test("should not be able to update is_pickup")
   public testUpdateIsPickup(done) {
