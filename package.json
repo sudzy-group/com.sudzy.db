@@ -20,6 +20,7 @@
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
     "test:load": "npm run build && mocha --compilers ts:ts-node/register --recursive test-load/**/*-spec.ts",
     "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
+    "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",   
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
