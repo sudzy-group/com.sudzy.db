@@ -37,7 +37,6 @@ class OrderTagTest {
      tag_number: 333
    }
    order_tags.insert(orderTagObj).then((tag) => {
-     console.log("tag")
       expect(tag.tag_number).to.equal(333);
       done();
     }).catch(_.noop);

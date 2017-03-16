@@ -1,3 +1,3 @@
 export function lengthGreater1(input) {
-    return input.length > 1;
+    return input.toString().length > 1;
 }
