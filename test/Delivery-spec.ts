@@ -199,8 +199,7 @@ class DeliveryTest {
       let delivObj = {
         customer_id: cust.id,
         is_pickup: false,
-        delivery_time: new Date().getTime(),
-        express_id: "del_2923"
+        delivery_time: new Date().getTime()
       }
       return deliveries.insert(delivObj);
     }).then((deliv) => {

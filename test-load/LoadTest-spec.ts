@@ -20,6 +20,7 @@ import {OrderItem} from "../src/entities/OrderItem";
 import {OrderTag} from "../src/entities/OrderTag";
 import {OrderCharge} from "../src/entities/OrderCharge";
 import {Delivery} from "../src/entities/Delivery";
+import { Database } from '../src/access/Database';
 
 
 
@@ -168,7 +169,7 @@ class LoadTest {
       let order_tags = LoadTest.order_tags;
       let order_charges = LoadTest.order_charges;
       let t = this;
-      t.customerObj["mobile"] = faker.phone.phoneNumberFormat();
+      t.customerObj["mobile"] = faker.phone.phoneNumberFormat().replace(/\-/g,"");
     //Insert customer
     customers.insert(t.customerObj).then((cust) => {
       t.customerDefaultCardObj["customer_id"] = cust.id; 
@@ -232,7 +233,8 @@ class LoadTest {
      }).then((delivDropoff) => {  
        expect(delivDropoff.customer_id).to.exist;  
        return res(true);
-    }).catch(function(){
+    }).catch(function(m){
+      console.log(m);
       console.log("Error in testWorkflow");
       return rej(new Error("Error"));
     });
@@ -240,7 +242,7 @@ class LoadTest {
   }
 
 
-  @test("Time loaded workflows") @timeout(500000)
+  @test("Time loaded workflows") @timeout(500000000)
   public testLoadedWorkflows(done) {
     let customers = LoadTest.customers;
     let t = this;
@@ -318,8 +320,21 @@ class LoadTest {
               console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-              expect(cs2[0].name).to.equal("Joe Shmoe");             
-              done();
+              expect(cs2[0].name).to.equal("Joe Shmoe");
+              let access = new Database("default");
+              access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {    
+                  return access.remoteStatus();
+              }).then((response) => {
+                  access.sync().on('complete', () => {
+                      access.remoteStatus().then(function (result) {
+                          if (result.doc_count == 0) {
+                              console.log(result);
+                              throw new Error("couldn't sync with database");
+                          }
+                          done()
+                      }).catch(_.noop);
+                  }).on(_.noop);
+              }).catch(_.noop);
             });
           });
         });
