@@ -47,7 +47,7 @@ class DatabaseAccess {
             return access.remoteStatus();
         }).then((response) => {
             const customers = new Customers(access.db, Customer);
-            return customers.insert({ mobile: "6465490561" });
+            return customers.insert({ mobile: "6465491218" });
         }).then((c) => {
             access.sync().on('complete', () => {
                 access.remoteStatus().then(function (result) {
