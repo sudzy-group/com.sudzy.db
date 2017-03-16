@@ -20,6 +20,7 @@ import {OrderItem} from "../src/entities/OrderItem";
 import {OrderTag} from "../src/entities/OrderTag";
 import {OrderCharge} from "../src/entities/OrderCharge";
 import {Delivery} from "../src/entities/Delivery";
+import { Database } from '../src/access/Database';
 
 
 
@@ -232,8 +233,13 @@ class LoadTest {
      }).then((delivDropoff) => {  
        expect(delivDropoff.customer_id).to.exist;  
        return res(true);
+<<<<<<< HEAD
     }).catch(function(e){
       console.log(e)
+=======
+    }).catch(function(m){
+      console.log(m);
+>>>>>>> 504f12b7cd3f5f89dea87c9921908d4c2cd644ac
       console.log("Error in testWorkflow");
       return rej(new Error("Error"));
     });
@@ -241,7 +247,7 @@ class LoadTest {
   }
 
 
-  @test("Time loaded workflows") @timeout(500000)
+  @test("Time loaded workflows") @timeout(500000000)
   public testLoadedWorkflows(done) {
     let customers = LoadTest.customers;
     let t = this;
@@ -319,8 +325,21 @@ class LoadTest {
               console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-              expect(cs2[0].name).to.equal("Joe Shmoe");             
-              done();
+              expect(cs2[0].name).to.equal("Joe Shmoe");
+              let access = new Database("default");
+              access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {    
+                  return access.remoteStatus();
+              }).then((response) => {
+                  access.sync().on('complete', () => {
+                      access.remoteStatus().then(function (result) {
+                          if (result.doc_count == 0) {
+                              console.log(result);
+                              throw new Error("couldn't sync with database");
+                          }
+                          done()
+                      }).catch(_.noop);
+                  }).on(_.noop);
+              }).catch(_.noop);
             });
           });
         });

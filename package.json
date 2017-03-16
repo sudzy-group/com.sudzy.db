@@ -26,7 +26,7 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
-    "pouchable": "^1.1.1",
+    "pouchable": "^1.1.5",
     "pouchdb": "^6.1.2",
     "ts-promise": "^0.3.4",
     "pouchdb-authentication": "^0.5.5"

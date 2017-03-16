@@ -244,7 +244,7 @@ class CustomerTest {
   @test("should not allow invalid mobile")
   public testInvalidMobile(done) {
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile: "646549056" })
+    customers.insert({ mobile: "64654905" })
       .then(_.noop)
       .catch((c) => {
         done();
