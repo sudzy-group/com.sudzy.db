@@ -68,14 +68,12 @@ class OrderTest {
      rack: "222",
      tax: 1.00,
      tip: 3.00,
-     discount_fixed: 5.00,
-     balance: 100.50
+     discount_fixed: 5.00
    }
    orders.insert(orderObj).then((ord) => {
       expect(ord.tax).to.equal(1.00);
       expect(ord.tip).to.equal(3.00);
       expect(ord.discount_fixed).to.equal(5.00);
-      expect(ord.balance).to.equal(100.50);
       done();
     }).catch(_.noop);
   }
@@ -139,22 +137,92 @@ class OrderTest {
      return orders.insert(orderObj3);
    }).then((ord3) => {  
       expect(ord3.balance).to.equal(45.55);
-      return orders.find("balance", "-", {startsWith: true});
+      return orders.find("balance", "", {startsWith: true});
    }).then((ordersBalance) => {
-    expect(ordersBalance.length).to.equal(2);
-   console.log("orders length")
-   console.log(ordersBalance.length);    
-   
-
+      expect(ordersBalance.length).to.equal(2);
       done();
     }).catch(_.noop);
   }
 
   //Update
-  //Should not update customer_id
-  //Should not update readable_id
-  //Should all_ready
-  //should all_pickedup
+  @test("should not update customer_id")
+  public testUpdateCustomerId(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "ddd",
+     readable_id: "f5d4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.customer_id).to.equal("ddd");
+      let orderUpdated = {
+         customer_id: "d2d",
+      }
+      return orders.update(ord, orderUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
+
+  @test("should not update readable_id")
+  public testUpdateReadableId(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "eee",
+     readable_id: "ggd4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.readable_id).to.equal("ggd4707d-cd54-bed3-7570-6e9dbec307zz");
+      let orderUpdated = {
+         readable_id: "g2d4707d-cd54-bed3-7570-6e9dbec307zz"
+      }
+      return orders.update(ord, orderUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
+
+  @test("should update all_ready")
+  public testUpdateAllReady(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "eee",
+     readable_id: "aaad4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.readable_id).to.equal("aaad4707d-cd54-bed3-7570-6e9dbec307zz");
+      let orderUpdated = {
+         all_ready: true
+      }
+      return orders.update(ord, orderUpdated);
+     }).then((ordUpdated) => {   
+       expect(ordUpdated.all_ready).to.equal(true);
+       done();
+    }).catch(_.noop);
+  }  
+
+  @test("should update all_pickedup")
+  public testUpdateAllPickedup(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "g2g",
+     readable_id: "hhd4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.readable_id).to.equal("hhd4707d-cd54-bed3-7570-6e9dbec307zz");
+      let orderUpdated = {
+         all_pickedup: true
+      }
+      return orders.update(ord, orderUpdated);
+     }).then((ordUpdated) => {   
+       expect(ordUpdated.all_pickedup).to.equal(true);
+       done();
+    }).catch(_.noop);
+  }  
+
+
+
   //Should delivery_pickup_id
   //Should delivery_dropoff_id
   //Should note
