@@ -73,7 +73,7 @@ class LoadTest {
    };
 
    private orderObj: any = {
-     order_id: faker.random.uuid(),
+     readable_id: faker.random.uuid(),
      due_datetime: new Date().getTime(),
      rack: "222",
      notes: "Please do quickly",
@@ -168,7 +168,7 @@ class LoadTest {
       let order_tags = LoadTest.order_tags;
       let order_charges = LoadTest.order_charges;
       let t = this;
-      t.customerObj["mobile"] = faker.phone.phoneNumberFormat();
+      t.customerObj["mobile"] = (Math.floor(Math.random() * 9000000000) + 1000000000).toString();
     //Insert customer
     customers.insert(t.customerObj).then((cust) => {
       t.customerDefaultCardObj["customer_id"] = cust.id; 
@@ -232,7 +232,8 @@ class LoadTest {
      }).then((delivDropoff) => {  
        expect(delivDropoff.customer_id).to.exist;  
        return res(true);
-    }).catch(function(){
+    }).catch(function(e){
+      console.log(e)
       console.log("Error in testWorkflow");
       return rej(new Error("Error"));
     });
