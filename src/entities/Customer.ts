@@ -1,6 +1,6 @@
 import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
-import { name } from "../validators/name";
+import { lengthGreater1 } from "../validators/lengthGreater1";
 import { email } from "../validators/email";
 import { autocomplete } from '../validators/autocomplete';
 import { zip } from '../validators/zip';
@@ -29,7 +29,7 @@ export class Customer extends Entity {
         group: "name",
         name: "name",
         description: "Customer's name",
-        validate: name,
+        validate: lengthGreater1,
         search_by: [ metaphone, identity ] 
     })
     public name: string;
