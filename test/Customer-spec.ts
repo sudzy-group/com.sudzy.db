@@ -238,8 +238,6 @@ class CustomerTest {
       });
   }
 
-
-
   // //Validators  
   @test("should not allow invalid mobile")
   public testInvalidMobile(done) {

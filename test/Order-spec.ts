@@ -81,7 +81,7 @@ class OrderTest {
   }
  
   //Search
-   @test("should search customer id")
+  @test("should search customer id")
   public testSearchCustId(done) {
     let orders = OrderTest.orders;
     let orderObj = {
@@ -96,8 +96,59 @@ class OrderTest {
       done();
     }).catch(_.noop);
   }
-  //Search readable_id
-  //Search by existing balance
+
+  @test("should search readable_id")
+  public testSearchReadableId(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "bbb",
+     readable_id: "c5d4707d-cd54-bed3-7570-6e9dbec307zz"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.readable_id).to.equal("c5d4707d-cd54-bed3-7570-6e9dbec307zz");
+      return orders.find("readable_id", ord.readable_id);
+   }).then((ords) => {   
+     expect(ords.length).to.equal(1);
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should search balance")
+  public testSearchBalance(done) {
+    let orders = OrderTest.orders;
+    let orderObj1 = {
+     customer_id: "ccc",
+     readable_id: "e5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     balance: 0.00
+   }
+   orders.insert(orderObj1).then((ord1) => {
+      expect(ord1.balance).to.equal(0.00);
+      let orderObj2 = {
+       customer_id: "ddd",
+       readable_id: "f5d4707d-cd54-bed3-7570-6e9dbec307zz",
+       balance: 50.00
+      }
+      return orders.insert(orderObj2);
+   }).then((ord2) => {   
+     expect(ord2.balance).to.equal(50.00);
+     let orderObj3 = {
+       customer_id: "eee",
+       readable_id: "g5d4707d-cd54-bed3-7570-6e9dbec307zz",
+       balance: 45.55
+      }
+     return orders.insert(orderObj3);
+   }).then((ord3) => {  
+      expect(ord3.balance).to.equal(45.55);
+      return orders.find("balance", "-", {startsWith: true});
+   }).then((ordersBalance) => {
+    expect(ordersBalance.length).to.equal(2);
+   console.log("orders length")
+   console.log(ordersBalance.length);    
+   
+
+      done();
+    }).catch(_.noop);
+  }
 
   //Update
   //Should not update customer_id
