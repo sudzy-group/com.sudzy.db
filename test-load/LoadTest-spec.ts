@@ -512,8 +512,6 @@ class LoadTest {
               console.log("average workflow insertion time: ", (d5-d4)/10000);
               return customers.find("name", "Joe Shmoe");
             }).then((cs2) => {
-              console.log("Cs2 lenght")
-              console.log(cs2.length);
               expect(cs2[0].name).to.equal("Joe Shmoe");
               done();
               }).catch(_.noop);
