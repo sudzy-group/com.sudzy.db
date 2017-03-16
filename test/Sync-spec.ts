@@ -26,6 +26,7 @@ class DatabaseAccess {
         DatabaseAccess._db.signup('aa0c19ba', 'aa0c19ba').then((resp) => {
             done();
         }).catch((m) => {
+        	console.log(m)
             throw new Error("couldn't set security rulls")
         })
     }
@@ -36,7 +37,9 @@ class DatabaseAccess {
             rimraf('{_users,_replicator,pouch__all_dbs__,config.json,log.txt}', function() {
                 done();
             })
-        }).catch(_.noop);
+        }).catch((m) => {
+            console.log(m)
+        });
     }
 
     @test("should connect remotely") @timeout(20000)
