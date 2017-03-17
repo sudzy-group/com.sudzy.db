@@ -20,7 +20,7 @@
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
     "test:load": "npm run build && mocha --compilers ts:ts-node/register --recursive test-load/**/*-spec.ts",
     "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
-    "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",   
+    "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
@@ -42,6 +42,7 @@
     "express": "^4.15.2",
     "express-pouchdb": "^2.3.6",
     "faker": "^4.1.0",
+    "istanbul-coveralls": "^1.0.3",
     "markdown-table": "^1.1.0",
     "memdown": "^1.2.4",
     "mocha": "^3.0.0",
