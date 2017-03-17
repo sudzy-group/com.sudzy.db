@@ -306,17 +306,33 @@ class OrderTest {
 
 
   //Validators
-//Balance shouldnt be less than 0
-//0 balance ok
-//Positive balance ok
-//Delivery pickup id shouldnt have whitespace
+  @test("balance shouldn't be negative")
+  public testBalance0(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "ddd",
+     readable_id: "f5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     balance: -2.00
+   }
+   orders.insert(orderObj).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
 
-
-
-
-
-
-
+  @test("delivery id shouldn't have whitespace")
+  public testDelividWhitespace(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "ddd",
+     readable_id: "f5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     delivery_pickup_id: "del_ 112"
+   }
+   orders.insert(orderObj).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
 
 }
 

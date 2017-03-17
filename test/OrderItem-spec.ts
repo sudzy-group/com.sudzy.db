@@ -11,9 +11,11 @@ const expect = chai.expect;
 class OrderItemTest {
 
   static db;
+  static order_items: OrderItems;
 
   static before() {
     OrderItemTest.db = new PouchDB("default");
+    OrderItemTest.order_items = new OrderItems(OrderItemTest.db, OrderItem);
   }
 
   static after(done: Function) {
@@ -22,8 +24,304 @@ class OrderItemTest {
 
   @test("should return correct prefix")
   public testPrefix() {
-    const order_items = new OrderItems(OrderItemTest.db, OrderItem);
+     let order_items = OrderItemTest.order_items;
     expect(order_items.getPrefix()).to.equal("order-item");
+  }
+
+
+//Insert
+ @test("should insert order item")
+  public testInsertOrderItem(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "111",
+     item_id: "1234",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     notes: "Clean hard",
+     separate: true,
+     wash: true,
+     detergent: "Tide"
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.order_id).to.equal("111");
+      expect(item.item_id).to.equal("1234");
+      expect(item.total_price).to.equal(10.00);
+      expect(item.quantity).to.equal(1);
+      expect(item.separate).to.equal(true);
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should insert 3 order items")
+  public testInsert3OrderItem(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem1Obj = {
+     order_id: "222" ,
+     item_id: "1234",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     notes: "Clean hard",
+     separate: true,
+     wash: true,
+     detergent: "Tide"
+   };
+
+   order_items.insert(orderItem1Obj).then((item1) => {
+      expect(item1.order_id).to.equal("222");
+     let orderItem2Obj = {
+     order_id: "222" ,
+     item_id: "2a2a",
+     total_price: 15.40,
+     name: "Pants",
+     quantity: 3,
+     dry: true,
+     color: "black"
+   };
+   return order_items.insert(orderItem2Obj);
+   }).then((item2) => {
+      expect(item2.order_id).to.equal("222");
+     let orderItem3Obj = {
+     order_id: "222" ,
+     item_id: "2a2a",
+     total_price: 4.20,
+     name: "Skirts",
+     quantity: 1,
+     dry: true,
+     color: "red",
+     brand: "Zara",
+     pattern: "zebra",
+     alteration_type: "Sew zipper"
+   };
+   return order_items.insert(orderItem3Obj);
+  }).then((item3) => {
+     expect(item3.order_id).to.equal("222");
+     return order_items.find("order_id", "222");
+  }).then((items) => {
+      expect(items.length).to.equal(3);
+      done();
+    }).catch(_.noop);
+  }
+
+
+//Search
+ @test("should search by order id")
+  public testSearchOrderId(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = {
+     order_id: "333" ,
+     item_id: "324",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     notes: "Clean hard",
+     separate: true,
+     wash: true,
+     detergent: "Tide"
+   };
+
+   order_items.insert(orderItem).then((item) => {
+      expect(item.order_id).to.equal("333");
+      return order_items.find("order_id", "333");
+  }).then((items) => {
+      expect(items.length).to.equal(1);
+      done();
+    }).catch(_.noop);
+  }
+
+//Update
+@test("should not update order_id")
+  public testUpdateOrderId(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "3a3",
+     item_id: "1234",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.order_id).to.equal("111");
+      let orderItemUpdated = {
+         order_id: "4a4",
+      }
+      return order_items.update(item, orderItemUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
+
+  @test("should not update item_id")
+  public testUpdateItemId(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "55a",
+     item_id: "1234",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.item_id).to.equal("1234");
+      let orderItemUpdated = {
+         item_id: "2234",
+      }
+      return order_items.update(item, orderItemUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
+
+  @test("should not update name")
+  public testUpdateName(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "675",
+     item_id: "343",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.item_id).to.equal("343");
+      let orderItemUpdated = {
+         name: "Shirt"
+      }
+      return order_items.update(item, orderItemUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }
+
+  @test("should update quantity and price")
+  public testUpdateQuantityPrice(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "897",
+     item_id: "343",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 5
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.quantity).to.equal(5);
+      expect(item.total_price).to.equal(10.00);
+      let orderItemUpdated = {
+         total_price: 20.00,
+         quantity: 10
+      }
+      return order_items.update(item, orderItemUpdated);
+       }).then((updatedItem) => {
+        expect(updatedItem.total_price).to.equal(20.00);
+        expect(updatedItem.quantity).to.equal(10);
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should update notes")
+  public testUpdateNotes(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "869",
+     item_id: "865",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 5,
+     notes: "First note"
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.notes).to.equal("First note");
+      let orderItemUpdated = {
+        notes: "Second note"
+      }
+      return order_items.update(item, orderItemUpdated);
+       }).then((updatedItem) => {
+        expect(updatedItem.notes).to.equal("Second note");
+      done();
+    }).catch(_.noop);
+  }
+   
+//Delete
+@test("should delete order item")
+  public testDeleteOrderItem(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = {
+     order_id: "444" ,
+     item_id: "324",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     notes: "Clean hard",
+     separate: true,
+     wash: true,
+     detergent: "Tide"
+   };
+   let id = "";
+
+   order_items.insert(orderItem).then((item) => {
+      expect(item.order_id).to.equal("444");
+      id = item.id;
+      return order_items.remove(item);
+   }).then((e) => {
+      return order_items.get(id);
+   }).then(_.noop)
+   .catch((c) => {
+       done();
+   });
+  }
+
+//Validators
+@test("shouldn't allow negative quantity")
+  public testNegativeQuantity(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = {
+     order_id: "555" ,
+     item_id: "324",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: -1
+   };
+   order_items.insert(orderItem).then(_.noop)
+   .catch((c) => {
+       done();
+   });
+  }
+
+  @test("should allow 0 quantity")
+  public testZeroQuantity(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = {
+     order_id: "444" ,
+     item_id: "324",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 0
+   };
+   order_items.insert(orderItem).then((item) => {
+      expect(item.quantity).to.equal(0);
+      done();
+    }).catch(_.noop);
+  }
+
+  @test("should allow positive quantity")
+  public testPositiveQuantity(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = {
+     order_id: "444" ,
+     item_id: "324",
+     total_price: 10.00,
+     name: "Washfold",
+     quantity: 10
+   };
+   order_items.insert(orderItem).then((item) => {
+      expect(item.quantity).to.equal(10);
+      done();
+    }).catch(_.noop);
   }
 }
 
