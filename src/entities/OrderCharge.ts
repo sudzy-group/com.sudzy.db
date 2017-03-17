@@ -1,6 +1,6 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
-
+import { noWhitespace } from '../validators/noWhitespace';
 /**
  * Represent a OrderCharge entity
  */
@@ -19,6 +19,7 @@ export class OrderCharge extends Entity {
         group: "default",
         name: "card_id",
         mandatory: true,
+        validate: noWhitespace,
         description: "Card id"
     })
     public card_id: string;
@@ -35,6 +36,7 @@ export class OrderCharge extends Entity {
         group: "default",
         name: "charge_id",
         mandatory: true,
+        validate: noWhitespace,
         description: "Charge id"
     })
     public charge_id: string;
