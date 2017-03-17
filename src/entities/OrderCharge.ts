@@ -5,24 +5,16 @@ import { noWhitespace } from '../validators/noWhitespace';
  * Represent a OrderCharge entity
  */
 export class OrderCharge extends Entity {
-	
-	@EntityField({
+
+    @EntityField({
         group: "default",
         name: "order_id",
         mandatory: true,
         description: "Order id",
-        search_by: [ identity ] 
+        search_by: [identity]
     })
     public order_id: string;
 
-    @EntityField({
-        group: "default",
-        name: "card_id",
-        mandatory: true,
-        validate: noWhitespace,
-        description: "Card id"
-    })
-    public card_id: string;
 
     @EntityField({
         group: "default",
@@ -34,28 +26,36 @@ export class OrderCharge extends Entity {
 
     @EntityField({
         group: "default",
-        name: "charge_id",
-        mandatory: true,
-        validate: noWhitespace,
-        description: "Charge id"
-    })
-    public charge_id: string;
-
-    @EntityField({
-        group: "default",
         name: "charge_type",
         description: "Charge type of cash, credit, other"
     })
     public charge_type: string;
 
     @EntityField({
-        group: "default",
+        group: "card",
+        name: "charge_id",
+        validate: noWhitespace,
+        description: "Charge id"
+    })
+    public charge_id: string;
+
+    @EntityField({
+        group: "card",
+        name: "card_id",
+        validate: noWhitespace,
+        description: "Card id"
+    })
+    public card_id: string;
+
+
+    @EntityField({
+        group: "cash",
         name: "date_cash",
         description: "Get all cash deposited today in drawer if cash"
     })
     public date_cash: string;
-	
-	@EntityField({
+
+    @EntityField({
         group: "refund",
         name: "refund_id",
         description: "Refund id"
