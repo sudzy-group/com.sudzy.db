@@ -115,6 +115,37 @@ class CustomerTest {
     }).catch(_.noop);
   }
 
+  @test("should be possible to paginate")
+  public testSearchPaginate(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ name: "Boo Gan1", mobile: "6465490555" }).then((c) => {
+      return customers.insert({ name: "Boo Gan2", mobile: "6165490555" });
+    }).then((cs) => {
+      return customers.insert({ name: "Boo Gan3", mobile: "6225490555" });
+    }).then((cs) => {
+      return customers.find("mobile", "0555")
+    }).then((custs) => {
+      expect(custs.length).to.equal(3);
+      expect(custs[0].name).to.equal("Boo Gan1");
+      expect(custs[1].name).to.equal("Boo Gan2");
+      expect(custs[2].name).to.equal("Boo Gan3");
+      return customers.find("mobile", "0555", {limit: 2});
+    }).then((custs2) => {
+      expect(custs2[0].name).to.equal("Boo Gan1");
+      expect(custs2[1].name).to.equal("Boo Gan2");
+      expect(custs2.length).to.equal(2);
+      return customers.find("mobile", "0555", {limit: 1});
+    }).then((custs1) => {
+      expect(custs1.length).to.equal(1);
+      expect(custs1[0].name).to.equal("Boo Gan1");
+      return customers.find("mobile", "0555", {limit: 1, skip: 2});
+    }).then((custs1) => {
+      expect(custs1.length).to.equal(1);
+      expect(custs1[0].name).to.equal("Boo Gan3");
+      done();
+    }).catch(_.noop);
+  }
+
   //Update
   @test("should update parameters")
   public testUpdate(done) {
