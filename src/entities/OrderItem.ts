@@ -1,5 +1,7 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
+import { noWhitespace } from '../validators/noWhitespace';
+import { amount0OrGreater } from '../validators/amount0OrGreater';
 
 /**
  * Represent a OrderItem entity
@@ -19,6 +21,7 @@ export class OrderItem extends Entity {
         group: "default",
         name: "item_id",
         mandatory: true,
+        validate: noWhitespace,
         description: "Item id" 
     })
     public item_id: string;
@@ -41,6 +44,7 @@ export class OrderItem extends Entity {
     @EntityField({
         group: "pricing",
         name: "quantity",
+        validate: amount0OrGreater,
         description: "Quantity of item" 
     })
     public quantity: number;
