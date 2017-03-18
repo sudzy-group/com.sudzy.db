@@ -65,4 +65,15 @@ class DatabaseAccess {
             console.log(m)
         });
     }
+
+    @test("should not connect remotely") @timeout(20000)
+    public testRemoteFailed(done) {
+        let access = new Database("aa0c19ba");
+        access.localStatus().then(function (result) {
+            if (!result) {
+                throw new Error('basic info')
+            }
+            access.connect("http://localhost:5555", "", "", "").then(_.noop).catch(()=> done());
+        });
+    }
 }
