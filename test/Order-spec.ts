@@ -140,6 +140,10 @@ class OrderTest {
       return orders.find("balance", "", {startsWith: true});
    }).then((ordersBalance) => {
       expect(ordersBalance.length).to.equal(2);
+      return orders.getUnsubmittedPayments()
+   }).then((summary : any) => {
+      expect(summary.sum).to.equal(95.55);
+      expect(summary.ids.length).to.equal(2);
       done();
     }).catch(_.noop);
   }
