@@ -26,7 +26,6 @@ import * as express from "express";
 import * as expressPouchdb from "express-pouchdb";
 import * as converter from "couchdb-to-mysql";
 
-
 const expect = chai.expect;
 
 @suite("Mysql mocks test")
@@ -146,8 +145,6 @@ class MockTest {
      charge_id: "ch_19p52VDMuhhpO1mOP08I3P3B"
    };
 
-   public config: any;
-
 
 //Database before and after
   static before() {
@@ -163,7 +160,28 @@ class MockTest {
     MockTest.order_tags = new OrderTags(MockTest.db, OrderTag);
     MockTest.order_charges = new OrderCharges(MockTest.db, OrderCharge);
 
-    var cvr = converter();
+    var cvr = converter({
+      "couch" : {
+          "host" : "127.0.0.1",
+          "port" : "5555",
+          "database" : "mocks"
+      },
+
+      "mySQL" : {
+          "host" : "127.0.0.1",
+          "port" : "3306",
+          "user" : "root",
+          "password" : "",
+          "database" : "Pouch"
+      },
+
+      "queries" : {
+          "insert" : "insert into post set ?",
+          "update" : "",
+          "delete" : "delete from post where id = ?"
+      }
+    }
+  );
     MockTest.db.info().then(function (info) {
       console.log(info);
       cvr.connect();
