@@ -10,3 +10,4 @@ _replicator/
 _users/
 log.txt
 pouch__all_dbs__/
+.DS_Store
