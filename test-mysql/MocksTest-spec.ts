@@ -22,7 +22,9 @@ import {OrderCharge} from "../src/entities/OrderCharge";
 import {Delivery} from "../src/entities/Delivery";
 import { Database } from '../src/access/Database';
 
-
+import * as express from "express";
+import * as expressPouchdb from "express-pouchdb";
+import * as converter from "couchdb-to-mysql";
 
 
 const expect = chai.expect;
@@ -144,10 +146,15 @@ class MockTest {
      charge_id: "ch_19p52VDMuhhpO1mOP08I3P3B"
    };
 
+   public config: any;
+
 
 //Database before and after
   static before() {
-    MockTest.db = new PouchDB("default");
+    var app = express();
+    app.use('/', expressPouchdb(PouchDB));
+    app.listen(5555);
+    MockTest.db = new PouchDB("http://localhost:5555/mocks");
     MockTest.customers = new Customers(MockTest.db, Customer);
     MockTest.customer_cards = new CustomerCards(MockTest.db, CustomerCard);
     MockTest.orders = new Orders(MockTest.db, Order);
@@ -155,6 +162,43 @@ class MockTest {
     MockTest.order_items = new OrderItems(MockTest.db, OrderItem);
     MockTest.order_tags = new OrderTags(MockTest.db, OrderTag);
     MockTest.order_charges = new OrderCharges(MockTest.db, OrderCharge);
+
+    var cvr = converter();
+    MockTest.db.info().then(function (info) {
+      console.log(info);
+      cvr.connect();
+      
+
+      cvr.on('created', function (change) {
+        console.log("created");
+        console.log(change);
+        var self = this;
+        var query = this.config.queries.insert;
+        console.log("QUERY");
+        console.log(query);
+        // this.database.get(change.id, function (err, res) {
+          // if (err) throw err;
+          // var doc = { id : res._id, title : res.title };
+          // self.mysql.query(query, doc, function (err) {
+          //     // prevents dups error.
+          // });
+      // });
+        // replicate changes on mysql 
+       });
+
+      cvr.on('deleted', function (change) {
+        console.log("deleted");
+        console.log(change);
+      });
+
+      cvr.on('updated', function (change) {
+        console.log("updated");
+        console.log(change);
+      })    
+
+   })
+  
+   
   }
 
   static after(done: Function) {
@@ -534,7 +578,7 @@ class MockTest {
   }
 
 
-  @test("Test mocks") @timeout(900000)
+  @test("Test mocks") @timeout(900000000)
   public testMocks(done) {
     let customers = MockTest.customers;
     let t = this;
