@@ -117,7 +117,7 @@ class MockTest {
       let customerObj= {
         mobile: "19173411892",
         name: "Joe Shmoe",
-        email: faker.internet.email(),
+        email: "hilarybarr@gmail.com",
         autocomplete: "199 Orchard St, New York, NY 10002, USA",
         street_num: "199",
         street_route: "Orchard Street",

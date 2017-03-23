@@ -22,7 +22,8 @@
     "cover": "npm run build && nyc --reporter=text --reporter=html mocha --compilers ts:ts-node/register && open coverage/index.html",
     "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",
     "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
+    "watch:test": "npm run test -- --watch",
+    "genSQL": "tsc etl/script.ts && node etl/script.js"
   },
   "dependencies": {
     "couchdb-to-mysql": "0.0.2",
