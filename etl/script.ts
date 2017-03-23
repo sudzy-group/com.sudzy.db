@@ -4,22 +4,33 @@ import * as faker from 'faker';
 import Promise from "ts-promise";
 import * as express from "express";
 import * as expressPouchdb from "express-pouchdb";
-
+import * as mysql from "mysql";
 import { Customers } from "../src/collections/Customers";
 import {Customer} from "../src/entities/Customer";
 
-
-
-//TODO
-//install mysql. connect to mysql server
-//iterate over customers and insert into mysql
-//bash script that rns tsc and node
 
 var app = express();
 app.use('/', expressPouchdb(PouchDB));
 app.listen(5555);
 let db = new PouchDB("http://localhost:5555/mocks");
 db.customers = new Customers(db, Customer);
+
+let connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'pouch'
+});
+
+connection.connect(function(err) {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+    return;
+  }
+ 
+  console.log('connected to mysql as id ' + connection.threadId);
+});
+
 
 let t = this;
 db.info().then(function (info, done) {
@@ -32,12 +43,15 @@ db.info().then(function (info, done) {
     Promise.all(ps).then(()=> {
       return customers.find("name", "", {startsWith: true});
     }).then((cs) => {
+
+
     	_.each(cs, function(customer){
     		console.log(customer.id);
     		console.log(customer.name);
     		console.log(customer.mobile);
     	})
-      disconnect();
+
+      // disconnect();
       done();
      }).catch(_.noop);
 });

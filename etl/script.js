@@ -5,17 +5,27 @@ var _ = require("lodash");
 var ts_promise_1 = require("ts-promise");
 var express = require("express");
 var expressPouchdb = require("express-pouchdb");
+var mysql = require("mysql");
 var Customers_1 = require("../src/collections/Customers");
 var Customer_1 = require("../src/entities/Customer");
-//TODO
-//install mysql. connect to mysql server
-//iterate over customers and insert into mysql
-//bash script that rns tsc and node
 var app = express();
 app.use('/', expressPouchdb(PouchDB));
 app.listen(5555);
 var db = new PouchDB("http://localhost:5555/mocks");
 db.customers = new Customers_1.Customers(db, Customer_1.Customer);
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'pouch'
+});
+connection.connect(function (err) {
+    if (err) {
+        console.error('error connecting: ' + err.stack);
+        return;
+    }
+    console.log('connected to mysql as id ' + connection.threadId);
+});
 var t = this;
 db.info().then(function (info, done) {
     console.log(info);
@@ -32,7 +42,7 @@ db.info().then(function (info, done) {
             console.log(customer.name);
             console.log(customer.mobile);
         });
-        disconnect();
+        // disconnect();
         done();
     })["catch"](_.noop);
 });
