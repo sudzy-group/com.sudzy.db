@@ -1,7 +1,7 @@
 
 USE `pouch`;
 
-CREATE TABLE `customers` (
+CREATE TABLE `etl_customers` (
   `id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `mobile` varchar(11) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE `customers` (
   `zip` varchar(10) DEFAULT NULL,
   `lat` varchar(100) DEFAULT NULL,
   `lng` varchar(100) DEFAULT NULL,
-  `doorman` tinyint(1) DEFAULT NULL,
+  `is_doorman` tinyint(1) DEFAULT NULL,
   `delivery_notes` varchar(254) DEFAULT NULL,
   `cleaning_notes` varchar(254) DEFAULT NULL,
   `payment_customer_token` varchar(28) DEFAULT NULL,
@@ -26,44 +26,25 @@ CREATE TABLE `customers` (
    UNIQUE KEY `mobile_UNIQUE` (`mobile`)
 )
 
+CREATE TABLE `etl_customer_cards` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `customer_id` varchar(250) NOT NULL,
+  `card_id` varchar(250) NOT NULL,
+  `brand` varchar(50) NOT NULL,
+  `last4` varchar(4) NOT NULL,
+  `is_default` tinyint(1) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `id_UNIQUE` (`id`)
+)
 
 
 
 
--- # Customer
--- | Field Name             | Field Type | Group   | Description                                   | Comments              |
--- | ---------------------- | ---------- | ------- | --------------------------------------------- | --------------------- |
--- | id                     | `string`   | default | Entity id                                     | Auto-generated        |
--- | created_at             | `number`   | default | Creation datetime (unix)                      | Auto-generated        |
--- | mobile                 | `string`   | default | Customer's mobile phone                       | Validated, Searchable |
--- | name                   | `string`   | name    | Customer's name                               | Validated, Searchable |
--- | email                  | `string`   | email   | Customer's email                              | Validated             |
--- | autocomplete           | `string`   | address | Full address as captured by Google Places API | Validated             |
--- | street_num             | `string`   | address | Street number                                 |                       |
--- | street_route           | `string`   | address | Street name                                   | Validated             |
--- | apartment              | `string`   | address | Apartment                                     |                       |
--- | city                   | `string`   | address | City                                          | Validated             |
--- | state                  | `string`   | address | State                                         | Validated             |
--- | zip                    | `string`   | address | Zip code                                      | Validated             |
--- | lat                    | `string`   | address | Latitude                                      | Validated             |
--- | lng                    | `string`   | address | Longtitude                                    | Validated             |
--- | is_doorman             | `boolean`  | address | Whether building has doorman                  |                       |
--- | delivery_notes         | `string`   | address | Delivery Notes                                |                       |
--- | cleaning_notes         | `string`   | notes   | Cleaning Notes                                |                       |
--- | payment_customer_token | `string`   | payment | Payment customer token                        | Validated             |
--- | payment_customer_id    | `string`   | payment | Payment customer id                           | Validated             |
 
 
--- # CustomerCard
--- | Field Name  | Field Type | Group    | Description              | Comments       |
--- | ----------- | ---------- | -------- | ------------------------ | -------------- |
--- | id          | `string`   | default  | Entity id                | Auto-generated |
--- | created_at  | `number`   | default  | Creation datetime (unix) | Auto-generated |
--- | customer_id | `string`   | default  | Customer id              | Searchable     |
--- | card_id     | `string`   | default  | Card id                  | Validated      |
--- | brand       | `string`   | default  | Card brand               | Validated      |
--- | last4       | `string`   | default  | Last 4 digits of card    | Validated      |
--- | is_default  | `boolean`  | settings | Whether card is default  |                |
+
+
 -- # Order
 -- | Field Name          | Field Type | Group    | Description                         | Comments              |
 -- | ------------------- | ---------- | -------- | ----------------------------------- | --------------------- |
@@ -83,6 +64,7 @@ CREATE TABLE `customers` (
 -- | all_pickedup        | `boolean`  | status   | Whether order is back with customer |                       |
 -- | delivery_pickup_id  | `string`   | delivery | Delivery pickup id                  | Validated             |
 -- | delivery_dropoff_id | `string`   | delivery | Delivery dropoff id                 | Validated             |
+
 -- # OrderItem
 -- | Field Name      | Field Type | Group       | Description                 | Comments       |
 -- | --------------- | ---------- | ----------- | --------------------------- | -------------- |
@@ -103,6 +85,7 @@ CREATE TABLE `customers` (
 -- | brand           | `string`   | description | Brand                       |                |
 -- | fabric          | `string`   | description | Fabric                      |                |
 -- | alteration_type | `string`   | description | Alteration type             |                |
+
 -- # OrderTag
 -- | Field Name | Field Type | Group   | Description              | Comments       |
 -- | ---------- | ---------- | ------- | ------------------------ | -------------- |
@@ -110,6 +93,7 @@ CREATE TABLE `customers` (
 -- | created_at | `number`   | default | Creation datetime (unix) | Auto-generated |
 -- | order_id   | `string`   | default | Order id                 | Searchable     |
 -- | tag_number | `number`   | default | Tag number               |                |
+
 -- # OrderCharge
 -- | Field Name      | Field Type | Group   | Description                                    | Comments       |
 -- | --------------- | ---------- | ------- | ---------------------------------------------- | -------------- |
@@ -123,6 +107,7 @@ CREATE TABLE `customers` (
 -- | date_cash       | `string`   | cash    | Get all cash deposited today in drawer if cash |                |
 -- | refund_id       | `string`   | refund  | Refund id                                      |                |
 -- | amount_refunded | `number`   | refund  | Amount refunded                                |                |
+
 -- # Delivery
 -- | Field Name      | Field Type | Group   | Description                      | Comments       |
 -- | --------------- | ---------- | ------- | -------------------------------- | -------------- |

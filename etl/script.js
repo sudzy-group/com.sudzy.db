@@ -52,51 +52,10 @@ connection.connect(function (err) {
         return;
     }
     console.log('connected to mysql');
-    connection.query('DELETE FROM etl_customers', function (error, results, fields) {
+    connection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards;', function (error, results, fields) {
         if (error)
             throw error;
-        console.log(results);
-        console.log(fields);
     });
-});
-var t = this;
-db.info().then(function (info, done) {
-    var t = this;
-    //About to insert mocks
-    var ps = [];
-    ps.push(hardcodedMock());
-    ts_promise_1["default"].all(ps).then(function () {
-        return customers.find("name", "", { startsWith: true });
-    }).then(function (cs) {
-        _.each(cs, function (customer) {
-            var cus = { id: customer.id,
-                mobile: customer.mobile,
-                name: customer.name,
-                email: customer.email,
-                autocomplete: customer.autocomplete,
-                street_num: customer.street_num,
-                street_route: customer.street_route,
-                apartment: customer.apartment,
-                city: customer.city,
-                state: customer.state,
-                zip: customer.zip,
-                lat: customer.lat,
-                lng: customer.lng,
-                doorman: customer.doorman,
-                delivery_notes: customer.delivery_notes,
-                cleaning_notes: customer.cleaning_notes,
-                payment_customer_token: customer.payment_customer_token,
-                payment_customer_id: customer.payment_customer_id };
-            var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
-                if (error)
-                    throw error;
-                console.log(results);
-                console.log(fields);
-            });
-        });
-        disconnect();
-        done();
-    })["catch"](_.noop);
 });
 function hardcodedMock() {
     var _this = this;
@@ -121,13 +80,13 @@ function hardcodedMock() {
             payment_customer_token: "tok_f9f9f_dodod"
         };
         var customerDefaultCardObj = {
-            card_id: "card_" + faker.random.uuid(),
+            card_id: "card_xkff_fifo",
             brand: "Visa",
             last4: "4242",
             is_default: true
         };
         var customerSecondCardObj = {
-            card_id: "card_" + faker.random.uuid(),
+            card_id: "card_xg3f_hhh",
             brand: "Visa",
             last4: "0341",
             is_default: false
@@ -252,3 +211,68 @@ function disconnect(done) {
     connection.destroy();
     db.destroy(function () { return done(); });
 }
+db.info().then(function (info, done) {
+    var t = this;
+    //About to insert mocks
+    var ps = [];
+    ps.push(hardcodedMock());
+    ts_promise_1["default"].all(ps).then(function () {
+        return customers.find("name", "", { startsWith: true });
+    }).then(function (cs) {
+        _.each(cs, function (customer) {
+            var cus = { id: customer.id,
+                mobile: customer.mobile,
+                name: customer.name,
+                email: customer.email,
+                autocomplete: customer.autocomplete,
+                street_num: customer.street_num,
+                street_route: customer.street_route,
+                apartment: customer.apartment,
+                city: customer.city,
+                state: customer.state,
+                zip: customer.zip,
+                lat: customer.lat,
+                lng: customer.lng,
+                delivery_notes: customer.delivery_notes,
+                cleaning_notes: customer.cleaning_notes,
+                payment_customer_token: customer.payment_customer_token,
+                payment_customer_id: customer.payment_customer_id
+            };
+            if (cus["is_doorman"]) {
+                cus["is_doorman"] = 1;
+            }
+            var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
+                if (error)
+                    throw error;
+            });
+        });
+        return customer_cards.find("customer_id", "", { startsWith: true });
+    }).then(function (crds) {
+        console.log("cards lengt");
+        console.log(crds.length);
+        _.each(crds, function (card) {
+            var crd = { id: card.id,
+                customer_id: card.customer_id,
+                card_id: card.card_id,
+                brand: card.brand,
+                last4: card.last4
+            };
+            if (card["is_default"]) {
+                crd["is_default"] = 1;
+            }
+            console.log(crd.id);
+            console.log(crd.customer_id);
+            console.log(crd.card_id);
+            console.log(crd.brand);
+            console.log(crd.last4);
+            console.log(crd.is_default);
+            var query = connection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
+                console.log(error);
+                if (error)
+                    throw error;
+            });
+        });
+        disconnect();
+        done();
+    })["catch"](_.noop);
+});
