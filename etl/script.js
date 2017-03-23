@@ -39,6 +39,7 @@ var deliveries = db.deliveries;
 var order_items = db.order_items;
 var order_tags = db.order_tags;
 var order_charges = db.order_charges;
+var t = this;
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -83,13 +84,13 @@ function hardcodedMock() {
             card_id: "card_xkff_fifo",
             brand: "Visa",
             last4: "4242",
-            is_default: true
+            is_default: false
         };
         var customerSecondCardObj = {
             card_id: "card_xg3f_hhh",
             brand: "Visa",
             last4: "0341",
-            is_default: false
+            is_default: true
         };
         var orderObj = {
             readable_id: faker.random.uuid(),
@@ -236,11 +237,9 @@ db.info().then(function (info, done) {
                 delivery_notes: customer.delivery_notes,
                 cleaning_notes: customer.cleaning_notes,
                 payment_customer_token: customer.payment_customer_token,
-                payment_customer_id: customer.payment_customer_id
+                payment_customer_id: customer.payment_customer_id,
+                is_doorman: customer.is_doorman ? 1 : 0
             };
-            if (cus["is_doorman"]) {
-                cus["is_doorman"] = 1;
-            }
             var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
                 if (error)
                     throw error;
@@ -248,31 +247,28 @@ db.info().then(function (info, done) {
         });
         return customer_cards.find("customer_id", "", { startsWith: true });
     }).then(function (crds) {
-        console.log("cards lengt");
-        console.log(crds.length);
+        var amount = crds.length;
+        var i = 0;
         _.each(crds, function (card) {
             var crd = { id: card.id,
                 customer_id: card.customer_id,
                 card_id: card.card_id,
                 brand: card.brand,
-                last4: card.last4
+                last4: card.last4,
+                is_default: card.is_default ? 1 : 0
             };
-            if (card["is_default"]) {
-                crd["is_default"] = 1;
-            }
-            console.log(crd.id);
-            console.log(crd.customer_id);
-            console.log(crd.card_id);
-            console.log(crd.brand);
-            console.log(crd.last4);
-            console.log(crd.is_default);
             var query = connection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
                 console.log(error);
+                console.log(results);
+                console.log(fields);
                 if (error)
                     throw error;
+                i++;
+                if (i == amount) {
+                    disconnect();
+                }
             });
         });
-        disconnect();
         done();
     })["catch"](_.noop);
 });
