@@ -43,60 +43,57 @@ db.info().then(function (info, done) {
     Promise.all(ps).then(()=> {
       return customers.find("name", "", {startsWith: true});
     }).then((cs) => {
-
-
     	_.each(cs, function(customer){
-    		console.log(customer.id);
-    		console.log(customer.name);
-    		console.log(customer.mobile);
-    	})
-
-      // disconnect();
+	    	let cus  = {id: customer.id, mobile: customer.mobile, name: customer.name};
+			var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
+		        if (error) throw error;
+		        console.log(results);
+		        console.log(fields);
+	   		});
+		});
+      disconnect();
       done();
-     }).catch(_.noop);
+    }).catch(_.noop);
 });
     
 
 
 
- function hardcodedMock(){
-   return new Promise((res, rej) => {
-      let customers = db.customers;
-      let t = this;
-
-      let customerObj= {
-        mobile: "19173411892",
-        name: "Joe Shmoe",
-        email: "hbarr@gmail.com",
-        autocomplete: "199 Orchard St, New York, NY 10002, USA",
-        street_num: "199",
-        street_route: "Orchard Street",
-        apartment: "2D",
-        city: "New York",
-        state: "NY",
-        zip: "10002",
-        lat: "40.72224",
-        lng: "-73.988152",
-        delivery_notes: "Ring bell twice",
-        cleaning_notes: "Clean slowly",
-        payment_customer_id: "cus_difif_29392",
-        payment_customer_token: "tok_f9f9f_dodod"
-      };
-
- 
-    //Insert customer
-    customers.insert(customerObj).then((cust) => {
-        return res(true);
-    }).catch(function(m){
-      console.log(m);
-      console.log("Error in mock");
-      return rej(new Error("Error"));
-    });
-   });
-  }
-
+function hardcodedMock(){
+	return new Promise((res, rej) => {
+  		let customers = db.customers;
+  		let t = this;
+  		let customerObj= {
+		    mobile: "19173411892",
+		    name: "Joe Shmoe",
+		    email: "hbarr@gmail.com",
+		    autocomplete: "199 Orchard St, New York, NY 10002, USA",
+		    street_num: "199",
+		    street_route: "Orchard Street",
+		    apartment: "2D",
+		    city: "New York",
+		    state: "NY",
+		    zip: "10002",
+		    lat: "40.72224",
+		    lng: "-73.988152",
+		    delivery_notes: "Ring bell twice",
+		    cleaning_notes: "Clean slowly",
+		    payment_customer_id: "cus_difif_29392",
+		    payment_customer_token: "tok_f9f9f_dodod"
+ 	    };
+		//Insert customer
+		customers.insert(customerObj).then((cust) => {
+		    return res(true);
+		}).catch(function(m){
+  			console.log(m);
+  			console.log("Error in mock");
+  			return rej(new Error("Error"));
+		});
+	});
+}
 
 
 function disconnect(done: Function) {
+	connection.destroy();
     db.destroy(() => done());
 }

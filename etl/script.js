@@ -38,11 +38,15 @@ db.info().then(function (info, done) {
         return customers.find("name", "", { startsWith: true });
     }).then(function (cs) {
         _.each(cs, function (customer) {
-            console.log(customer.id);
-            console.log(customer.name);
-            console.log(customer.mobile);
+            var cus = { id: customer.id, mobile: customer.mobile, name: customer.name };
+            var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
+                if (error)
+                    throw error;
+                console.log(results);
+                console.log(fields);
+            });
         });
-        // disconnect();
+        disconnect();
         done();
     })["catch"](_.noop);
 });
@@ -80,5 +84,6 @@ function hardcodedMock() {
     });
 }
 function disconnect(done) {
+    connection.destroy();
     db.destroy(function () { return done(); });
 }
