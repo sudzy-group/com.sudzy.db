@@ -24,11 +24,16 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) {
-    console.error('error connecting: ' + err.stack);
+    console.error('error connecting to mysql: ' + err.stack);
     return;
   }
  
-  console.log('connected to mysql as id ' + connection.threadId);
+  console.log('connected to mysql');
+  connection.query('DELETE FROM etl_customers', function (error, results, fields) {
+		        if (error) throw error;
+		        console.log(results);
+		        console.log(fields);
+  });
 });
 
 
