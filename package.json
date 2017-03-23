@@ -26,7 +26,6 @@
     "genSQL": "tsc etl/script.ts && node etl/script.js"
   },
   "dependencies": {
-    "couchdb-to-mysql": "0.0.2",
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
     "pouchable": "^1.1.8",
