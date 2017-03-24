@@ -26,7 +26,7 @@ import { Database } from '../src/access/Database';
 var config = {
 	"port": 5555,
 	"pouchURL": "http://localhost:5555/mocks",
-	"numMocks": 5
+	"numMocks": 4
 }
 
 var app;

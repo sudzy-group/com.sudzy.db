@@ -23,7 +23,7 @@ var Delivery_1 = require("../src/entities/Delivery");
 var config = {
     "port": 5555,
     "pouchURL": "http://localhost:5555/mocks",
-    "numMocks": 5
+    "numMocks": 4
 };
 var app;
 var pouch;

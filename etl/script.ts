@@ -77,7 +77,7 @@ function connectSQL() {
 
 
 function copyPouchToSQL() {
-	pouch.info().then(function(info, done) {
+	pouch.info().then(function(info) {
 		return customers.find("name", "", { startsWith: true });
 	}).then((cs) => {
 		//1. Copy customers from pouch to sql
@@ -250,7 +250,6 @@ function copyPouchToSQL() {
 			console.log("About to disconnect");
 			disconnectSQL();
 		}
-		done();
 	}).catch(_.noop);
 };
 
