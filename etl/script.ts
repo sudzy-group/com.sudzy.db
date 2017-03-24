@@ -24,10 +24,16 @@ import {Delivery} from "../src/entities/Delivery";
 import { Database } from '../src/access/Database';
 
 
+let addMocks = true;
+let config = {
+	"port": 5555,
+	"pouchURL": "http://localhost:5555/mocks"
+}
+
 var app = express();
 app.use('/', expressPouchdb(PouchDB));
-app.listen(5555);
-let db = new PouchDB("http://localhost:5555/mocks");
+app.listen(config.port);
+let db = new PouchDB(config.pouchURL);
 
 db.customers = new Customers(db, Customer);
 db.customer_cards = new CustomerCards(db, CustomerCard);
@@ -44,7 +50,6 @@ let deliveries = db.deliveries;
 let order_items = db.order_items;
 let order_tags = db.order_tags;
 let order_charges = db.order_charges;
-let t = this;
 
 let connection = mysql.createConnection({
   host     : 'localhost',
@@ -68,6 +73,13 @@ connection.connect(function(err) {
 
 
 
+function destroyPouch(done: Function) {
+    db.destroy(() => done());
+}
+
+function disconnectSQL() {
+	connection.destroy();
+}
 
 
 
@@ -232,18 +244,15 @@ function hardcodedMock(){
 }
 
 
-function disconnect(done: Function) {
-	connection.destroy();
-    db.destroy(() => done());
-}
-
 
 
 db.info().then(function (info, done) {
     let t = this;
-//About to insert mocks
     let ps = [];
-    ps.push(hardcodedMock());
+//Only add hardcoded mock if addMocks is true at top
+    if (addMocks){
+    	ps.push(hardcodedMock());
+    }
     Promise.all(ps).then(()=> {
       return customers.find("name", "", {startsWith: true});
     }).then((cs) => {
@@ -293,7 +302,10 @@ db.info().then(function (info, done) {
 			    if (error) throw error;
 			    i++;
 			    if (i == amount) {
-			    	disconnect();
+			    	disconnectSQL();
+			    	if (addMocks){
+			    		destroyPouch();
+			    	}
 			    }
 		   	});
 		});

@@ -21,10 +21,16 @@ var OrderItem_1 = require("../src/entities/OrderItem");
 var OrderTag_1 = require("../src/entities/OrderTag");
 var OrderCharge_1 = require("../src/entities/OrderCharge");
 var Delivery_1 = require("../src/entities/Delivery");
+var addMocks = true;
+var config = {
+    "port": 5555,
+    "pouchURL": "http://localhost:5555/mocks"
+};
+var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges = "";
 var app = express();
 app.use('/', expressPouchdb(PouchDB));
-app.listen(5555);
-var db = new PouchDB("http://localhost:5555/mocks");
+app.listen(config.port);
+var db = new PouchDB(config.pouchURL);
 db.customers = new Customers_1.Customers(db, Customer_1.Customer);
 db.customer_cards = new CustomerCards_1.CustomerCards(db, CustomerCard_1.CustomerCard);
 db.orders = new Orders_1.Orders(db, Order_1.Order);
@@ -39,7 +45,6 @@ var deliveries = db.deliveries;
 var order_items = db.order_items;
 var order_tags = db.order_tags;
 var order_charges = db.order_charges;
-var t = this;
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -58,6 +63,12 @@ connection.connect(function (err) {
             throw error;
     });
 });
+function destroyPouch(done) {
+    db.destroy(function () { return done(); });
+}
+function disconnectSQL() {
+    connection.destroy();
+}
 function hardcodedMock() {
     var _this = this;
     return new ts_promise_1["default"](function (res, rej) {
@@ -208,15 +219,13 @@ function hardcodedMock() {
         });
     });
 }
-function disconnect(done) {
-    connection.destroy();
-    db.destroy(function () { return done(); });
-}
 db.info().then(function (info, done) {
     var t = this;
-    //About to insert mocks
     var ps = [];
-    ps.push(hardcodedMock());
+    //Only add hardcoded mock if addMocks is true at top
+    if (addMocks) {
+        ps.push(hardcodedMock());
+    }
     ts_promise_1["default"].all(ps).then(function () {
         return customers.find("name", "", { startsWith: true });
     }).then(function (cs) {
@@ -265,7 +274,10 @@ db.info().then(function (info, done) {
                     throw error;
                 i++;
                 if (i == amount) {
-                    disconnect();
+                    disconnectSQL();
+                    if (addMocks) {
+                        destroyPouch();
+                    }
                 }
             });
         });
