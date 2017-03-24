@@ -86,13 +86,10 @@ function copyPouchToSQL(){
 	    	ps.push(hardcodedMock());
 	    }
 	    Promise.all(ps).then(()=> {
-	    	console.log("before finding customer");
 	      return customers.find("name", "", {startsWith: true});
 	    }).then((cs) => {
-	    	console.log(cs);
 	//1. Copy customers from pouch to sql    	
 	    	_.each(cs, function(customer){
-	    		console.log(customer)
 		    	let cus  = {id                    :customer.id,  
 	                        mobile                :customer.mobile,  
 	                        name                  :customer.name,  
@@ -120,8 +117,6 @@ function copyPouchToSQL(){
 			});
 			return customer_cards.find("customer_id", "", {startsWith: true});
 		}).then((crds) => {
-			let amount = crds.length;
-			let i = 0;
 	//2. Copy customer cards from pouch to sql  
 			_.each(crds, function(card){
 				let crd = {id : card.id,
@@ -133,25 +128,60 @@ function copyPouchToSQL(){
 				}
 
 				var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
-				    console.log(error);
-				    console.log(results);
-				    console.log(fields);
-				    if (error) throw error;
-				    i++;
-				    if (i == amount) {
-				    	disconnectSQL();
-				    	if (config.mocks){
-				    		destroyPouch();
-				    	}
-				    }
+				   if (error) throw error;
 			   	});
 			});
+		    return orders.find("customer_id", "", {startsWith: true});
+	     }).then((ords) => {
+	     	let amount = ords.length;
+			let i = 0;
+	     	_.each(ords, function(order){
+				let ord = {id : order.id,
+					  customer_id : order.customer_id,
+					  readable_id : order.readable_id,
+					  due_datetime:  new Date(order.due_datetime),
+					  rack : order.rack,
+					  notes : order.notes,
+					  tax  : order.tax,
+					  tip: order.tip,
+					  discount_percent: order.discount_percent,
+					  discount_fixed: order.discount_fixed,
+					  balance: order.balance,
+					  all_ready: order.all_ready  ? 1 : 0,
+					  all_pickedup : order.all_pickedup  ? 1 : 0,
+					  delivery_pickup_id : order.delivery_pickup_id,
+					  delivery_dropoff_id: order.delivery_dropoff_id
+				}
+
+				var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function (error, results, fields) {
+				   if (error) throw error;
+				   i++;
+				   if (i == amount) {
+						disconnectSQL();
+						if (config.mocks){
+							destroyPouch();
+						}
+					}
+			   	});
+			});
+		
 	      done();
 	    }).catch(_.noop);
   	});
 }
 
+//
+//inside query
+// let amount = crds.length;
+// let i = 0;
 
+// i++;
+// if (i == amount) {
+// 	disconnectSQL();
+// 	if (config.mocks){
+// 		destroyPouch();
+// 	}
+// }
    
 
 function disconnectSQL() {
