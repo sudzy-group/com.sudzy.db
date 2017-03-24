@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var PouchDB = require("pouchdb");
 var _ = require("lodash");
+var faker = require("faker");
 var ts_promise_1 = require("ts-promise");
 var express = require("express");
 var expressPouchdb = require("express-pouchdb");
@@ -71,6 +72,9 @@ function copyPouchToSQL() {
         var ps = [];
         //Only add hardcoded mock if addMocks is true at top
         if (config.mocks) {
+            _.times(4, function () {
+                ps.push(mock());
+            });
             ps.push(hardcodedMock());
         }
         ts_promise_1["default"].all(ps).then(function () {
@@ -78,7 +82,8 @@ function copyPouchToSQL() {
         }).then(function (cs) {
             //1. Copy customers from pouch to sql    	
             _.each(cs, function (customer) {
-                var cus = { id: customer.id,
+                var cus = {
+                    id: customer.id,
                     mobile: customer.mobile,
                     name: customer.name,
                     email: customer.email,
@@ -106,7 +111,8 @@ function copyPouchToSQL() {
         }).then(function (crds) {
             //2. Copy customer cards from pouch to sql  
             _.each(crds, function (card) {
-                var crd = { id: card.id,
+                var crd = {
+                    id: card.id,
                     customer_id: card.customer_id,
                     card_id: card.card_id,
                     brand: card.brand,
@@ -122,7 +128,8 @@ function copyPouchToSQL() {
         }).then(function (ords) {
             //3. Copy orders from pouch to sql	     
             _.each(ords, function (order) {
-                var ord = { id: order.id,
+                var ord = {
+                    id: order.id,
                     customer_id: order.customer_id,
                     readable_id: order.readable_id,
                     due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
@@ -155,9 +162,9 @@ function copyPouchToSQL() {
                     total_price: order_item.total_price,
                     quantity: order_item.quantity,
                     notes: order_item.notes,
-                    separate: order_items.separate ? 1 : 0,
-                    wash: order_items.wash ? 1 : 0,
-                    dry: order_items.dry ? 1 : 0,
+                    separate: order_item.separate ? 1 : 0,
+                    wash: order_item.wash ? 1 : 0,
+                    dry: order_item.dry ? 1 : 0,
                     detergent: order_item.detergent,
                     color: order_item.color,
                     pattern: order_item.pattern,
@@ -393,6 +400,167 @@ function hardcodedMock() {
         })["catch"](function (m) {
             console.log(m);
             console.log("Error in testWorkflow");
+            return rej(new Error("Error"));
+        });
+    });
+}
+function mock() {
+    var _this = this;
+    return new ts_promise_1["default"](function (res, rej) {
+        var t = _this;
+        var customerObj = {
+            mobile: (Math.floor(Math.random() * 9000000000) + 1000000000).toString(),
+            name: faker.name.findName(),
+            email: faker.internet.email(),
+            autocomplete: "199 Orchard St, New York, NY 10002, USA",
+            street_num: faker.random.number(),
+            street_route: faker.address.streetName(),
+            apartment: faker.random.number(),
+            city: faker.address.city(),
+            state: "NY",
+            zip: faker.address.zipCode(),
+            lat: "40.72224",
+            lng: "-73.988152",
+            delivery_notes: "Ring bell twice",
+            cleaning_notes: "Clean slowly",
+            payment_customer_id: "cus_" + faker.random.uuid(),
+            payment_customer_token: "tok_" + faker.random.uuid()
+        };
+        var customerDefaultCardObj = {
+            card_id: "card_" + faker.random.uuid(),
+            brand: "Visa",
+            last4: "4242",
+            is_default: true
+        };
+        var customerSecondCardObj = {
+            card_id: "card_" + faker.random.uuid(),
+            brand: "Visa",
+            last4: "0341",
+            is_default: false
+        };
+        var orderObj = {
+            readable_id: faker.random.uuid(),
+            due_datetime: new Date().getTime(),
+            rack: "222",
+            notes: "Please do quickly",
+            tax: faker.commerce.price(),
+            tip: faker.commerce.price(),
+            discount_fixed: 5.00,
+            balance: faker.commerce.price(),
+            all_ready: true,
+            all_pickedup: true,
+            delivery_pickup_id: "del_" + faker.random.uuid(),
+            delivery_dropoff_id: "del_" + faker.random.uuid()
+        };
+        var deliveryPickupObj = {
+            is_pickup: true,
+            delivery_time: new Date().getTime(),
+            delivery_person: faker.name.findName(),
+            is_confirmed: true
+        };
+        var deliveryDropoffObj = {
+            is_pickup: false,
+            delivery_time: new Date().getTime(),
+            express_id: "del_" + faker.random.uuid()
+        };
+        var orderItem1Obj = {
+            item_id: "1234",
+            total_price: faker.commerce.price(),
+            name: "Washfold",
+            quantity: faker.random.number(),
+            notes: "Clean hard",
+            separate: true,
+            wash: true,
+            detergent: "Tide"
+        };
+        var orderItem2Obj = {
+            item_id: "2a2a",
+            total_price: faker.commerce.price(),
+            name: "Pants",
+            quantity: faker.random.number(),
+            dry: true,
+            color: faker.commerce.color()
+        };
+        var orderItem3Obj = {
+            item_id: "2b2b",
+            total_price: faker.commerce.price(),
+            name: "Skirts",
+            quantity: faker.random.number(),
+            dry: true,
+            color: faker.commerce.color(),
+            brand: "Zara",
+            pattern: "zebra",
+            alteration_type: "Sew zipper"
+        };
+        var orderTagObj = {
+            tag_number: faker.random.number()
+        };
+        var orderChargeObj = {
+            amount: faker.commerce.price(),
+            charge_id: "ch_" + faker.random.uuid(),
+            charge_type: "card"
+        };
+        var orderChargeCashObj = {
+            amount: faker.commerce.price(),
+            charge_id: "ch_" + faker.random.uuid(),
+            charge_type: "cash",
+            date_cash: new Date().getTime()
+        };
+        //Insert customer
+        customers.insert(customerObj).then(function (cust) {
+            customerDefaultCardObj["customer_id"] = cust.id;
+            customerSecondCardObj["customer_id"] = cust.id;
+            orderObj["customer_id"] = cust.id;
+            deliveryPickupObj["customer_id"] = cust.id;
+            deliveryDropoffObj["customer_id"] = cust.id;
+            //Insert default card      
+            return customer_cards.insert(customerDefaultCardObj);
+        }).then(function (cust_default_card) {
+            orderChargeObj["card_id"] = cust_default_card.id;
+            orderChargeCashObj["card_id"] = cust_default_card.id;
+            //Insert second card       
+            return customer_cards.insert(customerSecondCardObj);
+        }).then(function (cust_second_card) {
+            //Insert delivery pickup      
+            return deliveries.insert(deliveryPickupObj);
+        }).then(function (delivPickup) {
+            //Insert order
+            return orders.insert(orderObj);
+        }).then(function (ord) {
+            orderItem1Obj["order_id"] = ord.id;
+            orderItem2Obj["order_id"] = ord.id;
+            orderItem3Obj["order_id"] = ord.id;
+            orderTagObj["order_id"] = ord.id;
+            orderChargeObj["order_id"] = ord.id;
+            orderChargeCashObj["order_id"] = ord.id;
+            //Insert order item 1      
+            return order_items.insert(orderItem1Obj);
+        }).then(function (ord_item_1) {
+            //Insert order item 2
+            return order_items.insert(orderItem2Obj);
+        }).then(function (ord_item_2) {
+            //Insert order item 3
+            return order_items.insert(orderItem3Obj);
+        }).then(function (ord_item_3) {
+            //Insert 3 order tags      
+            return order_tags.insert(orderTagObj);
+        }).then(function (ord_tag1) {
+            return order_tags.insert(orderTagObj);
+        }).then(function (ord_tag2) {
+            return order_tags.insert(orderTagObj);
+        }).then(function (ord_tag3) {
+            //Insert order charge
+            return order_charges.insert(orderChargeObj);
+        }).then(function (ord_charge) {
+            //Insert cash charge
+            return order_charges.insert(orderChargeCashObj);
+        }).then(function (ord_charge2) {
+            return deliveries.insert(deliveryDropoffObj);
+        }).then(function (delivDropoff) {
+            return res(true);
+        })["catch"](function (m) {
+            console.log(m);
+            console.log("Error in mock");
             return rej(new Error("Error"));
         });
     });
