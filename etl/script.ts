@@ -70,7 +70,8 @@ function connectSQL(){
 	  }
  
 	  console.log('connected to mysql');
-	  SQLconnection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards;', function (error, results, fields) {
+	  SQLconnection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards; DELETE FROM etl_orders; DELETE FROM etl_order_items; DELETE FROM etl_order_tags; DELETE FROM etl_order_charges; DELETE FROM etl_deliveries;'
+	  	, function (error, results, fields) {
 		if (error) throw error;     
 	  });
 	});
@@ -298,38 +299,38 @@ function hardcodedMock(){
 	   };
 
 	   let orderObj = {
-	     readable_id: faker.random.uuid(),
+	     readable_id: "abc123",
 	     due_datetime: new Date().getTime(),
 	     rack: "222",
 	     notes: "Please do quickly",
-	     tax: faker.commerce.price(),
-	     tip: faker.commerce.price(),
+	     tax: 1.95,
+	     tip: 2.00,
 	     discount_fixed: 5.00,
-	     balance: faker.commerce.price(),
+	     balance: 100.00,
 	     all_ready: true,
 	     all_pickedup: true,
-	     delivery_pickup_id: "del_" + faker.random.uuid(),
-	     delivery_dropoff_id: "del_" + faker.random.uuid() 
+	     delivery_pickup_id: "del_hff_6546",
+	     delivery_dropoff_id: "del_gee_86" 
 	   };
 
 	   let deliveryPickupObj = {
 	     is_pickup: true,
 	     delivery_time: new Date().getTime(),
-	     delivery_person: faker.name.findName(),
+	     delivery_person: "Candido Bear",
 	     is_confirmed: true
 	   }
 
 	   let deliveryDropoffObj = {
 	     is_pickup: false,
 	     delivery_time: new Date().getTime(),
-	     express_id: "del_" + faker.random.uuid()
+	     express_id: "del_55h_f"
 	   }
 
 	  let orderItem1Obj = {
 	     item_id: "1234",
-	     total_price: faker.commerce.price(),
+	     total_price: 20.52,
 	     name: "Washfold",
-	     quantity: faker.random.number(),
+	     quantity: 3,
 	     notes: "Clean hard",
 	     separate: true,
 	     wash: true,
@@ -338,32 +339,32 @@ function hardcodedMock(){
 
 	   let orderItem2Obj = {
 	     item_id: "2a2a",
-	     total_price: faker.commerce.price(),
+	     total_price: 10.00,
 	     name: "Pants",
-	     quantity: faker.random.number(),
+	     quantity: 1,
 	     dry: true,
-	     color: faker.commerce.color()
+	     color: "blue"
 	   };
 
 	   let orderItem3Obj = {
 	     item_id: "2b2b",
-	     total_price: faker.commerce.price(),
+	     total_price: 5.00,
 	     name: "Skirts",
-	     quantity: faker.random.number(),
+	     quantity: 2,
 	     dry: true,
-	     color: faker.commerce.color(),
+	     color: "red",
 	     brand: "Zara",
 	     pattern: "zebra",
 	     alteration_type: "Sew zipper"
 	   };
 
 	   let orderTagObj = {
-	     tag_number: faker.random.number()
+	     tag_number: 222
 	   };
 
 	   let orderChargeObj = {
-	     amount: faker.commerce.price(),
-	     charge_id: "ch_" + faker.random.uuid(),
+	     amount: 120.25,
+	     charge_id: "ch_4474_h647",
 	     charge_type: "card"
 	   };
 
