@@ -114,20 +114,16 @@ CREATE TABLE `etl_order_charges` (
 );
 
 
-
-
-
-
-
--- # Delivery
--- | Field Name      | Field Type | Group   | Description                      | Comments       |
--- | --------------- | ---------- | ------- | -------------------------------- | -------------- |
--- | id              | `string`   | default | Entity id                        | Auto-generated |
--- | created_at      | `number`   | default | Creation datetime (unix)         | Auto-generated |
--- | customer_id     | `string`   | default | Customer id                      |                |
--- | is_pickup       | `boolean`  | default | Whether delivery is pickup       |                |
--- | delivery_time   | `string`   | default | Delivery time                    | Searchable     |
--- | delivery_person | `string`   | person  | Delivery person                  | Validated      |
--- | is_confirmed    | `boolean`  | status  | Whether store confirmed delivery |                |
--- | is_canceled     | `boolean`  | status  | Whether delivery is canceled     |                |
--- | express_id      | `string`   | express | Express id                       | Validated      |
+CREATE TABLE `etl_deliveries` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `customer_id` varchar(250) NOT NULL,
+  `is_pickup` tinyint(1) NOT NULL,
+  `delivery_time` datetime NOT NULL,
+  `delivery_person` varchar(100) DEFAULT NULL,
+  `is_confirmed` tinyint(1) DEFAULT NULL,
+  `is_canceled` tinyint(1) DEFAULT NULL,
+  `express_id` varchar(250) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `id_UNIQUE` (`id`)
+);

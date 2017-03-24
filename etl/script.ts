@@ -158,6 +158,7 @@ function copyPouchToSQL(){
 			});
 			return order_items.find("order_id", "", { startsWith: true });
 		}).then((ord_items) => {
+//4. Copy order items from pouch to sql	
 				_.each(ord_items, function(order_item) {
 					let ord_item = {
 						id: order_item.id,
@@ -183,6 +184,7 @@ function copyPouchToSQL(){
 				});	
 				return order_tags.find("order_id", "", { startsWith: true });
 		}).then((ord_tags) => {
+//5. Copy order tagss from pouch to sql	
 			_.each(ord_tags, function(order_tag) {
 				let ord_tag = {
 					id: order_tag.id,
@@ -195,8 +197,7 @@ function copyPouchToSQL(){
 			});
 			return order_charges.find("order_id", "", { startsWith: true });	
 		}).then((ord_charges) => {
-			let amount = ord_charges.length;
-			let i = 0;
+//6. Copy order charges from pouch to sql	
 			_.each(ord_charges, function(order_charge) {
 				let ord_charge = {
 					id: order_charge.id,
@@ -211,6 +212,26 @@ function copyPouchToSQL(){
 				}
 				var query = SQLconnection.query('INSERT INTO etl_order_charges SET ?', ord_charge, function(error, results, fields) {
 					if (error) throw error;
+				});	
+			});
+			return deliveries.find("delivery_time", "", { startsWith: true });	
+		}).then((delivs) => {
+//7. Copy deliveriesfrom pouch to sql	
+			let amount = delivs.length;
+			let i = 0;
+			_.each(delivs, function(delivery) {
+				let deliv = {
+					id: delivery.id,
+					customer_id: delivery.customer_id,
+					is_pickup: delivery.is_pickup ? 1 : 0,
+					delivery_time: new Date(delivery.delivery_time),
+					delivery_person: delivery.delivery_person,
+					is_confirmed: delivery.is_confirmed ? 1 : 0,
+					is_canceled: delivery.is_canceled ? 1 : 0,
+					express_id: delivery.express_id
+				}
+				var query = SQLconnection.query('INSERT INTO etl_deliveries SET ?', deliv, function(error, results, fields) {
+					if (error) throw error;
 					i++;
 					if (i == amount) {
 						console.log("About to disconnect");
@@ -220,28 +241,13 @@ function copyPouchToSQL(){
 						}
 					}
 				});	
-			});
+			});	
 	      	done();
 	    }).catch(_.noop);
   	});
 }
 
 
-	
-
-//
-//inside query
-// let amount = crds.length;
-// let i = 0;
-
-// i++;
-// if (i == amount) {
-// 	disconnectSQL();
-// 	if (config.mocks){
-// 		destroyPouch();
-// 	}
-// }
-   
 
 function disconnectSQL() {
 	SQLconnection.destroy();
