@@ -88,6 +88,14 @@ CREATE TABLE `etl_order_items` (
 );
 
 
+CREATE TABLE `etl_order_tags` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `order_id` varchar(250) NOT NULL,
+  `tag_number` int(10) NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `id_UNIQUE` (`id`)
+);
 
 
 
@@ -95,13 +103,6 @@ CREATE TABLE `etl_order_items` (
 
 
 
--- # OrderTag
--- | Field Name | Field Type | Group   | Description              | Comments       |
--- | ---------- | ---------- | ------- | ------------------------ | -------------- |
--- | id         | `string`   | default | Entity id                | Auto-generated |
--- | created_at | `number`   | default | Creation datetime (unix) | Auto-generated |
--- | order_id   | `string`   | default | Order id                 | Searchable     |
--- | tag_number | `number`   | default | Tag number               |                |
 
 -- # OrderCharge
 -- | Field Name      | Field Type | Group   | Description                                    | Comments       |

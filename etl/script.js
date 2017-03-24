@@ -146,8 +146,6 @@ function copyPouchToSQL() {
             });
             return order_items.find("order_id", "", { startsWith: true });
         }).then(function (ord_items) {
-            var amount = ord_items.length;
-            var i = 0;
             _.each(ord_items, function (order_item) {
                 var ord_item = {
                     id: order_item.id,
@@ -168,6 +166,21 @@ function copyPouchToSQL() {
                     alteration_type: order_item.alteration_type
                 };
                 var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function (error, results, fields) {
+                    if (error)
+                        throw error;
+                });
+            });
+            return order_tags.find("order_id", "", { startsWith: true });
+        }).then(function (ord_tags) {
+            var amount = ord_tags.length;
+            var i = 0;
+            _.each(ord_tags, function (order_tag) {
+                var ord_tag = {
+                    id: order_tag.id,
+                    order_id: order_tag.order_id,
+                    tag_number: order_tag.tag_number
+                };
+                var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function (error, results, fields) {
                     if (error)
                         throw error;
                     i++;
@@ -281,7 +294,7 @@ function hardcodedMock() {
             color: faker.commerce.color()
         };
         var orderItem3Obj = {
-            item_id: "2a2a",
+            item_id: "2b2b",
             total_price: faker.commerce.price(),
             name: "Skirts",
             quantity: faker.random.number(),

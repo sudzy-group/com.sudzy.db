@@ -158,8 +158,6 @@ function copyPouchToSQL(){
 			});
 			return order_items.find("order_id", "", { startsWith: true });
 		}).then((ord_items) => {
-				let amount = ord_items.length;
-				let i = 0;
 				_.each(ord_items, function(order_item) {
 					let ord_item = {
 						id: order_item.id,
@@ -181,15 +179,32 @@ function copyPouchToSQL(){
 					}
 					var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function(error, results, fields) {
 						if (error) throw error;
+					});	
+				});	
+				return order_tags.find("order_id", "", { startsWith: true });
+		}).then((ord_tags) => {
+			let amount = ord_tags.length;
+			let i = 0;
+			_.each(ord_tags, function(order_tag) {
+					let ord_tag = {
+						id: order_tag.id,
+						order_id: order_tag.order_id,
+						tag_number: order_tag.tag_number
+					}
+					var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function(error, results, fields) {
+						if (error) throw error;
 						i++;
 						if (i == amount) {
+							console.log("About to disconnect");
 							disconnectSQL();
 							if (config.mocks) {
 								destroyPouch();
 							}
 						}
 					});	
-				});		
+				});	
+
+
 	      	done();
 	    }).catch(_.noop);
   	});
