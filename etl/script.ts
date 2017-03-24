@@ -138,7 +138,7 @@ function copyPouchToSQL(){
 				let ord = {id : order.id,
 					  customer_id : order.customer_id,
 					  readable_id : order.readable_id,
-					  due_datetime:  new Date(order.due_datetime),
+					  due_datetime:  order.due_datetime ? new Date(order.due_datetime) : null,
 					  rack : order.rack,
 					  notes : order.notes,
 					  tax  : order.tax,
@@ -183,28 +183,44 @@ function copyPouchToSQL(){
 				});	
 				return order_tags.find("order_id", "", { startsWith: true });
 		}).then((ord_tags) => {
-			let amount = ord_tags.length;
-			let i = 0;
 			_.each(ord_tags, function(order_tag) {
-					let ord_tag = {
-						id: order_tag.id,
-						order_id: order_tag.order_id,
-						tag_number: order_tag.tag_number
-					}
-					var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function(error, results, fields) {
-						if (error) throw error;
-						i++;
-						if (i == amount) {
-							console.log("About to disconnect");
-							disconnectSQL();
-							if (config.mocks) {
-								destroyPouch();
-							}
-						}
-					});	
+				let ord_tag = {
+					id: order_tag.id,
+					order_id: order_tag.order_id,
+					tag_number: order_tag.tag_number
+				}
+				var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function(error, results, fields) {
+					if (error) throw error;
 				});	
-
-
+			});
+			return order_charges.find("order_id", "", { startsWith: true });	
+		}).then((ord_charges) => {
+			let amount = ord_charges.length;
+			let i = 0;
+			_.each(ord_charges, function(order_charge) {
+				let ord_charge = {
+					id: order_charge.id,
+					order_id: order_charge.order_id,
+					amount: order_charge.amount,
+					charge_type: order_charge.charge_type,
+					charge_id: order_charge.charge_id,
+					card_id: order_charge.card_id,
+					date_cash: order_charge.date_cash ? new Date(order_charge.date_cash) : null,
+					refund_id: order_charge.refund_id,
+					amount_refunded: order_charge.amount_refunded
+				}
+				var query = SQLconnection.query('INSERT INTO etl_order_charges SET ?', ord_charge, function(error, results, fields) {
+					if (error) throw error;
+					i++;
+					if (i == amount) {
+						console.log("About to disconnect");
+						disconnectSQL();
+						if (config.mocks) {
+							destroyPouch();
+						}
+					}
+				});	
+			});
 	      	done();
 	    }).catch(_.noop);
   	});
@@ -341,7 +357,8 @@ function hardcodedMock(){
 
 	   let orderChargeObj = {
 	     amount: faker.commerce.price(),
-	     charge_id: "ch_" + faker.random.uuid()
+	     charge_id: "ch_" + faker.random.uuid(),
+	     charge_type: "card"
 	   };
 
     //Insert customer

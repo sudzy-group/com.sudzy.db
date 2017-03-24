@@ -98,25 +98,26 @@ CREATE TABLE `etl_order_tags` (
 );
 
 
+CREATE TABLE `etl_order_charges` (
+  `id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `order_id` varchar(250) NOT NULL,
+  `amount` DECIMAL(10,2)  NOT NULL,
+  `charge_type` varchar(30) NOT NULL,
+  `charge_id` varchar(250) DEFAULT NULL,
+  `card_id` varchar(250) DEFAULT NULL,
+  `date_cash` datetime DEFAULT NULL,
+  `refund_id` varchar(250) DEFAULT NULL,
+  `amount_refunded` DECIMAL(10,2) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `id_UNIQUE` (`id`)
+);
 
 
 
 
 
 
--- # OrderCharge
--- | Field Name      | Field Type | Group   | Description                                    | Comments       |
--- | --------------- | ---------- | ------- | ---------------------------------------------- | -------------- |
--- | id              | `string`   | default | Entity id                                      | Auto-generated |
--- | created_at      | `number`   | default | Creation datetime (unix)                       | Auto-generated |
--- | order_id        | `string`   | default | Order id                                       | Searchable     |
--- | amount          | `number`   | default | Amount charged                                 |                |
--- | charge_type     | `string`   | default | Charge type of cash, credit, other             |                |
--- | charge_id       | `string`   | card    | Charge id                                      | Validated      |
--- | card_id         | `string`   | card    | Card id                                        | Validated      |
--- | date_cash       | `string`   | cash    | Get all cash deposited today in drawer if cash |                |
--- | refund_id       | `string`   | refund  | Refund id                                      |                |
--- | amount_refunded | `number`   | refund  | Amount refunded                                |                |
 
 -- # Delivery
 -- | Field Name      | Field Type | Group   | Description                      | Comments       |
