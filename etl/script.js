@@ -75,13 +75,10 @@ function copyPouchToSQL() {
             ps.push(hardcodedMock());
         }
         ts_promise_1["default"].all(ps).then(function () {
-            console.log("before finding customer");
             return customers.find("name", "", { startsWith: true });
         }).then(function (cs) {
-            console.log(cs);
             //1. Copy customers from pouch to sql    	
             _.each(cs, function (customer) {
-                console.log(customer);
                 var cus = { id: customer.id,
                     mobile: customer.mobile,
                     name: customer.name,
@@ -124,8 +121,7 @@ function copyPouchToSQL() {
             });
             return orders.find("customer_id", "", { startsWith: true });
         }).then(function (ords) {
-            var amount = ords.length;
-            var i = 0;
+            //3. Copy orders from pouch to sql	     
             _.each(ords, function (order) {
                 var ord = { id: order.id,
                     customer_id: order.customer_id,
@@ -144,6 +140,34 @@ function copyPouchToSQL() {
                     delivery_dropoff_id: order.delivery_dropoff_id
                 };
                 var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function (error, results, fields) {
+                    if (error)
+                        throw error;
+                });
+            });
+            return order_items.find("order_id", "", { startsWith: true });
+        }).then(function (ord_items) {
+            var amount = ord_items.length;
+            var i = 0;
+            _.each(ord_items, function (order_item) {
+                var ord_item = {
+                    id: order_item.id,
+                    order_id: order_item.order_id,
+                    item_id: order_item.item_id,
+                    name: order_item.name,
+                    total_price: order_item.total_price,
+                    quantity: order_item.quantity,
+                    notes: order_item.notes,
+                    separate: order_items.separate ? 1 : 0,
+                    wash: order_items.wash ? 1 : 0,
+                    dry: order_items.dry ? 1 : 0,
+                    detergent: order_item.detergent,
+                    color: order_item.color,
+                    pattern: order_item.pattern,
+                    brand: order_item.brand,
+                    fabric: order_item.fabric,
+                    alteration_type: order_item.alteration_type
+                };
+                var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function (error, results, fields) {
                     if (error)
                         throw error;
                     i++;

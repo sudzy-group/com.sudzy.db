@@ -133,8 +133,7 @@ function copyPouchToSQL(){
 			});
 		    return orders.find("customer_id", "", {startsWith: true});
 	     }).then((ords) => {
-	     	let amount = ords.length;
-			let i = 0;
+//3. Copy orders from pouch to sql	     
 	     	_.each(ords, function(order){
 				let ord = {id : order.id,
 					  customer_id : order.customer_id,
@@ -155,20 +154,49 @@ function copyPouchToSQL(){
 
 				var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function (error, results, fields) {
 				   if (error) throw error;
-				   i++;
-				   if (i == amount) {
-						disconnectSQL();
-						if (config.mocks){
-							destroyPouch();
-						}
-					}
 			   	});
 			});
-		
-	      done();
+			return order_items.find("order_id", "", { startsWith: true });
+		}).then((ord_items) => {
+				let amount = ord_items.length;
+				let i = 0;
+				_.each(ord_items, function(order_item) {
+					let ord_item = {
+						id: order_item.id,
+						order_id: order_item.order_id,
+						item_id: order_item.item_id,
+						name: order_item.name,
+						total_price: order_item.total_price,
+						quantity: order_item.quantity,
+						notes: order_item.notes,
+						separate: order_items.separate ? 1 : 0,
+						wash: order_items.wash ? 1 : 0,
+						dry: order_items.dry ? 1 : 0,
+						detergent: order_item.detergent,
+						color: order_item.color,
+						pattern: order_item.pattern,
+						brand: order_item.brand,
+						fabric: order_item.fabric,
+						alteration_type: order_item.alteration_type
+					}
+					var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function(error, results, fields) {
+						if (error) throw error;
+						i++;
+						if (i == amount) {
+							disconnectSQL();
+							if (config.mocks) {
+								destroyPouch();
+							}
+						}
+					});	
+				});		
+	      	done();
 	    }).catch(_.noop);
   	});
 }
+
+
+	
 
 //
 //inside query
@@ -281,7 +309,7 @@ function hardcodedMock(){
 	   };
 
 	   let orderItem3Obj = {
-	     item_id: "2a2a",
+	     item_id: "2b2b",
 	     total_price: faker.commerce.price(),
 	     name: "Skirts",
 	     quantity: faker.random.number(),
