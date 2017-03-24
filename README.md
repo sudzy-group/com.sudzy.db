@@ -26,3 +26,11 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
     console.log(c.mobile)
 }).catch(_.noop);
 ```
+
+
+# Configure mySQL
+1. In MySQL workbench click file - run script - refresh all to create tables
+2. In etl/script.ts configure whether using mocks or real pocuh
+3. tsc etl/script.ts
+4. node etl/script.js
+
