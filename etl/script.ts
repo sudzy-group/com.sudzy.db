@@ -29,23 +29,30 @@ var config = {
 	"mocks": true
 }
 
-var app = express();
-app.use('/', expressPouchdb(PouchDB));
-app.listen(config.port);
-var pouch = new PouchDB(config.pouchURL);
-
-var customers = new Customers(pouch, Customer);
-var customer_cards = new CustomerCards(pouch, CustomerCard);
-var orders = new Orders(pouch, Order);
-var deliveries = new Deliveries(pouch, Delivery);
-var order_items = new OrderItems(pouch, OrderItem);
-var order_tags = new OrderTags(pouch, OrderTag);
-var order_charges = new OrderCharges(pouch, OrderCharge);
-
+var app;
+var pouch;
+var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
+
+connectPouch();
 connectSQL();
 copyPouchToSQL();
 
+
+function connectPouch(){
+	app = express();
+	app.use('/', expressPouchdb(PouchDB));
+	app.listen(config.port);
+	pouch = new PouchDB(config.pouchURL);
+
+	customers = new Customers(pouch, Customer);
+	customer_cards = new CustomerCards(pouch, CustomerCard);
+	orders = new Orders(pouch, Order);
+	deliveries = new Deliveries(pouch, Delivery);
+	order_items = new OrderItems(pouch, OrderItem);
+	order_tags = new OrderTags(pouch, OrderTag);
+	order_charges = new OrderCharges(pouch, OrderCharge);
+}
 
 function connectSQL(){
 	SQLconnection = mysql.createConnection({
@@ -67,14 +74,6 @@ function connectSQL(){
 		if (error) throw error;     
 	  });
 	});
-}
-
-function disconnectSQL() {
-	SQLconnection.destroy();
-}
-
-function destroyPouch(done: Function) {
-    pouch.destroy(() => done());
 }
 
 
@@ -153,7 +152,15 @@ function copyPouchToSQL(){
 }
 
 
-    
+   
+
+function disconnectSQL() {
+	SQLconnection.destroy();
+}
+
+function destroyPouch(done: Function) {
+    pouch.destroy(() => done());
+}
 
 
 
@@ -165,7 +172,7 @@ function hardcodedMock(){
   		let t = this;
   		let customerObj= {
 		    mobile: "19173411892",
-		    name: "Joe Shmoe",
+		    name: "Jay Shmoe",
 		    email: "hbarr@gmail.com",
 		    autocomplete: "199 Orchard St, New York, NY 10002, USA",
 		    street_num: "199",

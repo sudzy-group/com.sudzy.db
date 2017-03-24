@@ -26,20 +26,26 @@ var config = {
     "pouchURL": "http://localhost:5555/mocks",
     "mocks": true
 };
-var app = express();
-app.use('/', expressPouchdb(PouchDB));
-app.listen(config.port);
-var pouch = new PouchDB(config.pouchURL);
-var customers = new Customers_1.Customers(pouch, Customer_1.Customer);
-var customer_cards = new CustomerCards_1.CustomerCards(pouch, CustomerCard_1.CustomerCard);
-var orders = new Orders_1.Orders(pouch, Order_1.Order);
-var deliveries = new Deliveries_1.Deliveries(pouch, Delivery_1.Delivery);
-var order_items = new OrderItems_1.OrderItems(pouch, OrderItem_1.OrderItem);
-var order_tags = new OrderTags_1.OrderTags(pouch, OrderTag_1.OrderTag);
-var order_charges = new OrderCharges_1.OrderCharges(pouch, OrderCharge_1.OrderCharge);
+var app;
+var pouch;
+var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
+connectPouch();
 connectSQL();
 copyPouchToSQL();
+function connectPouch() {
+    app = express();
+    app.use('/', expressPouchdb(PouchDB));
+    app.listen(config.port);
+    pouch = new PouchDB(config.pouchURL);
+    customers = new Customers_1.Customers(pouch, Customer_1.Customer);
+    customer_cards = new CustomerCards_1.CustomerCards(pouch, CustomerCard_1.CustomerCard);
+    orders = new Orders_1.Orders(pouch, Order_1.Order);
+    deliveries = new Deliveries_1.Deliveries(pouch, Delivery_1.Delivery);
+    order_items = new OrderItems_1.OrderItems(pouch, OrderItem_1.OrderItem);
+    order_tags = new OrderTags_1.OrderTags(pouch, OrderTag_1.OrderTag);
+    order_charges = new OrderCharges_1.OrderCharges(pouch, OrderCharge_1.OrderCharge);
+}
 function connectSQL() {
     SQLconnection = mysql.createConnection({
         host: 'localhost',
@@ -59,12 +65,6 @@ function connectSQL() {
                 throw error;
         });
     });
-}
-function disconnectSQL() {
-    SQLconnection.destroy();
-}
-function destroyPouch(done) {
-    pouch.destroy(function () { return done(); });
 }
 function copyPouchToSQL() {
     pouch.info().then(function (info, done) {
@@ -138,6 +138,12 @@ function copyPouchToSQL() {
         })["catch"](_.noop);
     });
 }
+function disconnectSQL() {
+    SQLconnection.destroy();
+}
+function destroyPouch(done) {
+    pouch.destroy(function () { return done(); });
+}
 //***********
 //
 //Mocks
@@ -147,7 +153,7 @@ function hardcodedMock() {
         var t = _this;
         var customerObj = {
             mobile: "19173411892",
-            name: "Joe Shmoe",
+            name: "Jay Shmoe",
             email: "hbarr@gmail.com",
             autocomplete: "199 Orchard St, New York, NY 10002, USA",
             street_num: "199",
