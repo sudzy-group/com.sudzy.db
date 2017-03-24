@@ -29,8 +29,8 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 
 
 # Configure mySQL
-1. In MySQL workbench click file - run script - refresh all to create tables
-2. In etl/script.ts configure whether using mocks or real pocuh
+1. One time: in MySQL workbench click file - run script - refresh all to create tables
+2. In etl/script.ts configure whether using mocks or real pouch in config object
 3. tsc etl/script.ts
 4. node etl/script.js
 

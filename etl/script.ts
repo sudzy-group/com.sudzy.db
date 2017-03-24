@@ -23,66 +23,143 @@ import {OrderCharge} from "../src/entities/OrderCharge";
 import {Delivery} from "../src/entities/Delivery";
 import { Database } from '../src/access/Database';
 
-
-let addMocks = true;
-let config = {
+var config = {
 	"port": 5555,
-	"pouchURL": "http://localhost:5555/mocks"
+	"pouchURL": "http://localhost:5555/mocks",
+	"mocks": true
 }
 
 var app = express();
 app.use('/', expressPouchdb(PouchDB));
 app.listen(config.port);
-let db = new PouchDB(config.pouchURL);
+var pouch = new PouchDB(config.pouchURL);
 
-db.customers = new Customers(db, Customer);
-db.customer_cards = new CustomerCards(db, CustomerCard);
-db.orders = new Orders(db, Order);
-db.deliveries = new Deliveries(db, Delivery);
-db.order_items = new OrderItems(db, OrderItem);
-db.order_tags = new OrderTags(db, OrderTag);
-db.order_charges = new OrderCharges(db, OrderCharge);
+var customers = new Customers(pouch, Customer);
+var customer_cards = new CustomerCards(pouch, CustomerCard);
+var orders = new Orders(pouch, Order);
+var deliveries = new Deliveries(pouch, Delivery);
+var order_items = new OrderItems(pouch, OrderItem);
+var order_tags = new OrderTags(pouch, OrderTag);
+var order_charges = new OrderCharges(pouch, OrderCharge);
 
-let customers = db.customers;
-let customer_cards = db.customer_cards;
-let orders = db.orders;
-let deliveries = db.deliveries;
-let order_items = db.order_items;
-let order_tags = db.order_tags;
-let order_charges = db.order_charges;
+var SQLconnection;
+connectSQL();
+copyPouchToSQL();
 
-let connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'pouch',
-  multipleStatements: true
-});
 
-connection.connect(function(err) {
-  if (err) {
-    console.error('error connecting to mysql: ' + err.stack);
-    return;
-  }
+function connectSQL(){
+	SQLconnection = mysql.createConnection({
+	  host     : 'localhost',
+	  user     : 'root',
+	  password : '',
+	  database : 'pouch',
+	  multipleStatements: true
+	});
+
+	SQLconnection.connect(function(err) {
+	  if (err) {
+	    console.error('error connecting to mysql: ' + err.stack);
+	    return;
+	  }
  
-  console.log('connected to mysql');
-  connection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards;', function (error, results, fields) {
-	if (error) throw error;     
-  });
-});
-
-
-
-function destroyPouch(done: Function) {
-    db.destroy(() => done());
+	  console.log('connected to mysql');
+	  SQLconnection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards;', function (error, results, fields) {
+		if (error) throw error;     
+	  });
+	});
 }
 
 function disconnectSQL() {
-	connection.destroy();
+	SQLconnection.destroy();
+}
+
+function destroyPouch(done: Function) {
+    pouch.destroy(() => done());
 }
 
 
+function copyPouchToSQL(){
+	pouch.info().then(function (info, done) {
+	    let t = this;
+	    let ps = [];
+	//Only add hardcoded mock if addMocks is true at top
+	    if (config.mocks){
+	    	ps.push(hardcodedMock());
+	    }
+	    Promise.all(ps).then(()=> {
+	    	console.log("before finding customer");
+	      return customers.find("name", "", {startsWith: true});
+	    }).then((cs) => {
+	    	console.log(cs);
+	//1. Copy customers from pouch to sql    	
+	    	_.each(cs, function(customer){
+	    		console.log(customer)
+		    	let cus  = {id                    :customer.id,  
+	                        mobile                :customer.mobile,  
+	                        name                  :customer.name,  
+	                        email                 :customer.email,  
+	                        autocomplete          :customer.autocomplete,  
+	                        street_num            :customer.street_num,  
+	                        street_route          :customer.street_route,  
+	                        apartment             :customer.apartment,  
+	                        city                  :customer.city,  
+	                        state                 :customer.state,  
+	                        zip                   :customer.zip,  
+	                        lat                   :customer.lat,  
+	                        lng                   :customer.lng,  
+	                        delivery_notes        :customer.delivery_notes,  
+	                        cleaning_notes        :customer.cleaning_notes,  
+	                        payment_customer_token:customer.payment_customer_token,  
+	                        payment_customer_id:customer.payment_customer_id,
+	                        is_doorman: customer.is_doorman ? 1 : 0
+	            };
 
+	           
+				var query = SQLconnection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
+			        if (error) throw error;
+		   		});
+			});
+			return customer_cards.find("customer_id", "", {startsWith: true});
+		}).then((crds) => {
+			let amount = crds.length;
+			let i = 0;
+	//2. Copy customer cards from pouch to sql  
+			_.each(crds, function(card){
+				let crd = {id : card.id,
+					customer_id : card.customer_id,
+					card_id : card.card_id,
+					brand : card.brand,
+					last4 : card.last4,
+					is_default: card.is_default ? 1 : 0
+				}
+
+				var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
+				    console.log(error);
+				    console.log(results);
+				    console.log(fields);
+				    if (error) throw error;
+				    i++;
+				    if (i == amount) {
+				    	disconnectSQL();
+				    	if (config.mocks){
+				    		destroyPouch();
+				    	}
+				    }
+			   	});
+			});
+	      done();
+	    }).catch(_.noop);
+  	});
+}
+
+
+    
+
+
+
+//***********
+//
+//Mocks
 function hardcodedMock(){
 	return new Promise((res, rej) => {
   		let t = this;
@@ -243,75 +320,5 @@ function hardcodedMock(){
    });
 }
 
-
-
-
-db.info().then(function (info, done) {
-    let t = this;
-    let ps = [];
-//Only add hardcoded mock if addMocks is true at top
-    if (addMocks){
-    	ps.push(hardcodedMock());
-    }
-    Promise.all(ps).then(()=> {
-      return customers.find("name", "", {startsWith: true});
-    }).then((cs) => {
-    	_.each(cs, function(customer){
-	    	let cus  = {id                    :customer.id,  
-                        mobile                :customer.mobile,  
-                        name                  :customer.name,  
-                        email                 :customer.email,  
-                        autocomplete          :customer.autocomplete,  
-                        street_num            :customer.street_num,  
-                        street_route          :customer.street_route,  
-                        apartment             :customer.apartment,  
-                        city                  :customer.city,  
-                        state                 :customer.state,  
-                        zip                   :customer.zip,  
-                        lat                   :customer.lat,  
-                        lng                   :customer.lng,  
-                        delivery_notes        :customer.delivery_notes,  
-                        cleaning_notes        :customer.cleaning_notes,  
-                        payment_customer_token:customer.payment_customer_token,  
-                        payment_customer_id:customer.payment_customer_id,
-                        is_doorman: customer.is_doorman ? 1 : 0
-            };
-
-           
-			var query = connection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
-		        if (error) throw error;
-	   		});
-		});
-		return customer_cards.find("customer_id", "", {startsWith: true});
-	}).then((crds) => {
-		let amount = crds.length;
-		let i = 0;
-		_.each(crds, function(card){
-			let crd = {id : card.id,
-				customer_id : card.customer_id,
-				card_id : card.card_id,
-				brand : card.brand,
-				last4 : card.last4,
-				is_default: card.is_default ? 1 : 0
-			}
-
-			var query = connection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
-			    console.log(error);
-			    console.log(results);
-			    console.log(fields);
-			    if (error) throw error;
-			    i++;
-			    if (i == amount) {
-			    	disconnectSQL();
-			    	if (addMocks){
-			    		destroyPouch();
-			    	}
-			    }
-		   	});
-		});
-      done();
-    }).catch(_.noop);
-});
-    
 
 
