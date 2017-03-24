@@ -30,7 +30,7 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 
 # Configure mySQL
 1. One time: in MySQL workbench click file - run script etl/tables.sql - refresh all to create tables
-2. One time. Change config.numMocks if you want: tsc etl/mocks.ts
+2. One time. Change config.numMocks if you want and uncomment deleteMocks if you want: tsc etl/mocks.ts
 3. One time: node etl/mocks.js
 4. tsc etl/script.ts
 5. node etl/script.js
