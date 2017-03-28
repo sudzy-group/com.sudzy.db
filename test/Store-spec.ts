@@ -31,8 +31,8 @@ class StoreTest {
   @test("should save and load store config")
   public testSaveAndLoad(done: Function) {
       let sc = new Store(StoreTest.appSettings);
-      sc.save({ id: 'aa'}, { 'it-001' : { name: 'Item Name'}}).then((store) => {
-        return store.load();
+      sc.save({ id: 'aa'}).then((store: Store) => {
+        return store.reload();
       }).then((store) => {
         expect(store.id).to.equal('aa');
         done()
@@ -41,20 +41,5 @@ class StoreTest {
         expect(err).to.equal(null);
       })
   }
-
- @test("should save and load store config")
-  public testSaveAndLoad(done: Function) {
-      let sc = new Store(StoreTest.appSettings);
-      sc.save({ id: 'aa'}, { 'it-001' : { name: 'Item Name'}}).then((store) => {
-        return store.load();
-      }).then((store) => {
-        expect(store.id).to.equal('aa');
-        done()
-      }).catch((err) => {
-        console.log(err);
-        expect(err).to.equal(null);
-      })
-  }
-  
 
 }
