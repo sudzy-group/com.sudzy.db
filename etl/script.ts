@@ -99,7 +99,6 @@ function copyPouchToSQL() {
 					lng: customer.lng,
 					delivery_notes: customer.delivery_notes,
 					cleaning_notes: customer.cleaning_notes,
-					payment_customer_token: customer.payment_customer_token,
 					payment_customer_id: customer.payment_customer_id,
 					is_doorman: customer.is_doorman ? 1 : 0
 				};

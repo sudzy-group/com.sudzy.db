@@ -53,8 +53,7 @@ class WorkflowTest {
       is_doorman: true,
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_9xJOnv9Enc98S",
-      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+      payment_customer_id: "cus_9xJOnv9Enc98S"
    };
 
    private customerDefaultCardObj: any = {

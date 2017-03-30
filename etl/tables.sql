@@ -23,7 +23,6 @@ CREATE TABLE `etl_customers` (
   `is_doorman` tinyint(1) DEFAULT NULL,
   `delivery_notes` varchar(254) DEFAULT NULL,
   `cleaning_notes` varchar(254) DEFAULT NULL,
-  `payment_customer_token` varchar(250) DEFAULT NULL,
   `payment_customer_id` varchar(250) DEFAULT NULL,
    PRIMARY KEY (`id`),
    UNIQUE KEY `id_UNIQUE` (`id`),

@@ -54,8 +54,7 @@ class CustomerTest {
       is_doorman: true,
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_9xJOnv9Enc98S",
-      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+      payment_customer_id: "cus_9xJOnv9Enc98S"
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
@@ -165,8 +164,7 @@ class CustomerTest {
       is_doorman: true,
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_9xJOnv9Enc98S",
-      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+      payment_customer_id: "cus_9xJOnv9Enc98S"
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
@@ -251,8 +249,7 @@ class CustomerTest {
       is_doorman: true,
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_9xJOnv9Enc98S",
-      payment_customer_token: "tok_19dOlrDMuhhpO1mOm4flWqa"
+      payment_customer_id: "cus_9xJOnv9Enc98S"
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
@@ -369,15 +366,6 @@ class CustomerTest {
   public testInvalidPaymentCustomerId(done) {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert({ mobile: "6165490563", payment_customer_id: "tok 123" }).then(_.noop)
-      .catch((c) => {
-        done();
-      });
-  }
-
-  @test("shouldn't allow payment_customer_token with whitespace")
-  public testInvalidPaymentCustomerToken(done) {
-    const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile: "6165490564", payment_customer_token: "tok 123" }).then(_.noop)
       .catch((c) => {
         done();
       });

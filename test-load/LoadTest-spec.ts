@@ -85,8 +85,7 @@ class LoadTest {
       lng: "-73.988152",
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_" + faker.random.uuid(),
-      payment_customer_token: "tok_" + faker.random.uuid()
+      payment_customer_id: "cus_" + faker.random.uuid()
    };
 
    let customerDefaultCardObj = {
@@ -270,8 +269,7 @@ class LoadTest {
       lng: "-73.988152",
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_" + faker.random.uuid(),
-      payment_customer_token: "tok_" + faker.random.uuid()
+      payment_customer_id: "cus_" + faker.random.uuid()
    };
 
    let customerDefaultCardObj = {

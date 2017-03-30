@@ -98,8 +98,7 @@ function hardcodedMock() {
 			lng: "-73.988152",
 			delivery_notes: "Ring bell twice",
 			cleaning_notes: "Clean slowly",
-			payment_customer_id: "cus_difif_29392",
-			payment_customer_token: "tok_f9f9f_dodod"
+			payment_customer_id: "cus_difif_29392"
 		};
 		let customerDefaultCardObj = {
 			card_id: "card_xkff_fifo",
@@ -262,8 +261,7 @@ function mock() {
 			lng: "-73.988152",
 			delivery_notes: "Ring bell twice",
 			cleaning_notes: "Clean slowly",
-			payment_customer_id: "cus_" + faker.random.uuid(),
-			payment_customer_token: "tok_" + faker.random.uuid()
+			payment_customer_id: "cus_" + faker.random.uuid()
 		};
 
 		let customerDefaultCardObj = {
