@@ -135,14 +135,6 @@ export class Customer extends Entity {
 
     @EntityField({
         group: "payment",
-        name: "payment_customer_token",
-        description: "Payment customer token",
-        validate: noWhitespace
-    })
-    public payment_customer_token: string;
-
-    @EntityField({
-        group: "payment",
         name: "payment_customer_id",
         validate: noWhitespace,
         description: "Payment customer id"
