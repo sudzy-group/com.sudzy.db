@@ -97,6 +97,7 @@
 | is_pickup       | `boolean`  | default | Whether delivery is pickup       |                |
 | delivery_time   | `string`   | default | Delivery time                    | Searchable     |
 | delivery_person | `string`   | person  | Delivery person                  | Validated      |
+| delivery_notes  | `string`   | notes   | Delivery notes                   |                |
 | is_confirmed    | `boolean`  | status  | Whether store confirmed delivery |                |
 | is_canceled     | `boolean`  | status  | Whether delivery is canceled     |                |
 | express_id      | `string`   | express | Express id                       | Validated      |

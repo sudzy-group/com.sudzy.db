@@ -6,7 +6,7 @@ import { noWhitespace } from '../validators/noWhitespace';
  * Represent a Delivery entity
  */
 export class Delivery extends Entity {
-	
+
 	@EntityField({
         group: "default",
         name: "customer_id",
@@ -28,7 +28,7 @@ export class Delivery extends Entity {
         name: "delivery_time",
         mandatory: true,
         description: "Delivery time",
-        search_by: [ identity ] 
+        search_by: [identity]
     })
     public delivery_time: string;
 
@@ -39,6 +39,13 @@ export class Delivery extends Entity {
         description: "Delivery person"
     })
     public delivery_person: string;
+
+    @EntityField({
+        group: "notes",
+        name: "delivery_notes",
+        description: "Delivery notes"
+    })
+    public delivery_notes: string;
 
     @EntityField({
         group: "status",
