@@ -50,6 +50,7 @@ export class Delivery extends Entity {
     @EntityField({
         group: "status",
         name: "is_confirmed",
+        search_by: [identity], 
         description: "Whether store confirmed delivery"
     })
     public is_confirmed: boolean;

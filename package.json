@@ -1,6 +1,6 @@
 {
   "name": "sudzy-db",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "sudzy-db",
   "license": "MIT",
   "repository": "",
@@ -28,7 +28,7 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
-    "pouchable": "^1.1.10",
+    "pouchable": "^1.1.11",
     "pouchdb": "^6.1.2",
     "pouchdb-authentication": "^0.5.5"
   },

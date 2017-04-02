@@ -16,12 +16,12 @@ class DeliveryTest {
   static customers: Customers;
   static deliveries: Deliveries;
 
-  static before() {
+  before() {
     DeliveryTest.db = new PouchDB("default");
     DeliveryTest.customers = new Customers(DeliveryTest.db, Customer);
     DeliveryTest.deliveries = new Deliveries(DeliveryTest.db, Delivery);
   }
-  static after(done: Function) {
+  after(done: Function) {
     DeliveryTest.db.destroy(() => done());
   }
 
@@ -190,6 +190,27 @@ class DeliveryTest {
       done();
     }).catch(_.noop);
   }
+
+  @test("should be able to search by is_confirmed")
+  public testSearchByIsConfirmed(done) {
+    let customers = DeliveryTest.customers;
+    let deliveries = DeliveryTest.deliveries;
+    customers.insert({ mobile: "6265455555" }).then((cust) => {
+      let delivObj = {
+        customer_id: cust.id,
+        is_pickup: false,
+        delivery_time: new Date().getTime(),
+        is_confirmed: false
+      }
+      return deliveries.insert(delivObj);
+    }).then((deliv) => {
+      return deliveries.findIds('is_confirmed', false);
+    }).then((ds) => {
+      console.log(ds.length);
+      expect(ds.length).to.be.above(0);
+      done();
+    }).catch(_.noop);
+  }  
 
 
   @test("should be able to update express_id")
