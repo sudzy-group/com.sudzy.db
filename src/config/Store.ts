@@ -16,7 +16,7 @@ export class Store {
      * @param {object} config 
      * @returns {Promise<Store>} 
      */
-    save(config: object): Promise<Store> {
+    save(config: any): Promise<Store> {
         let t = this;
         return new Promise<Store>((resolve, reject) => {
             this._config = config;

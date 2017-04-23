@@ -7,7 +7,7 @@ import { keys } from 'lodash';
  * @class Item
  */
 export class Item {
-    constructor(private _data: object) { }
+    constructor(private _data: any) { }
     get isbn():             string  { return this._data['isbn'] };
     get type():             string  { return this._data['type'] };
     get name():             string  { return this._data['name'] };
@@ -33,10 +33,10 @@ export class Items {
 
     /**
      * Save store items to local db
-     * @param {object} items 
+     * @param {any} items 
      * @returns {Promise<Store>} 
      */
-    save(items: object): Promise<Items> {
+    save(items: any): Promise<Items> {
         let t = this;
         return new Promise<Items>((resolve, reject) => {
             this._items = items;
