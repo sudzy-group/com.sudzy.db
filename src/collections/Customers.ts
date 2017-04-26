@@ -1,11 +1,17 @@
 import { Collection } from "pouchable";
 import { Customer } from "../entities/Customer";
 import * as metaphone from 'metaphone';
+import { Promise } from 'ts-promise';
 
 /**
  * Represents the Customers collection
  */
 export class Customers extends Collection<Customer> {
+
+    public insert(data)  {
+        data.allow_notifications = data.allow_notifications || true;
+        return super.insert(data);
+    }
 
     public getPrefix() {
         return "customer";

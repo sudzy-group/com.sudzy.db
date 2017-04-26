@@ -26,6 +26,14 @@ export class Customer extends Entity {
     public mobile: string;
 
     @EntityField({
+        group: "default",
+        name: "allow_notifications",
+        mandatory: true,
+        description: "Customer's consent to get email / sms  notifications"
+    })
+    public allow_notifications: string;
+
+    @EntityField({
         group: "name",
         name: "name",
         description: "Customer's name",

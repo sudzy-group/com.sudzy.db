@@ -1,24 +1,25 @@
 # Customer
-| Field Name          | Field Type | Group   | Description                                   | Comments              |
-| ------------------- | ---------- | ------- | --------------------------------------------- | --------------------- |
-| id                  | `string`   | default | Entity id                                     | Auto-generated        |
-| created_at          | `number`   | default | Creation datetime (unix)                      | Auto-generated        |
-| mobile              | `string`   | default | Customer's mobile phone                       | Validated, Searchable |
-| name                | `string`   | name    | Customer's name                               | Validated, Searchable |
-| email               | `string`   | email   | Customer's email                              | Validated             |
-| autocomplete        | `string`   | address | Full address as captured by Google Places API | Validated             |
-| street_num          | `string`   | address | Street number                                 |                       |
-| street_route        | `string`   | address | Street name                                   | Validated             |
-| apartment           | `string`   | address | Apartment                                     |                       |
-| city                | `string`   | address | City                                          | Validated             |
-| state               | `string`   | address | State                                         | Validated             |
-| zip                 | `string`   | address | Zip code                                      | Validated             |
-| lat                 | `string`   | address | Latitude                                      | Validated             |
-| lng                 | `string`   | address | Longtitude                                    | Validated             |
-| is_doorman          | `boolean`  | address | Whether building has doorman                  |                       |
-| delivery_notes      | `string`   | address | Delivery Notes                                |                       |
-| cleaning_notes      | `string`   | notes   | Cleaning Notes                                |                       |
-| payment_customer_id | `string`   | payment | Payment customer id                           | Validated             |
+| Field Name          | Field Type | Group   | Description                                          | Comments              |
+| ------------------- | ---------- | ------- | ---------------------------------------------------- | --------------------- |
+| id                  | `string`   | default | Entity id                                            | Auto-generated        |
+| created_at          | `number`   | default | Creation datetime (unix)                             | Auto-generated        |
+| mobile              | `string`   | default | Customer's mobile phone                              | Validated, Searchable |
+| allow_notifications | `string`   | default | Customer's consent to get email / sms  notifications |                       |
+| name                | `string`   | name    | Customer's name                                      | Validated, Searchable |
+| email               | `string`   | email   | Customer's email                                     | Validated             |
+| autocomplete        | `string`   | address | Full address as captured by Google Places API        | Validated             |
+| street_num          | `string`   | address | Street number                                        |                       |
+| street_route        | `string`   | address | Street name                                          | Validated             |
+| apartment           | `string`   | address | Apartment                                            |                       |
+| city                | `string`   | address | City                                                 | Validated             |
+| state               | `string`   | address | State                                                | Validated             |
+| zip                 | `string`   | address | Zip code                                             | Validated             |
+| lat                 | `string`   | address | Latitude                                             | Validated             |
+| lng                 | `string`   | address | Longtitude                                           | Validated             |
+| is_doorman          | `boolean`  | address | Whether building has doorman                         |                       |
+| delivery_notes      | `string`   | address | Delivery Notes                                       |                       |
+| cleaning_notes      | `string`   | notes   | Cleaning Notes                                       |                       |
+| payment_customer_id | `string`   | payment | Payment customer id                                  | Validated             |
 # CustomerCard
 | Field Name  | Field Type | Group    | Description              | Comments       |
 | ----------- | ---------- | -------- | ------------------------ | -------------- |
