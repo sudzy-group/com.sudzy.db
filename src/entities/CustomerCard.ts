@@ -1,6 +1,7 @@
 import { Entity, EntityField } from "pouchable";
 import { identity } from 'lodash';
 import { fourDigitsLong } from "../validators/fourDigitsLong";
+import { twoDigitsLong } from "../validators/twoDigitsLong";
 import { lengthGreater1 } from "../validators/lengthGreater1";
 import { noWhitespace } from '../validators/noWhitespace';
 /**
@@ -43,6 +44,23 @@ export class CustomerCard extends Entity {
         description: "Last 4 digits of card"
     })
     public last4: string;
+
+    @EntityField({
+        group: "default",
+        name: "exp_month",
+        validate: twoDigitsLong,
+        description: "Expiration month"
+    })
+    public exp_month: string;    
+
+    @EntityField({
+        group: "default",
+        name: "exp_year",
+        validate: twoDigitsLong,
+        description: "Expiration year"
+    })
+    public exp_year: string;    
+
 
     @EntityField({
         group: "settings",

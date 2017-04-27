@@ -34,6 +34,13 @@ export class Customer extends Entity {
     public allow_notifications: string;
 
     @EntityField({
+        group: "formatted",
+        name: "formatted_mobile",
+        description: "Customer's mobile phone (formatted)"
+    })
+    public formatted_mobile: string;    
+
+    @EntityField({
         group: "name",
         name: "name",
         description: "Customer's name",

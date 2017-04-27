@@ -40,6 +40,7 @@ class CustomerTest {
   public testInsertAll(done) {
     let customerObj = {
       mobile: "19292778399",
+      formatted_mobile: '+1(929)277-8399',
       name: "Joseph Shmoo",
       email: "joesh@gmail.com",
       autocomplete: "199 Orchard St, New York, NY 10002, USA",
@@ -58,6 +59,9 @@ class CustomerTest {
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
+      return customers.find("mobile", "19292778399")
+    }).then((cs) => {
+      let c = cs[0];
       _.forIn(customerObj, function(value, key) {
         expect(c[key]).to.equal(value);
       })

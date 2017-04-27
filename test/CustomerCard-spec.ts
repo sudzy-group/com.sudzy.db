@@ -43,6 +43,8 @@ class CustomerCardTest {
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
         brand: "Visa",
         last4: "4242",
+        exp_month: "12",
+        exp_year: "20",
         is_default: true
       }
       return customer_cards.insert(cardObj);

@@ -206,7 +206,6 @@ class DeliveryTest {
     }).then((deliv) => {
       return deliveries.findIds('is_confirmed', false);
     }).then((ds) => {
-      console.log(ds.length);
       expect(ds.length).to.be.above(0);
       done();
     }).catch(_.noop);
