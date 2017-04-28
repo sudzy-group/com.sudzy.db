@@ -191,6 +191,32 @@ class CustomerTest {
     }).catch(_.noop);
   }
 
+  //Update
+  @test("should update parameters 2")
+  public testUpdate2(done) {
+    let customerObj = {
+      formatted_mobile: "+1(929)2778391",
+      mobile: "19292778391",
+      allow_notifications: true,
+      name: "Roy Ganor",
+    }
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert(customerObj).then((c) => {
+      return customers.find('mobile','19292778391');
+    }).then(cs => {
+      let c = cs[0];
+      let updatedCustomerObj = {
+        name: "Roy Ganor1",
+        
+      }
+      return customers.update(c, updatedCustomerObj);
+    }).then((cus) => {
+      done();
+    }).catch((m) => {
+      console.log(m);
+    });
+  }  
+
   @test("should not update mobile")
   public testNoMobileUpdate(done) {
     let customerObj = {
