@@ -99,35 +99,33 @@ class WorkflowTest {
    }
 
    private orderItem1Obj: any = {
-     item_id: "1234",
-     total_price: 10.00,
+     isbn: "1234",
+     price: 10.00,
+     type: 'wf',
      name: "Washfold",
      quantity: 1,
-     notes: "Clean hard",
      separate: true,
-     wash: true,
      detergent: "Tide"
    };
 
    private orderItem2Obj: any = {
-     item_id: "2a2a",
-     total_price: 15.40,
+     isbn: "2a2a",
+     type: 'dc',
+     price: 15.40,
      name: "Pants",
      quantity: 3,
-     dry: true,
      color: "black"
    };
 
    private orderItem3Obj: any = {
-     item_id: "2a2a",
-     total_price: 4.20,
+     isbn: "2a2a",
+     price: 4.20,
+     type: 'dc',
      name: "Skirts",
      quantity: 1,
-     dry: true,
      color: "red",
      brand: "Zara",
-     pattern: "zebra",
-     alteration_type: "Sew zipper"
+     pattern: "zebra"
    };
 
    private orderTagObj: any = {

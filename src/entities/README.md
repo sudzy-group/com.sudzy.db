@@ -53,25 +53,24 @@
 | delivery_pickup_id  | `string`   | delivery | Delivery pickup id                  | Validated             |
 | delivery_dropoff_id | `string`   | delivery | Delivery dropoff id                 | Validated             |
 # OrderItem
-| Field Name      | Field Type | Group       | Description                 | Comments       |
-| --------------- | ---------- | ----------- | --------------------------- | -------------- |
-| id              | `string`   | default     | Entity id                   | Auto-generated |
-| created_at      | `number`   | default     | Creation datetime (unix)    | Auto-generated |
-| order_id        | `string`   | default     | Order id                    | Searchable     |
-| item_id         | `string`   | default     | Item id                     | Validated      |
-| name            | `string`   | default     | Item name                   |                |
-| total_price     | `number`   | pricing     | Total price                 |                |
-| quantity        | `number`   | pricing     | Quantity of item            | Validated      |
-| notes           | `string`   | notes       | Order notes                 |                |
-| separate        | `boolean`  | description | Separate whites from colors |                |
-| wash            | `boolean`  | description | Whether washfold            |                |
-| dry             | `boolean`  | description | Whether drycleaning         |                |
-| detergent       | `string`   | description | Detergent                   |                |
-| color           | `string`   | description | Color                       |                |
-| pattern         | `string`   | description | Pattern                     |                |
-| brand           | `string`   | description | Brand                       |                |
-| fabric          | `string`   | description | Fabric                      |                |
-| alteration_type | `string`   | description | Alteration type             |                |
+| Field Name     | Field Type | Group       | Description                 | Comments       |
+| -------------- | ---------- | ----------- | --------------------------- | -------------- |
+| id             | `string`   | default     | Entity id                   | Auto-generated |
+| created_at     | `number`   | default     | Creation datetime (unix)    | Auto-generated |
+| order_id       | `string`   | default     | Order id                    | Searchable     |
+| isbn           | `string`   | default     | isbn                        | Validated      |
+| type           | `string`   | default     | type                        |                |
+| name           | `string`   | default     | Item name                   |                |
+| quantity       | `number`   | pricing     | Quantity of item            | Validated      |
+| price          | `number`   | pricing     | Total price                 |                |
+| separate       | `boolean`  | description | Separate whites from colors |                |
+| detergent      | `string`   | description | Detergent                   |                |
+| preferred_wash | `string`   | description | Preferred wash method       |                |
+| preferred_dry  | `string`   | description | Preferred dry method        |                |
+| color          | `string`   | description | Color                       |                |
+| pattern        | `string`   | description | Pattern                     |                |
+| brand          | `string`   | description | Brand                       |                |
+| fabric         | `string`   | description | Fabric                      |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description              | Comments       |
 | ---------- | ---------- | ------- | ------------------------ | -------------- |

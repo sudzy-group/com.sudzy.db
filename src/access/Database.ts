@@ -1,6 +1,8 @@
 import * as PouchDB from 'pouchdb';
 import Promise from 'ts-promise';
-PouchDB.plugin(require('pouchdb-authentication'));
+import * as PouchableAuthentication from 'pouchdb-authentication';
+
+PouchDB.plugin(PouchableAuthentication);
 
 /**
  * Acess database local and remotely

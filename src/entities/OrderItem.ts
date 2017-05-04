@@ -19,12 +19,20 @@ export class OrderItem extends Entity {
 
     @EntityField({
         group: "default",
-        name: "item_id",
+        name: "isbn",
         mandatory: true,
         validate: noWhitespace,
-        description: "Item id" 
+        description: "isbn" 
     })
-    public item_id: string;
+    public isbn: string;
+
+    @EntityField({
+        group: "default",
+        name: "type",
+        mandatory: true,
+        description: "type" 
+    })
+    public type: string;    
 
     @EntityField({
         group: "default",
@@ -36,13 +44,6 @@ export class OrderItem extends Entity {
 
     @EntityField({
         group: "pricing",
-        name: "total_price",
-        description: "Total price" 
-    })
-    public total_price: number;
-
-    @EntityField({
-        group: "pricing",
         name: "quantity",
         validate: amount0OrGreater,
         description: "Quantity of item" 
@@ -50,11 +51,11 @@ export class OrderItem extends Entity {
     public quantity: number;
 
     @EntityField({
-        group: "notes",
-        name: "notes",
-        description: "Order notes" 
+        group: "pricing",
+        name: "price",
+        description: "Total price" 
     })
-    public notes: string;
+    public price: number;
 
     @EntityField({
         group: "description",
@@ -65,24 +66,24 @@ export class OrderItem extends Entity {
 
     @EntityField({
         group: "description",
-        name: "wash",
-        description: "Whether washfold" 
-    })
-    public wash: boolean;
-
-    @EntityField({
-        group: "description",
-        name: "dry",
-        description: "Whether drycleaning" 
-    })
-    public dry: boolean;
-
-    @EntityField({
-        group: "description",
         name: "detergent",
         description: "Detergent" 
     })
     public detergent: string;
+
+    @EntityField({
+        group: "description",
+        name: "preferred_wash",
+        description: "Preferred wash method" 
+    })
+    public preferred_wash: string;    
+
+   @EntityField({
+        group: "description",
+        name: "preferred_dry",
+        description: "Preferred dry method" 
+    })
+    public preferred_dry: string;      
 
     @EntityField({
         group: "description",
@@ -111,11 +112,4 @@ export class OrderItem extends Entity {
         description: "Fabric" 
     })
     public fabric: string;
-
-    @EntityField({
-        group: "description",
-        name: "alteration_type",
-        description: "Alteration type" 
-    })
-    public alteration_type: string;
 }

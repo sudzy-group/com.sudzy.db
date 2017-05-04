@@ -46,15 +46,15 @@
     "markdown-table": "^1.1.0",
     "memdown": "^1.2.4",
     "ts-promise": "^0.3.4",
+    "ts-node": "1.0.0",
     "mocha": "^3.0.0",
     "mocha-typescript": "^1.0.22",
     "mysql": "^2.13.0",
     "nyc": "^10.1.2",
     "pouchdb-security": "^2.3.6",
     "rimraf": "^2.6.1",
-    "ts-node": "^1.0.0",
     "tspoon": "^1.0.328",
-    "typescript": "^2.0.0"
+    "typescript": "2.2.2"
   },
   "engines": {
     "node": ">=4.0.0"

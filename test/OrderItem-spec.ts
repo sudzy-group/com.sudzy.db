@@ -35,19 +35,17 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItemObj = {
      order_id: "111",
-     item_id: "1234",
-     total_price: 10.00,
-     name: "Washfold",
+     isbn: "1234",
+     type: 'wf',
+     name: "Washfold",     
+     price: 10.00,
      quantity: 1,
-     notes: "Clean hard",
      separate: true,
-     wash: true,
-     detergent: "Tide"
    };
    order_items.insert(orderItemObj).then((item) => {
       expect(item.order_id).to.equal("111");
-      expect(item.item_id).to.equal("1234");
-      expect(item.total_price).to.equal(10.00);
+      expect(item.isbn).to.equal("1234");
+      expect(item.price).to.equal(10.00);
       expect(item.quantity).to.equal(1);
       expect(item.separate).to.equal(true);
       done();
@@ -58,14 +56,12 @@ class OrderItemTest {
   public testInsert3OrderItem(done) {
     let order_items = OrderItemTest.order_items;
     let orderItem1Obj = {
-     order_id: "222" ,
-     item_id: "1234",
-     total_price: 10.00,
-     name: "Washfold",
+     order_id: "222",
+     isbn: "1234",
+     type: 'wf',
+     name: "Washfold",     
+     price: 10.00,
      quantity: 1,
-     notes: "Clean hard",
-     separate: true,
-     wash: true,
      detergent: "Tide"
    };
 
@@ -73,11 +69,11 @@ class OrderItemTest {
       expect(item1.order_id).to.equal("222");
      let orderItem2Obj = {
      order_id: "222" ,
-     item_id: "2a2a",
-     total_price: 15.40,
+     type: 'wf',
+     isbn: "2a2a",
+     price: 15.40,
      name: "Pants",
      quantity: 3,
-     dry: true,
      color: "black"
    };
    return order_items.insert(orderItem2Obj);
@@ -85,15 +81,14 @@ class OrderItemTest {
       expect(item2.order_id).to.equal("222");
      let orderItem3Obj = {
      order_id: "222" ,
-     item_id: "2a2a",
-     total_price: 4.20,
+     type: 'wf',
+     isbn: "2a2a",
+     price: 4.20,
      name: "Skirts",
      quantity: 1,
-     dry: true,
      color: "red",
      brand: "Zara",
-     pattern: "zebra",
-     alteration_type: "Sew zipper"
+     pattern: "zebra"
    };
    return order_items.insert(orderItem3Obj);
   }).then((item3) => {
@@ -112,13 +107,12 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItem = {
      order_id: "333" ,
-     item_id: "324",
-     total_price: 10.00,
+     isbn: "324",
+     type: "wf",
+     price: 10.00,
      name: "Washfold",
      quantity: 1,
-     notes: "Clean hard",
      separate: true,
-     wash: true,
      detergent: "Tide"
    };
 
@@ -137,13 +131,14 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItemObj = {
      order_id: "3a3",
-     item_id: "1234",
-     total_price: 10.00,
+     type: "wf",
+     isbn: "1234",
+     price: 10.00,
      name: "Washfold",
      quantity: 1
    };
    order_items.insert(orderItemObj).then((item) => {
-      expect(item.order_id).to.equal("111");
+      expect(item.order_id).to.equal("3a3");
       let orderItemUpdated = {
          order_id: "4a4",
       }
@@ -154,20 +149,20 @@ class OrderItemTest {
     });
   }
 
-  @test("should not update item_id")
+  @test("should not update isbn")
   public testUpdateItemId(done) {
     let order_items = OrderItemTest.order_items;
     let orderItemObj = {
      order_id: "55a",
-     item_id: "1234",
-     total_price: 10.00,
+     isbn: "1234",
+     price: 10.00,
      name: "Washfold",
      quantity: 1
    };
    order_items.insert(orderItemObj).then((item) => {
-      expect(item.item_id).to.equal("1234");
+      expect(item.isbn).to.equal("1234");
       let orderItemUpdated = {
-         item_id: "2234",
+         isbn: "2234",
       }
       return order_items.update(item, orderItemUpdated);
       }).then(_.noop)
@@ -181,13 +176,13 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItemObj = {
      order_id: "675",
-     item_id: "343",
-     total_price: 10.00,
+     isbn: "343",
+     price: 10.00,
      name: "Washfold",
      quantity: 1
    };
    order_items.insert(orderItemObj).then((item) => {
-      expect(item.item_id).to.equal("343");
+      expect(item.isbn).to.equal("343");
       let orderItemUpdated = {
          name: "Shirt"
       }
@@ -203,62 +198,39 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItemObj = {
      order_id: "897",
-     item_id: "343",
-     total_price: 10.00,
+     isbn: "343",
+     type: 'wf',
+     price: 10.00,
      name: "Washfold",
      quantity: 5
    };
    order_items.insert(orderItemObj).then((item) => {
       expect(item.quantity).to.equal(5);
-      expect(item.total_price).to.equal(10.00);
+      expect(item.price).to.equal(10.00);
       let orderItemUpdated = {
-         total_price: 20.00,
+         price: 20.00,
          quantity: 10
       }
       return order_items.update(item, orderItemUpdated);
        }).then((updatedItem) => {
-        expect(updatedItem.total_price).to.equal(20.00);
+        expect(updatedItem.price).to.equal(20.00);
         expect(updatedItem.quantity).to.equal(10);
       done();
     }).catch(_.noop);
   }
 
-  @test("should update notes")
-  public testUpdateNotes(done) {
-    let order_items = OrderItemTest.order_items;
-    let orderItemObj = {
-     order_id: "869",
-     item_id: "865",
-     total_price: 10.00,
-     name: "Washfold",
-     quantity: 5,
-     notes: "First note"
-   };
-   order_items.insert(orderItemObj).then((item) => {
-      expect(item.notes).to.equal("First note");
-      let orderItemUpdated = {
-        notes: "Second note"
-      }
-      return order_items.update(item, orderItemUpdated);
-       }).then((updatedItem) => {
-        expect(updatedItem.notes).to.equal("Second note");
-      done();
-    }).catch(_.noop);
-  }
-   
 //Delete
-@test("should delete order item")
+  @test("should delete order item")
   public testDeleteOrderItem(done) {
     let order_items = OrderItemTest.order_items;
     let orderItem = {
      order_id: "444" ,
-     item_id: "324",
-     total_price: 10.00,
+     isbn: "324",
+     type: 'wf',
+     price: 10.00,
      name: "Washfold",
      quantity: 1,
-     notes: "Clean hard",
      separate: true,
-     wash: true,
      detergent: "Tide"
    };
    let id = "";
@@ -281,8 +253,9 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItem = {
      order_id: "555" ,
-     item_id: "324",
-     total_price: 10.00,
+     isbn: "324",
+     type: 'wf',
+     price: 10.00,
      name: "Washfold",
      quantity: -1
    };
@@ -297,8 +270,9 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItem = {
      order_id: "444" ,
-     item_id: "324",
-     total_price: 10.00,
+     type: 'dc',
+     isbn: "324",
+     price: 10.00,
      name: "Washfold",
      quantity: 0
    };
@@ -313,8 +287,9 @@ class OrderItemTest {
     let order_items = OrderItemTest.order_items;
     let orderItem = {
      order_id: "444" ,
-     item_id: "324",
-     total_price: 10.00,
+     isbn: "324",
+     type: 'wf',
+     price: 10.00,
      name: "Washfold",
      quantity: 10
    };
