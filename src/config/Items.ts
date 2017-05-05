@@ -75,7 +75,10 @@ export class Items {
     /**
      * Items by isbn
      */
-    public get(isbn) {
+    public get(isbn: string) {
+        if (!isbn) {
+            return null;
+        }
         return new Item(this._items[isbn]);
     }
 }
