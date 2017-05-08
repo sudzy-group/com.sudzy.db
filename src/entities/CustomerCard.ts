@@ -61,12 +61,18 @@ export class CustomerCard extends Entity {
     })
     public exp_year: string;    
 
-
     @EntityField({
         group: "settings",
         name: "is_default",
         description: "Whether card is default"
     })
     public is_default: boolean;
+
+    @EntityField({
+        group: "settings",
+        name: "is_forgotten",
+        description: "Whether card is hidden"
+    })
+    public is_forgotten: boolean;    
 
 }
