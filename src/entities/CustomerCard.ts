@@ -82,5 +82,11 @@ export class CustomerCard extends Entity {
     })
     public in_stripe: boolean;    
 
+    @EntityField({
+        group: "settings",
+        name: "stripe_token",
+        description: "Stripe token before it is turned into a card"
+    })
+    public stripe_token: string;    
 
 }
