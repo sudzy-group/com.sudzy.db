@@ -75,4 +75,11 @@ export class CustomerCard extends Entity {
     })
     public is_forgotten: boolean;    
 
+     @EntityField({
+        group: "settings",
+        name: "in_stripe",
+        description: "Whether card is in stripe"
+    })
+    public in_stripe: boolean;   
+
 }
