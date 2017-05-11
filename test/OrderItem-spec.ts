@@ -96,6 +96,7 @@ class OrderItemTest {
      return order_items.find("order_id", "222");
   }).then((items) => {
       expect(items.length).to.equal(3);
+      expect(items[0].type).to.equal('wf');
       done();
     }).catch(_.noop);
   }
