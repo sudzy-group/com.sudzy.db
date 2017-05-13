@@ -84,7 +84,11 @@ function hardcodedMock() {
 	return new Promise((res, rej) => {
 		let t = this;
 		let customerObj = {
+			id: "123",
+			created_at: "1234",
 			mobile: "19173411892",
+			allow_notifications: true,
+			formatted_mobile: "19173411892",
 			name: "Jay Shmoe",
 			email: "hbarr@gmail.com",
 			autocomplete: "199 Orchard St, New York, NY 10002, USA",
@@ -104,14 +108,24 @@ function hardcodedMock() {
 			card_id: "card_xkff_fifo",
 			brand: "Visa",
 			last4: "4242",
-			is_default: false
+			exp_month: "12",
+			exp_year: "19",
+			is_default: false,
+			is_forgotten: false,
+			in_stripe: false,
+			stripe_token: ""
 		};
 
 		let customerSecondCardObj = {
 			card_id: "card_xg3f_hhh",
 			brand: "Visa",
 			last4: "0341",
-			is_default: true
+			exp_month: "1",
+			exp_year: "22",
+			is_default: true,
+			is_forgotten: false,
+			in_stripe: true,
+			stripe_token: "tok_sos_g9339"
 		};
 
 		let orderObj = {
@@ -143,35 +157,33 @@ function hardcodedMock() {
 		}
 
 		let orderItem1Obj = {
-			item_id: "1234",
-			total_price: 20.52,
+			isbn: "1234",
+			price: 20.52,
+			type: 'wf',
 			name: "Washfold",
 			quantity: 3,
-			notes: "Clean hard",
 			separate: true,
-			wash: true,
 			detergent: "Tide"
 		};
 
 		let orderItem2Obj = {
-			item_id: "2a2a",
-			total_price: 10.00,
+			isbn: "2a2a",
+			price: 10.00,
+			type: 'dc',
 			name: "Pants",
 			quantity: 1,
-			dry: true,
 			color: "blue"
 		};
 
 		let orderItem3Obj = {
-			item_id: "2b2b",
+			isbn: "2b2b",
 			total_price: 5.00,
+			type: 'dc',
 			name: "Skirts",
-			quantity: 2,
-			dry: true,
+			price: 2,
 			color: "red",
 			brand: "Zara",
 			pattern: "zebra",
-			alteration_type: "Sew zipper"
 		};
 
 		let orderTagObj = {
