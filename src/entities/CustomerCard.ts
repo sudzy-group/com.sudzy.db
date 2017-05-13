@@ -48,7 +48,6 @@ export class CustomerCard extends Entity {
     @EntityField({
         group: "default",
         name: "exp_month",
-        validate: twoDigitsLong,
         description: "Expiration month"
     })
     public exp_month: string;    

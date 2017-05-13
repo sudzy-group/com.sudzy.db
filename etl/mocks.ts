@@ -84,8 +84,6 @@ function hardcodedMock() {
 	return new Promise((res, rej) => {
 		let t = this;
 		let customerObj = {
-			id: "123",
-			created_at: "1234",
 			mobile: "19173411892",
 			allow_notifications: true,
 			formatted_mobile: "19173411892",
@@ -120,7 +118,7 @@ function hardcodedMock() {
 			card_id: "card_xg3f_hhh",
 			brand: "Visa",
 			last4: "0341",
-			exp_month: "1",
+			exp_month: "11",
 			exp_year: "22",
 			is_default: true,
 			is_forgotten: false,
@@ -177,10 +175,9 @@ function hardcodedMock() {
 
 		let orderItem3Obj = {
 			isbn: "2b2b",
-			total_price: 5.00,
+			price: 5.00,
 			type: 'dc',
 			name: "Skirts",
-			price: 2,
 			color: "red",
 			brand: "Zara",
 			pattern: "zebra",
@@ -319,35 +316,33 @@ function mock() {
 		}
 
 		let orderItem1Obj = {
-			item_id: "1234",
-			total_price: faker.commerce.price(),
+			isbn: "1234",
+			price: faker.commerce.price(),
 			name: "Washfold",
+			type: 'wf',
 			quantity: faker.random.number(),
-			notes: "Clean hard",
 			separate: true,
-			wash: true,
 			detergent: "Tide"
 		};
 
 		let orderItem2Obj = {
-			item_id: "2a2a",
-			total_price: faker.commerce.price(),
+			isbn: "2a2a",
+			price: faker.commerce.price(),
 			name: "Pants",
+			type: 'dc',
 			quantity: faker.random.number(),
-			dry: true,
 			color: faker.commerce.color()
 		};
 
 		let orderItem3Obj = {
-			item_id: "2b2b",
-			total_price: faker.commerce.price(),
+			isbn: "2b2b",
+			price: faker.commerce.price(),
 			name: "Skirts",
+			type: 'dc',
 			quantity: faker.random.number(),
-			dry: true,
 			color: faker.commerce.color(),
 			brand: "Zara",
-			pattern: "zebra",
-			alteration_type: "Sew zipper"
+			pattern: "zebra"
 		};
 
 		let orderTagObj = {
