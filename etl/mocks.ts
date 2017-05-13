@@ -257,6 +257,7 @@ function mock() {
 
 		let customerObj = {
 			mobile: (Math.floor(Math.random() * 9000000000) + 1000000000).toString(),
+			formatted_mobile: (Math.floor(Math.random() * 9000000000) + 1000000000).toString(),
 			name: faker.name.findName(),
 			email: faker.internet.email(),
 			autocomplete: "199 Orchard St, New York, NY 10002, USA",
@@ -277,6 +278,8 @@ function mock() {
 			card_id: "card_" + faker.random.uuid(),
 			brand: "Visa",
 			last4: "4242",
+			exp_month: "4",
+			exp_year: "44",
 			is_default: true
 		};
 
@@ -284,7 +287,9 @@ function mock() {
 			card_id: "card_" + faker.random.uuid(),
 			brand: "Visa",
 			last4: "0341",
-			is_default: false
+			is_default: false,
+			exp_month: "2",
+			exp_year: "23",
 		};
 
 		let orderObj = {
