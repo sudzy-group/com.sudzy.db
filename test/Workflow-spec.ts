@@ -103,9 +103,7 @@ class WorkflowTest {
      price: 10.00,
      type: 'wf',
      name: "Washfold",
-     quantity: 1,
-     separate: true,
-     detergent: "Tide"
+     quantity: 1
    };
 
    private orderItem2Obj: any = {
@@ -114,7 +112,8 @@ class WorkflowTest {
      price: 15.40,
      name: "Pants",
      quantity: 3,
-     color: "black"
+     notes: ['separate']
+
    };
 
    private orderItem3Obj: any = {
@@ -123,9 +122,7 @@ class WorkflowTest {
      type: 'dc',
      name: "Skirts",
      quantity: 1,
-     color: "red",
-     brand: "Zara",
-     pattern: "zebra"
+     notes: ['zara']
    };
 
    private orderTagObj: any = {

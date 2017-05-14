@@ -58,58 +58,9 @@ export class OrderItem extends Entity {
     public price: number;
 
     @EntityField({
-        group: "description",
-        name: "separate",
-        description: "Separate whites from colors" 
+        group: "notes",
+        name: "notes",
+        description: "Specific notes about this item" 
     })
-    public separate: boolean;
-
-    @EntityField({
-        group: "description",
-        name: "detergent",
-        description: "Detergent" 
-    })
-    public detergent: string;
-
-    @EntityField({
-        group: "description",
-        name: "preferred_wash",
-        description: "Preferred wash method" 
-    })
-    public preferred_wash: string;    
-
-   @EntityField({
-        group: "description",
-        name: "preferred_dry",
-        description: "Preferred dry method" 
-    })
-    public preferred_dry: string;      
-
-    @EntityField({
-        group: "description",
-        name: "color",
-        description: "Color" 
-    })
-    public color: string;
-
-    @EntityField({
-        group: "description",
-        name: "pattern",
-        description: "Pattern" 
-    })
-    public pattern: string;
-
-    @EntityField({
-        group: "description",
-        name: "brand",
-        description: "Brand" 
-    })
-    public brand: string;
-
-    @EntityField({
-        group: "description",
-        name: "fabric",
-        description: "Fabric" 
-    })
-    public fabric: string;
+    public notes: string[];
 }

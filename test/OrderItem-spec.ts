@@ -40,14 +40,14 @@ class OrderItemTest {
      name: "Washfold",     
      price: 10.00,
      quantity: 1,
-     separate: true,
+     notes: ['separate'],
    };
    order_items.insert(orderItemObj).then((item) => {
       expect(item.order_id).to.equal("111");
       expect(item.isbn).to.equal("1234");
       expect(item.price).to.equal(10.00);
       expect(item.quantity).to.equal(1);
-      expect(item.separate).to.equal(true);
+      expect(item.notes.length).to.equal(1);
       done();
     }).catch(_.noop);
   }
@@ -61,8 +61,7 @@ class OrderItemTest {
      type: 'wf',
      name: "Washfold",     
      price: 10.00,
-     quantity: 1,
-     detergent: "Tide"
+     quantity: 1
    };
 
    order_items.insert(orderItem1Obj).then((item1) => {
@@ -73,8 +72,7 @@ class OrderItemTest {
      isbn: "2a2a",
      price: 15.40,
      name: "Pants",
-     quantity: 3,
-     color: "black"
+     quantity: 3
    };
    return order_items.insert(orderItem2Obj);
    }).then((item2) => {
@@ -85,10 +83,7 @@ class OrderItemTest {
      isbn: "2a2a",
      price: 4.20,
      name: "Skirts",
-     quantity: 1,
-     color: "red",
-     brand: "Zara",
-     pattern: "zebra"
+     quantity: 1
    };
    return order_items.insert(orderItem3Obj);
   }).then((item3) => {
@@ -112,9 +107,7 @@ class OrderItemTest {
      type: "wf",
      price: 10.00,
      name: "Washfold",
-     quantity: 1,
-     separate: true,
-     detergent: "Tide"
+     quantity: 1
    };
 
    order_items.insert(orderItem).then((item) => {
@@ -230,9 +223,7 @@ class OrderItemTest {
      type: 'wf',
      price: 10.00,
      name: "Washfold",
-     quantity: 1,
-     separate: true,
-     detergent: "Tide"
+     quantity: 1
    };
    let id = "";
 
