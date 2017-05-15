@@ -63,4 +63,20 @@ export class OrderItem extends Entity {
         description: "Specific notes about this item" 
     })
     public notes: string[];
+
+    @EntityField({
+        group: "status",
+        name: "ready",
+        description: "Specific ready status about this item" 
+    })
+    public ready: boolean;
+
+    @EntityField({
+        group: "status",
+        name: "pickedup",
+        description: "Specific pickedup status about this item" 
+    })
+    public pickedup: boolean;
+
+
 }

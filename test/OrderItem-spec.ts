@@ -59,7 +59,8 @@ class OrderItemTest {
      order_id: "222",
      isbn: "1234",
      type: 'wf',
-     name: "Washfold",     
+     name: "Washfold",
+     ready: true,
      price: 10.00,
      quantity: 1
    };
@@ -71,6 +72,7 @@ class OrderItemTest {
      type: 'wf',
      isbn: "2a2a",
      price: 15.40,
+     pickedup: true,
      name: "Pants",
      quantity: 3
    };

@@ -30,7 +30,7 @@
 | card_id      | `string`   | default  | Card id                                      | Validated      |
 | brand        | `string`   | default  | Card brand                                   | Validated      |
 | last4        | `string`   | default  | Last 4 digits of card                        | Validated      |
-| exp_month    | `string`   | default  | Expiration month                             | Validated      |
+| exp_month    | `string`   | default  | Expiration month                             |                |
 | exp_year     | `string`   | default  | Expiration year                              | Validated      |
 | is_default   | `boolean`  | settings | Whether card is default                      |                |
 | is_forgotten | `boolean`  | settings | Whether card is hidden                       |                |
@@ -56,17 +56,19 @@
 | delivery_pickup_id  | `string`   | delivery | Delivery pickup id                  | Validated             |
 | delivery_dropoff_id | `string`   | delivery | Delivery dropoff id                 | Validated             |
 # OrderItem
-| Field Name | Field Type | Group   | Description                    | Comments       |
-| ---------- | ---------- | ------- | ------------------------------ | -------------- |
-| id         | `string`   | default | Entity id                      | Auto-generated |
-| created_at | `number`   | default | Creation datetime (unix)       | Auto-generated |
-| order_id   | `string`   | default | Order id                       | Searchable     |
-| isbn       | `string`   | default | isbn                           | Validated      |
-| type       | `string`   | default | type                           |                |
-| name       | `string`   | default | Item name                      |                |
-| quantity   | `number`   | pricing | Quantity of item               | Validated      |
-| price      | `number`   | pricing | Total price                    |                |
-| notes      | `string[]` | notes   | Specific notes about this item |                |
+| Field Name | Field Type | Group   | Description                              | Comments       |
+| ---------- | ---------- | ------- | ---------------------------------------- | -------------- |
+| id         | `string`   | default | Entity id                                | Auto-generated |
+| created_at | `number`   | default | Creation datetime (unix)                 | Auto-generated |
+| order_id   | `string`   | default | Order id                                 | Searchable     |
+| isbn       | `string`   | default | isbn                                     | Validated      |
+| type       | `string`   | default | type                                     |                |
+| name       | `string`   | default | Item name                                |                |
+| quantity   | `number`   | pricing | Quantity of item                         | Validated      |
+| price      | `number`   | pricing | Total price                              |                |
+| notes      | `string[]` | notes   | Specific notes about this item           |                |
+| ready      | `boolean`  | status  | Specific ready status about this item    |                |
+| pickedup   | `boolean`  | status  | Specific pickedup status about this item |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description              | Comments       |
 | ---------- | ---------- | ------- | ------------------------ | -------------- |
