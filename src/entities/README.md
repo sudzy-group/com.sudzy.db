@@ -70,12 +70,13 @@
 | ready      | `boolean`  | status  | Specific ready status about this item    |                |
 | pickedup   | `boolean`  | status  | Specific pickedup status about this item |                |
 # OrderTag
-| Field Name | Field Type | Group   | Description              | Comments       |
-| ---------- | ---------- | ------- | ------------------------ | -------------- |
-| id         | `string`   | default | Entity id                | Auto-generated |
-| created_at | `number`   | default | Creation datetime (unix) | Auto-generated |
-| order_id   | `string`   | default | Order id                 | Searchable     |
-| tag_number | `number`   | default | Tag number               |                |
+| Field Name | Field Type | Group   | Description                                  | Comments       |
+| ---------- | ---------- | ------- | -------------------------------------------- | -------------- |
+| id         | `string`   | default | Entity id                                    | Auto-generated |
+| created_at | `number`   | default | Creation datetime (unix)                     | Auto-generated |
+| order_id   | `string`   | default | Order id                                     | Searchable     |
+| tag_number | `string`   | default | Tag number                                   |                |
+| is_rack    | `string`   | default | True if this tag holds the rack of the items |                |
 # OrderCharge
 | Field Name      | Field Type | Group   | Description                                    | Comments       |
 | --------------- | ---------- | ------- | ---------------------------------------------- | -------------- |

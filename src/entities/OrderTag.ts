@@ -18,6 +18,12 @@ export class OrderTag extends Entity {
         name: "tag_number",
         description: "Tag number" 
     })
-    public tag_number: number;
-	
+    public tag_number: string;
+
+    @EntityField({
+        group: "default",
+        name: "is_rack",
+        description: "True if this tag holds the rack of the items" 
+    })
+    public is_rack: string;
 }
