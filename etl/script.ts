@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 import * as PouchDB from "pouchdb";
+import * as PouchableAuthentication from 'pouchdb-authentication';
+PouchDB.plugin(PouchableAuthentication);
+
 import * as _ from 'lodash';
 import * as faker from 'faker';
 import Promise from "ts-promise";
@@ -26,12 +29,18 @@ import * as commander from 'commander';
 let p = commander
   .version('0.0.1')
   .usage('[options]')
-  .option('-r, --remote [value]', 'The remote url')
-  .option('-f, --float [value]', 'A float argument')
-  .parse(process.argv);
+  .option('-p, --remotePouchDB [value]', 'The remote PouchDB url')
+  .option('-U, --remotePouchDBUser [value]', 'The remote PouchDB user')
+  .option('-P, --remotePouchDBPassword [value]', 'The remote PouchDB password')
+  .option('-h, --remoteMySQLHost [value]', 'The remote MySQL Host argument')
+	.option('-u, --remoteMySQLUser [value]', 'The remote MySQL User argument')
+	.option('-w, --remoteMySQLPassword [value]', 'The remote MySQL Password argument')
+	.option('-d, --remoteMySQLDatabase [value]', 'The remote MySQL Database argument')
+	.parse(process.argv);
 
-if (!p.remote) {
-   console.error('no remote given!');
+
+if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQLDatabase) {
+   console.error('no databases arguments given.');
    process.exit(1);
 }
 
@@ -41,11 +50,15 @@ var SQLconnection;
 
 connectPouch();
 connectSQL();
-copyPouchToSQL();
-
 
 function connectPouch() {
-	pouch = new PouchDB(p.remote);
+	console.log("remote pouch db", p.remotePouchDB);
+	pouch = new PouchDB(p.remotePouchDB, {
+		auth: {
+				username: p.remotePouchDBUser,
+				password: p.remotePouchDBPassword
+		}
+	});
 
 	customers = new Customers(pouch, Customer);
 	customer_cards = new CustomerCards(pouch, CustomerCard);
@@ -58,10 +71,10 @@ function connectPouch() {
 
 function connectSQL() {
 	SQLconnection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: '',
-		database: 'pouch',
+		host: p.remoteMySQLHost,
+		user: p.remoteMySQLUser,
+		password: p.remoteMySQLPassword,
+		database: p.remoteMySQLDatabase,
 		multipleStatements: true
 	});
 
@@ -71,18 +84,17 @@ function connectSQL() {
 			return;
 		}
 		console.log('connected to mysql');
-		SQLconnection.query('DELETE FROM etl_customers; DELETE FROM etl_customer_cards; DELETE FROM etl_orders; DELETE FROM etl_order_items; DELETE FROM etl_order_tags; DELETE FROM etl_order_charges; DELETE FROM etl_deliveries;'
-			, function(error, results, fields) {
-				if (error) throw error;
-			});
+		copyPouchToSQL();
 	});
 }
 
 
 function copyPouchToSQL() {
 	pouch.info().then(function(info) {
+		console.log(info);
 		return customers.find("name", "", { startsWith: true });
 	}).then((cs) => {
+		console.log("Customers: ", cs.length);
 		//1. Copy customers from pouch to sql
 		if (cs.length > 0) {
 			_.each(cs, function(customer) {
@@ -264,12 +276,16 @@ function copyPouchToSQL() {
 			console.log("About to disconnect");
 			disconnectSQL();
 		}
-	}).catch(_.noop);
+	}).catch(m => {
+		console.log(m);
+		disconnectSQL();
+	});
 };
 
 
 
 function disconnectSQL() {
 	SQLconnection.destroy();
+	process.exit(1);
 };
 
