@@ -6,9 +6,12 @@ DROP TABLE IF EXISTS `etl_orders`;
 DROP TABLE IF EXISTS `etl_order_items`;
 DROP TABLE IF EXISTS `etl_order_tags`;
 DROP TABLE IF EXISTS `etl_order_charges`;
+DROP TABLE IF EXISTS `etl_deliveries`;
 
 CREATE TABLE `etl_customers` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `mobile` varchar(15) NOT NULL,
   `allow_notifications` tinyint(1) DEFAULT NULL,
@@ -34,7 +37,9 @@ CREATE TABLE `etl_customers` (
 );
 
 CREATE TABLE `etl_customer_cards` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `card_id` varchar(250) NOT NULL,
@@ -52,7 +57,9 @@ CREATE TABLE `etl_customer_cards` (
 
 
 CREATE TABLE `etl_orders` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `readable_id` varchar(250) NOT NULL,
@@ -74,7 +81,9 @@ CREATE TABLE `etl_orders` (
 
 
 CREATE TABLE `etl_order_items` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `isbn` varchar(250) NOT NULL,
@@ -96,7 +105,9 @@ CREATE TABLE `etl_order_items` (
 
 
 CREATE TABLE `etl_order_tags` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `tag_number` int(10) NOT NULL,
@@ -106,7 +117,9 @@ CREATE TABLE `etl_order_tags` (
 
 
 CREATE TABLE `etl_order_charges` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `amount` DECIMAL(10,2)  NOT NULL,
@@ -122,7 +135,9 @@ CREATE TABLE `etl_order_charges` (
 
 
 CREATE TABLE `etl_deliveries` (
-  `id` varchar(36) NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `store_id` varchar(20) NOT NULL,
+  `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `is_pickup` tinyint(1) NOT NULL,
