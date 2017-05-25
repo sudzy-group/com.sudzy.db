@@ -40,6 +40,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser || !p.remoteMyS
 var pouch;
 var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
+var docs = 0;
 connectPouch();
 connectSQL();
 function connectPouch() {
@@ -86,7 +87,7 @@ function copyPouchToSQL() {
             _.each(cs, function (customer) {
                 var cus = {
                     original_id: customer.id,
-                    created_at: customer.created_at,
+                    created_at: new Date(customer._base.core.created_at),
                     allow_notifications: customer.allow_notifications ? 1 : 0,
                     formatted_mobile: customer.formatted_mobile,
                     mobile: customer.mobile,
@@ -106,6 +107,7 @@ function copyPouchToSQL() {
                     payment_customer_id: customer.payment_customer_id,
                     is_doorman: customer.is_doorman ? 1 : 0
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -119,7 +121,7 @@ function copyPouchToSQL() {
             _.each(crds, function (card) {
                 var crd = {
                     original_id: card.id,
-                    created_at: card.created_at,
+                    created_at: new Date(card._base.core.created_at),
                     customer_id: card.customer_id,
                     card_id: card.card_id,
                     brand: card.brand,
@@ -131,6 +133,7 @@ function copyPouchToSQL() {
                     in_stripe: card.in_stripe ? 1 : 0,
                     stripe_token: card.stripe_token
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -144,7 +147,7 @@ function copyPouchToSQL() {
             _.each(ords, function (order) {
                 var ord = {
                     original_id: order.id,
-                    created_at: order.created_at,
+                    created_at: new Date(order._base.core.created_at),
                     customer_id: order.customer_id,
                     readable_id: order.readable_id,
                     due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
@@ -160,6 +163,7 @@ function copyPouchToSQL() {
                     delivery_pickup_id: order.delivery_pickup_id,
                     delivery_dropoff_id: order.delivery_dropoff_id
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -173,7 +177,7 @@ function copyPouchToSQL() {
             _.each(ord_items, function (order_item) {
                 var ord_item = {
                     original_id: order_item.id,
-                    created_at: order_item.created_at,
+                    created_at: new Date(order_item._base.core.created_at),
                     order_id: order_item.order_id,
                     isbn: order_item.isbn,
                     type: order_item.type,
@@ -189,6 +193,7 @@ function copyPouchToSQL() {
                     brand: order_item.brand,
                     fabric: order_item.fabric
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -202,10 +207,12 @@ function copyPouchToSQL() {
             _.each(ord_tags, function (order_tag) {
                 var ord_tag = {
                     original_id: order_tag.id,
+                    created_at: new Date(order_tag._base.core.created_at),
                     order_id: order_tag.order_id,
                     tag_number: order_tag.tag_number,
                     is_rack: order_tag.is_rack
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -219,7 +226,7 @@ function copyPouchToSQL() {
             _.each(ord_charges, function (order_charge) {
                 var ord_charge = {
                     original_id: order_charge.id,
-                    created_at: order_charge.created_at,
+                    created_at: new Date(order_charge._base.core.created_at),
                     order_id: order_charge.order_id,
                     amount: order_charge.amount,
                     charge_type: order_charge.charge_type,
@@ -229,6 +236,7 @@ function copyPouchToSQL() {
                     refund_id: order_charge.refund_id,
                     amount_refunded: order_charge.amount_refunded
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_order_charges SET ?', ord_charge, function (error, results, fields) {
                     if (error)
                         throw error;
@@ -244,7 +252,7 @@ function copyPouchToSQL() {
             _.each(delivs, function (delivery) {
                 var deliv = {
                     original_id: delivery.id,
-                    created_at: delivery.created_at,
+                    created_at: new Date(delivery._base.core.created_at),
                     customer_id: delivery.customer_id,
                     is_pickup: delivery.is_pickup ? 1 : 0,
                     delivery_time: new Date(delivery.delivery_time),
@@ -253,6 +261,7 @@ function copyPouchToSQL() {
                     is_canceled: delivery.is_canceled ? 1 : 0,
                     express_id: delivery.express_id
                 };
+                docs++;
                 var query = SQLconnection.query('INSERT INTO etl_deliveries SET ?', deliv, function (error, results, fields) {
                     if (error)
                         throw error;

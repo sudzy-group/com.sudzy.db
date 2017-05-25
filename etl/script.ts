@@ -103,7 +103,7 @@ function copyPouchToSQL() {
 			_.each(cs, function(customer) {
 				let cus = {
 					original_id: customer.id,
-					created_at: customer.created_at,
+					created_at: new Date(customer._base.core.created_at),
 					allow_notifications: customer.allow_notifications ? 1 : 0,
 					formatted_mobile: customer.formatted_mobile,
 					mobile: customer.mobile,
@@ -136,7 +136,7 @@ function copyPouchToSQL() {
 			_.each(crds, function(card) {
 				let crd = {
 					original_id: card.id,
-					created_at: card.created_at,
+					created_at: new Date(card._base.core.created_at),
 					customer_id: card.customer_id,
 					card_id: card.card_id,
 					brand: card.brand,
@@ -162,7 +162,7 @@ function copyPouchToSQL() {
 			_.each(ords, function(order) {
 				let ord = {
 					original_id: order.id,
-					created_at: order.created_at,
+					created_at: new Date(order._base.core.created_at),
 					customer_id: order.customer_id,
 					readable_id: order.readable_id,
 					due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
@@ -192,7 +192,7 @@ function copyPouchToSQL() {
 			_.each(ord_items, function(order_item) {
 				let ord_item = {
 					original_id: order_item.id,
-					created_at: order_item.created_at,
+					created_at: new Date(order_item._base.core.created_at),
 					order_id: order_item.order_id,
 					isbn: order_item.isbn,
 					type: order_item.type,
@@ -222,6 +222,7 @@ function copyPouchToSQL() {
 			_.each(ord_tags, function(order_tag) {
 				let ord_tag = {
 					original_id: order_tag.id,
+					created_at: new Date(order_tag._base.core.created_at),					
 					order_id: order_tag.order_id,
 					tag_number: order_tag.tag_number,
 					is_rack: order_tag.is_rack
@@ -240,7 +241,7 @@ function copyPouchToSQL() {
 			_.each(ord_charges, function(order_charge) {
 				let ord_charge = {
 					original_id: order_charge.id,
-					created_at: order_charge.created_at,
+					created_at: new Date(order_charge._base.core.created_at),					
 					order_id: order_charge.order_id,
 					amount: order_charge.amount,
 					charge_type: order_charge.charge_type,
@@ -265,7 +266,7 @@ function copyPouchToSQL() {
 			_.each(delivs, function(delivery) {
 				let deliv = {
 					original_id: delivery.id,
-					created_at: delivery.created_at,
+					created_at: new Date(delivery._base.core.created_at),					
 					customer_id: delivery.customer_id,
 					is_pickup: delivery.is_pickup ? 1 : 0,
 					delivery_time: new Date(delivery.delivery_time),
