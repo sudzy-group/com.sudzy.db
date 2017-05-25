@@ -23,7 +23,7 @@
     "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch",
-    "genSQL": "tsc etl/script.ts && node etl/script.js"
+    "genSQL": "tsc --experimentalDecorators --target es5 etl/script.ts"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -39,6 +39,7 @@
     "acorn": "^4.0.11",
     "babel-plugin-istanbul": "^4.0.0",
     "chai": "^3.0.0",
+    "commander": "^2.9.0",
     "express": "^4.15.2",
     "express-pouchdb": "^2.3.6",
     "faker": "^4.1.0",
