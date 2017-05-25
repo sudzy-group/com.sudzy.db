@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS `etl_customers`;
-DROP TABLE IF EXISTS `etl_customer_cards`;
-DROP TABLE IF EXISTS `etl_orders`;
-DROP TABLE IF EXISTS `etl_order_items`;
-DROP TABLE IF EXISTS `etl_order_tags`;
-DROP TABLE IF EXISTS `etl_order_charges`;
-DROP TABLE IF EXISTS `etl_deliveries`;
+DROP TABLE IF EXISTS `{{store_id}}_customers`;
+DROP TABLE IF EXISTS `{{store_id}}_customer_cards`;
+DROP TABLE IF EXISTS `{{store_id}}_orders`;
+DROP TABLE IF EXISTS `{{store_id}}_order_items`;
+DROP TABLE IF EXISTS `{{store_id}}_order_tags`;
+DROP TABLE IF EXISTS `{{store_id}}_order_charges`;
+DROP TABLE IF EXISTS `{{store_id}}_deliveries`;
 
-CREATE TABLE `etl_customers` (
+CREATE TABLE `{{store_id}}_customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE `etl_customers` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_customer_cards` (
+CREATE TABLE `{{store_id}}_customer_cards` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE `etl_customer_cards` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_orders` (
+CREATE TABLE `{{store_id}}_orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `etl_orders` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_order_items` (
+CREATE TABLE `{{store_id}}_order_items` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE `etl_order_items` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_order_tags` (
+CREATE TABLE `{{store_id}}_order_tags` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE `etl_order_tags` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_order_charges` (
+CREATE TABLE `{{store_id}}_order_charges` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE `etl_order_charges` (
    PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `etl_deliveries` (
+CREATE TABLE `{{store_id}}_deliveries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,

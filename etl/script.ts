@@ -40,7 +40,7 @@ let p = commander
 	.parse(process.argv);
 
 
-if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQLDatabase) {
+if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQLDatabase || !p.storeId) {
    console.error('no databases arguments given.');
    process.exit(1);
 }
@@ -166,7 +166,7 @@ function disconnectSQL(status = 0) {
 
 function insert(table, data) {
 	return new Promise((resolve, reject) => {
-		SQLconnection.query('INSERT INTO ' + table +' SET ?', data, function(error, results, fields) {
+		SQLconnection.query('INSERT INTO ' + p.storeId + '_' + table +' SET ?', data, function(error, results, fields) {
 			resolve(results);
 		});
 	})
