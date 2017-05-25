@@ -100,8 +100,6 @@ function copyPouchToSQL() {
 	pouch.info().then(function(info) {
 		return customers.find("name", "", { startsWith: true });
 	}).then((cs) => {
-		console.log("Copy customers from pouch to sql.");
-		console.log("Customers: ", cs.length);
 		let ps = getPromises(cs, customerConvertor, 'etl_customers');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -110,8 +108,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return customer_cards.find("customer_id", "", { startsWith: true });
 	}).then((crds) => {
-		console.log("Copy customers cards from pouch to sql.");
-		console.log("Cards: ", crds.length);
 		let ps = getPromises(crds, customerCardsConvertor, 'etl_customer_cards');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -120,8 +116,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return orders.find("customer_id", "", { startsWith: true });
 	}).then((ords) => {
-		console.log("Copy orders from pouch to sql.");
-		console.log("Orders: ", ords.length);
 		let ps = getPromises(ords, ordersConvertor, 'etl_orders');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -130,8 +124,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return order_items.find("order_id", "", { startsWith: true });
 	}).then((ord_items) => {
-		console.log("Copy order items from pouch to sql.");
-		console.log("Items: ", ord_items.length);
 		let ps = getPromises(ord_items, orderItemsConvertor, 'etl_order_items');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -140,8 +132,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return order_tags.find("order_id", "", { startsWith: true });
 	}).then((ord_tags) => {
-		console.log("Copy order Tags from pouch to sql.");
-		console.log("Items: ", ord_tags.length);
 		let ps = getPromises(ord_tags, orderTagsConvertor, 'etl_order_tags');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -150,8 +140,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return order_charges.find("order_id", "", { startsWith: true });
 	}).then((ord_charges) => {
-		console.log("Copy order Charges from pouch to sql.");
-		console.log("Items: ", ord_charges.length);
 		let ps = getPromises(ord_charges, orderChargesConvertor, 'etl_order_charges');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -160,8 +148,6 @@ function copyPouchToSQL() {
 	/////////////////////		
 		return deliveries.find("delivery_time", "", { startsWith: true });
 	}).then((delivs) => {
-		console.log("Copy Deliveries from pouch to sql.");
-		console.log("Items: ", delivs.length);
 		let ps = getPromises(delivs, deliveriesConvertor, 'etl_deliveries');
 		return Promise.all(ps);
 	}).then((results) => {
@@ -187,6 +173,9 @@ function insert(table, data) {
 }
 
 function getPromises(es, convertor, tableName) {
+	console.log("Preparing conversion to ." + tableName);
+	console.log("Entities to convert: ", es.length);
+	
 	let ps = [];
 	_.each(es, e => {
 		ps.push(insert(tableName, convertor(e)));
