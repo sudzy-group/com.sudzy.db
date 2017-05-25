@@ -20,8 +20,10 @@ DROP TABLE IF EXISTS `{{store_id}}_orders_pricing`;
 
 CREATE TABLE `{{store_id}}_orders_pricing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `original_id` VARCHAR(20) NULL,
   `day` date NOT NULL,
-  `orders_count` INT NULL,
+  `items_count` INT NULL,
+  `total_order_price` DOUBLE NULL,
   PRIMARY KEY (`id`)
 );
 
