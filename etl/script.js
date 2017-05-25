@@ -5,6 +5,7 @@ var PouchDB = require("pouchdb");
 var PouchableAuthentication = require("pouchdb-authentication");
 PouchDB.plugin(PouchableAuthentication);
 var _ = require("lodash");
+var ts_promise_1 = require("ts-promise");
 var mysql = require("mysql");
 var Customers_1 = require("../src/collections/Customers");
 var CustomerCards_1 = require("../src/collections/CustomerCards");
@@ -77,212 +78,79 @@ function connectSQL() {
     });
 }
 function copyPouchToSQL() {
+    /////////////////////
+    // Customers
+    /////////////////////
     pouch.info().then(function (info) {
-        console.log(info);
         return customers.find("name", "", { startsWith: true });
     }).then(function (cs) {
+        console.log("Copy customers from pouch to sql.");
         console.log("Customers: ", cs.length);
-        //1. Copy customers from pouch to sql
-        if (cs.length > 0) {
-            _.each(cs, function (customer) {
-                var cus = {
-                    original_id: customer.id,
-                    created_at: new Date(customer._base.core.created_at),
-                    allow_notifications: customer.allow_notifications ? 1 : 0,
-                    formatted_mobile: customer.formatted_mobile,
-                    mobile: customer.mobile,
-                    name: customer.name,
-                    email: customer.email,
-                    autocomplete: customer.autocomplete,
-                    street_num: customer.street_num,
-                    street_route: customer.street_route,
-                    apartment: customer.apartment,
-                    city: customer.city,
-                    state: customer.state,
-                    zip: customer.zip,
-                    lat: customer.lat,
-                    lng: customer.lng,
-                    delivery_notes: customer.delivery_notes,
-                    cleaning_notes: customer.cleaning_notes,
-                    payment_customer_id: customer.payment_customer_id,
-                    is_doorman: customer.is_doorman ? 1 : 0
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_customers SET ?', cus, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        var ps = getPromises(cs, customerConvertor, 'etl_customers');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Customers Cards
+        /////////////////////		
         return customer_cards.find("customer_id", "", { startsWith: true });
     }).then(function (crds) {
-        //2. Copy customer cards from pouch to sql 
-        if (crds.length > 0) {
-            console.log("Customers: ", crds.length);
-            _.each(crds, function (card) {
-                var crd = {
-                    original_id: card.id,
-                    created_at: new Date(card._base.core.created_at),
-                    customer_id: card.customer_id,
-                    card_id: card.card_id,
-                    brand: card.brand,
-                    last4: card.last4,
-                    exp_month: card.exp_month,
-                    exp_year: card.exp_year,
-                    is_default: card.is_default ? 1 : 0,
-                    is_forgotten: card.is_forgotten ? 1 : 0,
-                    in_stripe: card.in_stripe ? 1 : 0,
-                    stripe_token: card.stripe_token
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        console.log("Copy customers cards from pouch to sql.");
+        console.log("Cards: ", crds.length);
+        var ps = getPromises(crds, customerCardsConvertor, 'etl_customer_cards');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Orders
+        /////////////////////		
         return orders.find("customer_id", "", { startsWith: true });
     }).then(function (ords) {
-        //3. Copy orders from pouch to sql	   
+        console.log("Copy orders from pouch to sql.");
         console.log("Orders: ", ords.length);
-        if (ords.length > 0) {
-            _.each(ords, function (order) {
-                var ord = {
-                    original_id: order.id,
-                    created_at: new Date(order._base.core.created_at),
-                    customer_id: order.customer_id,
-                    readable_id: order.readable_id,
-                    due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
-                    rack: order.rack,
-                    notes: order.notes,
-                    tax: order.tax,
-                    tip: order.tip,
-                    discount_percent: order.discount_percent,
-                    discount_fixed: order.discount_fixed,
-                    balance: order.balance,
-                    all_ready: order.all_ready ? 1 : 0,
-                    all_pickedup: order.all_pickedup ? 1 : 0,
-                    delivery_pickup_id: order.delivery_pickup_id,
-                    delivery_dropoff_id: order.delivery_dropoff_id
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        var ps = getPromises(ords, ordersConvertor, 'etl_orders');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Order Items
+        /////////////////////		
         return order_items.find("order_id", "", { startsWith: true });
     }).then(function (ord_items) {
-        //4. Copy order items from pouch to sql	
-        console.log("Order items : ", ord_items.length);
-        if (ord_items.length > 0) {
-            _.each(ord_items, function (order_item) {
-                var ord_item = {
-                    original_id: order_item.id,
-                    created_at: new Date(order_item._base.core.created_at),
-                    order_id: order_item.order_id,
-                    isbn: order_item.isbn,
-                    type: order_item.type,
-                    name: order_item.name,
-                    quantity: order_item.quantity,
-                    price: order_item.price,
-                    separate: order_item.separate ? 1 : 0,
-                    detergent: order_item.detergent,
-                    preferred_wash: order_item.preferred_wash,
-                    preferred_dry: order_item.preferred_dry,
-                    color: order_item.color,
-                    pattern: order_item.pattern,
-                    brand: order_item.brand,
-                    fabric: order_item.fabric
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        console.log("Copy order items from pouch to sql.");
+        console.log("Items: ", ord_items.length);
+        var ps = getPromises(ord_items, orderItemsConvertor, 'etl_order_items');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Order Tags
+        /////////////////////		
         return order_tags.find("order_id", "", { startsWith: true });
     }).then(function (ord_tags) {
-        //5. Copy order tagss from pouch to sql	
-        console.log("Order tags : ", ord_tags.length);
-        if (ord_tags.length > 0) {
-            _.each(ord_tags, function (order_tag) {
-                var ord_tag = {
-                    original_id: order_tag.id,
-                    created_at: new Date(order_tag._base.core.created_at),
-                    order_id: order_tag.order_id,
-                    tag_number: order_tag.tag_number,
-                    is_rack: order_tag.is_rack
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        console.log("Copy order Tags from pouch to sql.");
+        console.log("Items: ", ord_tags.length);
+        var ps = getPromises(ord_tags, orderTagsConvertor, 'etl_order_tags');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Order Charges
+        /////////////////////		
         return order_charges.find("order_id", "", { startsWith: true });
     }).then(function (ord_charges) {
-        //6. Copy order charges from pouch to sql	
-        console.log("Order charges : ", ord_charges.length);
-        if (ord_charges.length > 0) {
-            _.each(ord_charges, function (order_charge) {
-                var ord_charge = {
-                    original_id: order_charge.id,
-                    created_at: new Date(order_charge._base.core.created_at),
-                    order_id: order_charge.order_id,
-                    amount: order_charge.amount,
-                    charge_type: order_charge.charge_type,
-                    charge_id: order_charge.charge_id,
-                    card_id: order_charge.card_id,
-                    date_cash: order_charge.date_cash ? new Date(order_charge.date_cash) : null,
-                    refund_id: order_charge.refund_id,
-                    amount_refunded: order_charge.amount_refunded
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_order_charges SET ?', ord_charge, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                });
-            });
-        }
+        console.log("Copy order Charges from pouch to sql.");
+        console.log("Items: ", ord_charges.length);
+        var ps = getPromises(ord_charges, orderChargesConvertor, 'etl_order_charges');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        /////////////////////
+        // Deliveries
+        /////////////////////		
         return deliveries.find("delivery_time", "", { startsWith: true });
     }).then(function (delivs) {
-        //7. Copy deliveries from pouch to sql	
-        console.log("Deliveries : ", delivs.length);
-        if (delivs.length > 0) {
-            var amount_1 = delivs.length;
-            var i_1 = 0;
-            _.each(delivs, function (delivery) {
-                var deliv = {
-                    original_id: delivery.id,
-                    created_at: new Date(delivery._base.core.created_at),
-                    customer_id: delivery.customer_id,
-                    is_pickup: delivery.is_pickup ? 1 : 0,
-                    delivery_time: new Date(delivery.delivery_time),
-                    delivery_person: delivery.delivery_person,
-                    is_confirmed: delivery.is_confirmed ? 1 : 0,
-                    is_canceled: delivery.is_canceled ? 1 : 0,
-                    express_id: delivery.express_id
-                };
-                docs++;
-                var query = SQLconnection.query('INSERT INTO etl_deliveries SET ?', deliv, function (error, results, fields) {
-                    if (error)
-                        throw error;
-                    i_1++;
-                    if (i_1 == amount_1) {
-                        console.log("About to disconnect");
-                        disconnectSQL();
-                    }
-                });
-            });
-        }
-        else {
-            console.log("About to disconnect");
-            disconnectSQL();
-        }
+        console.log("Copy Deliveries from pouch to sql.");
+        console.log("Items: ", delivs.length);
+        var ps = getPromises(delivs, deliveriesConvertor, 'etl_deliveries');
+        return ts_promise_1.default.all(ps);
+    }).then(function (results) {
+        console.log("Disconnecting");
+        disconnectSQL();
     }).catch(function (m) {
         console.log(m);
         disconnectSQL(1);
@@ -295,3 +163,137 @@ function disconnectSQL(status) {
     process.exit(status);
 }
 ;
+function insert(table, data) {
+    return new ts_promise_1.default(function (resolve, reject) {
+        SQLconnection.query('INSERT INTO ' + table + ' SET ?', data, function (error, results, fields) {
+            resolve(results);
+        });
+    });
+}
+function getPromises(es, convertor, tableName) {
+    var ps = [];
+    _.each(es, function (e) {
+        ps.push(insert(tableName, convertor(e)));
+    });
+    return ps;
+}
+function customerConvertor(customer) {
+    return {
+        original_id: customer.id,
+        created_at: new Date(customer._base.core.created_at),
+        allow_notifications: customer.allow_notifications ? 1 : 0,
+        formatted_mobile: customer.formatted_mobile,
+        mobile: customer.mobile,
+        name: customer.name,
+        email: customer.email,
+        autocomplete: customer.autocomplete,
+        street_num: customer.street_num,
+        street_route: customer.street_route,
+        apartment: customer.apartment,
+        city: customer.city,
+        state: customer.state,
+        zip: customer.zip,
+        lat: customer.lat,
+        lng: customer.lng,
+        delivery_notes: customer.delivery_notes,
+        cleaning_notes: customer.cleaning_notes,
+        payment_customer_id: customer.payment_customer_id,
+        is_doorman: customer.is_doorman ? 1 : 0
+    };
+}
+function customerCardsConvertor(card) {
+    return {
+        original_id: card.id,
+        created_at: new Date(card._base.core.created_at),
+        customer_id: card.customer_id,
+        card_id: card.card_id,
+        brand: card.brand,
+        last4: card.last4,
+        exp_month: card.exp_month,
+        exp_year: card.exp_year,
+        is_default: card.is_default ? 1 : 0,
+        is_forgotten: card.is_forgotten ? 1 : 0,
+        in_stripe: card.in_stripe ? 1 : 0,
+        stripe_token: card.stripe_token
+    };
+}
+function ordersConvertor(order) {
+    return {
+        original_id: order.id,
+        created_at: new Date(order._base.core.created_at),
+        customer_id: order.customer_id,
+        readable_id: order.readable_id,
+        due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
+        rack: order.rack,
+        notes: order.notes,
+        tax: order.tax,
+        tip: order.tip,
+        discount_percent: order.discount_percent,
+        discount_fixed: order.discount_fixed,
+        balance: order.balance,
+        all_ready: order.all_ready ? 1 : 0,
+        all_pickedup: order.all_pickedup ? 1 : 0,
+        delivery_pickup_id: order.delivery_pickup_id,
+        delivery_dropoff_id: order.delivery_dropoff_id
+    };
+}
+function orderItemsConvertor(order_item) {
+    return {
+        original_id: order_item.id,
+        created_at: new Date(order_item._base.core.created_at),
+        order_id: order_item.order_id,
+        isbn: order_item.isbn,
+        type: order_item.type,
+        name: order_item.name,
+        quantity: order_item.quantity,
+        price: order_item.price,
+        notes: toString(order_item.notes)
+    };
+}
+function orderTagsConvertor(order_tag) {
+    return {
+        original_id: order_tag.id,
+        created_at: new Date(order_tag._base.core.created_at),
+        order_id: order_tag.order_id,
+        tag_number: order_tag.tag_number,
+        is_rack: order_tag.is_rack
+    };
+}
+function orderChargesConvertor(order_charge) {
+    return {
+        original_id: order_charge.id,
+        created_at: new Date(order_charge._base.core.created_at),
+        order_id: order_charge.order_id,
+        amount: order_charge.amount,
+        charge_type: order_charge.charge_type,
+        charge_id: order_charge.charge_id,
+        card_id: order_charge.card_id,
+        date_cash: order_charge.date_cash ? new Date(order_charge.date_cash) : null,
+        refund_id: order_charge.refund_id,
+        amount_refunded: order_charge.amount_refunded
+    };
+}
+function deliveriesConvertor(delivery) {
+    return {
+        original_id: delivery.id,
+        created_at: new Date(delivery._base.core.created_at),
+        customer_id: delivery.customer_id,
+        is_pickup: delivery.is_pickup ? 1 : 0,
+        delivery_time: new Date(delivery.delivery_time),
+        delivery_person: delivery.delivery_person,
+        is_confirmed: delivery.is_confirmed ? 1 : 0,
+        is_canceled: delivery.is_canceled ? 1 : 0,
+        express_id: delivery.express_id
+    };
+}
+function toString(val) {
+    if (!val) {
+        return null;
+    }
+    if (_.isString(val)) {
+        return val;
+    }
+    if (_.isArray(val)) {
+        return val.join(', ');
+    }
+}

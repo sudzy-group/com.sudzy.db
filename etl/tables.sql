@@ -79,14 +79,7 @@ CREATE TABLE `etl_order_items` (
   `name` varchar(100) NULL,
   `quantity` int(5) DEFAULT NULL,
   `price` DECIMAL(10,2)  DEFAULT NULL,
-  `separate` tinyint(1) DEFAULT NULL,
-  `detergent` varchar(100) DEFAULT NULL,
-  `preferred_wash` varchar(100) DEFAULT NULL,
-  `preferred_dry` varchar(100) DEFAULT NULL,
-  `color` varchar(100) DEFAULT NULL,
-  `pattern` varchar(100) DEFAULT NULL,
-  `brand` varchar(100) DEFAULT NULL,
-  `fabric` varchar(100) DEFAULT NULL,
+  `notes` varchar(500) NULL,
    PRIMARY KEY (`id`)
 );
 
