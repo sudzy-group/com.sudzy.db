@@ -133,6 +133,8 @@ function copyPouchToSQL() {
 	}).then((crds) => {
 		//2. Copy customer cards from pouch to sql 
 		if (crds.length > 0) {
+			console.log("Customer cards: ", crds.length);
+			
 			_.each(crds, function(card) {
 				let crd = {
 					original_id: card.id,
@@ -158,6 +160,7 @@ function copyPouchToSQL() {
 		return orders.find("customer_id", "", { startsWith: true });
 	}).then((ords) => {
 		//3. Copy orders from pouch to sql	   
+		console.log("Orders: ", ords.length)
 		if (ords.length > 0) {
 			_.each(ords, function(order) {
 				let ord = {
@@ -188,6 +191,8 @@ function copyPouchToSQL() {
 		return order_items.find("order_id", "", { startsWith: true });
 	}).then((ord_items) => {
 		//4. Copy order items from pouch to sql	
+		console.log("Order items : ", ord_items.length)
+		
 		if (ord_items.length > 0) {
 			_.each(ord_items, function(order_item) {
 				let ord_item = {
@@ -218,6 +223,8 @@ function copyPouchToSQL() {
 		return order_tags.find("order_id", "", { startsWith: true });
 	}).then((ord_tags) => {
 		//5. Copy order tagss from pouch to sql	
+		console.log("Order tags : ", ord_tags.length)
+		
 		if (ord_tags.length > 0) {
 			_.each(ord_tags, function(order_tag) {
 				let ord_tag = {
@@ -237,6 +244,8 @@ function copyPouchToSQL() {
 		return order_charges.find("order_id", "", { startsWith: true });
 	}).then((ord_charges) => {
 		//6. Copy order charges from pouch to sql	
+		console.log("Order charges : ", ord_charges.length)
+		
 		if (ord_charges.length > 0) {
 			_.each(ord_charges, function(order_charge) {
 				let ord_charge = {
@@ -260,6 +269,8 @@ function copyPouchToSQL() {
 		return deliveries.find("delivery_time", "", { startsWith: true });
 	}).then((delivs) => {
 		//7. Copy deliveries from pouch to sql	
+		console.log("Deliveries : ", delivs.length)
+		
 		if (delivs.length > 0) {
 			let amount = delivs.length;
 			let i = 0;
@@ -292,12 +303,12 @@ function copyPouchToSQL() {
 		}
 	}).catch(m => {
 		console.log(m);
-		disconnectSQL();
+		disconnectSQL(1);
 	});
 };
 
-function disconnectSQL() {
+function disconnectSQL(status = 0) {
 	SQLconnection.destroy();
-	process.exit(0);
+	process.exit(status);
 };
 

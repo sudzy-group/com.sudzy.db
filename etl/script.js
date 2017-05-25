@@ -118,6 +118,7 @@ function copyPouchToSQL() {
     }).then(function (crds) {
         //2. Copy customer cards from pouch to sql 
         if (crds.length > 0) {
+            console.log("Customers: ", crds.length);
             _.each(crds, function (card) {
                 var crd = {
                     original_id: card.id,
@@ -143,6 +144,7 @@ function copyPouchToSQL() {
         return orders.find("customer_id", "", { startsWith: true });
     }).then(function (ords) {
         //3. Copy orders from pouch to sql	   
+        console.log("Orders: ", ords.length);
         if (ords.length > 0) {
             _.each(ords, function (order) {
                 var ord = {
@@ -173,6 +175,7 @@ function copyPouchToSQL() {
         return order_items.find("order_id", "", { startsWith: true });
     }).then(function (ord_items) {
         //4. Copy order items from pouch to sql	
+        console.log("Order items : ", ord_items.length);
         if (ord_items.length > 0) {
             _.each(ord_items, function (order_item) {
                 var ord_item = {
@@ -203,6 +206,7 @@ function copyPouchToSQL() {
         return order_tags.find("order_id", "", { startsWith: true });
     }).then(function (ord_tags) {
         //5. Copy order tagss from pouch to sql	
+        console.log("Order tags : ", ord_tags.length);
         if (ord_tags.length > 0) {
             _.each(ord_tags, function (order_tag) {
                 var ord_tag = {
@@ -222,6 +226,7 @@ function copyPouchToSQL() {
         return order_charges.find("order_id", "", { startsWith: true });
     }).then(function (ord_charges) {
         //6. Copy order charges from pouch to sql	
+        console.log("Order charges : ", ord_charges.length);
         if (ord_charges.length > 0) {
             _.each(ord_charges, function (order_charge) {
                 var ord_charge = {
@@ -246,6 +251,7 @@ function copyPouchToSQL() {
         return deliveries.find("delivery_time", "", { startsWith: true });
     }).then(function (delivs) {
         //7. Copy deliveries from pouch to sql	
+        console.log("Deliveries : ", delivs.length);
         if (delivs.length > 0) {
             var amount_1 = delivs.length;
             var i_1 = 0;
@@ -279,12 +285,13 @@ function copyPouchToSQL() {
         }
     }).catch(function (m) {
         console.log(m);
-        disconnectSQL();
+        disconnectSQL(1);
     });
 }
 ;
-function disconnectSQL() {
+function disconnectSQL(status) {
+    if (status === void 0) { status = 0; }
     SQLconnection.destroy();
-    process.exit(1);
+    process.exit(status);
 }
 ;
