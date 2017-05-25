@@ -298,6 +298,6 @@ function copyPouchToSQL() {
 
 function disconnectSQL() {
 	SQLconnection.destroy();
-	process.exit(1);
+	process.exit(0);
 };
 
