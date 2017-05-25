@@ -13,7 +13,7 @@ CREATE TABLE `etl_customers` (
   `mobile` varchar(15) NULL,
   `allow_notifications` tinyint(1) DEFAULT NULL,
   `formatted_mobile` varchar(20) NULL,
-  `name` varchar(50) DEFAULT NULL, 
+  `name` varchar(100) DEFAULT NULL, 
   `email` varchar(254) DEFAULT NULL,
   `autocomplete` varchar(100) DEFAULT NULL,
   `street_num` varchar(12) DEFAULT NULL,
