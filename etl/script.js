@@ -31,6 +31,7 @@ var p = commander
     .option('-u, --remoteMySQLUser [value]', 'The remote MySQL User argument')
     .option('-w, --remoteMySQLPassword [value]', 'The remote MySQL Password argument')
     .option('-d, --remoteMySQLDatabase [value]', 'The remote MySQL Database argument')
+    .option('-s, --storeId [value]', 'The store id argument')
     .parse(process.argv);
 if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser || !p.remoteMySQLDatabase) {
     console.error('no databases arguments given.');
@@ -84,7 +85,7 @@ function copyPouchToSQL() {
         if (cs.length > 0) {
             _.each(cs, function (customer) {
                 var cus = {
-                    id: customer.id,
+                    original_id: customer.id,
                     created_at: customer.created_at,
                     allow_notifications: customer.allow_notifications ? 1 : 0,
                     formatted_mobile: customer.formatted_mobile,
@@ -117,7 +118,7 @@ function copyPouchToSQL() {
         if (crds.length > 0) {
             _.each(crds, function (card) {
                 var crd = {
-                    id: card.id,
+                    original_id: card.id,
                     created_at: card.created_at,
                     customer_id: card.customer_id,
                     card_id: card.card_id,
@@ -142,7 +143,7 @@ function copyPouchToSQL() {
         if (ords.length > 0) {
             _.each(ords, function (order) {
                 var ord = {
-                    id: order.id,
+                    original_id: order.id,
                     created_at: order.created_at,
                     customer_id: order.customer_id,
                     readable_id: order.readable_id,
@@ -171,7 +172,7 @@ function copyPouchToSQL() {
         if (ord_items.length > 0) {
             _.each(ord_items, function (order_item) {
                 var ord_item = {
-                    id: order_item.id,
+                    original_id: order_item.id,
                     created_at: order_item.created_at,
                     order_id: order_item.order_id,
                     isbn: order_item.isbn,
@@ -200,9 +201,10 @@ function copyPouchToSQL() {
         if (ord_tags.length > 0) {
             _.each(ord_tags, function (order_tag) {
                 var ord_tag = {
-                    id: order_tag.id,
+                    original_id: order_tag.id,
                     order_id: order_tag.order_id,
-                    tag_number: order_tag.tag_number
+                    tag_number: order_tag.tag_number,
+                    is_rack: order_tag.is_rack
                 };
                 var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function (error, results, fields) {
                     if (error)
@@ -216,7 +218,7 @@ function copyPouchToSQL() {
         if (ord_charges.length > 0) {
             _.each(ord_charges, function (order_charge) {
                 var ord_charge = {
-                    id: order_charge.id,
+                    original_id: order_charge.id,
                     created_at: order_charge.created_at,
                     order_id: order_charge.order_id,
                     amount: order_charge.amount,
@@ -241,7 +243,7 @@ function copyPouchToSQL() {
             var i_1 = 0;
             _.each(delivs, function (delivery) {
                 var deliv = {
-                    id: delivery.id,
+                    original_id: delivery.id,
                     created_at: delivery.created_at,
                     customer_id: delivery.customer_id,
                     is_pickup: delivery.is_pickup ? 1 : 0,

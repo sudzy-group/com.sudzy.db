@@ -36,6 +36,7 @@ let p = commander
 	.option('-u, --remoteMySQLUser [value]', 'The remote MySQL User argument')
 	.option('-w, --remoteMySQLPassword [value]', 'The remote MySQL Password argument')
 	.option('-d, --remoteMySQLDatabase [value]', 'The remote MySQL Database argument')
+	.option('-s, --storeId [value]', 'The store id argument')
 	.parse(process.argv);
 
 
@@ -47,6 +48,8 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 var pouch;
 var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
+
+var docs = 0;
 
 connectPouch();
 connectSQL();
@@ -99,7 +102,7 @@ function copyPouchToSQL() {
 		if (cs.length > 0) {
 			_.each(cs, function(customer) {
 				let cus = {
-					id: customer.id,
+					original_id: customer.id,
 					created_at: customer.created_at,
 					allow_notifications: customer.allow_notifications ? 1 : 0,
 					formatted_mobile: customer.formatted_mobile,
@@ -120,7 +123,7 @@ function copyPouchToSQL() {
 					payment_customer_id: customer.payment_customer_id,
 					is_doorman: customer.is_doorman ? 1 : 0
 				};
-
+				docs++;
 				var query = SQLconnection.query('INSERT INTO etl_customers SET ?', cus, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -132,7 +135,7 @@ function copyPouchToSQL() {
 		if (crds.length > 0) {
 			_.each(crds, function(card) {
 				let crd = {
-					id: card.id,
+					original_id: card.id,
 					created_at: card.created_at,
 					customer_id: card.customer_id,
 					card_id: card.card_id,
@@ -146,6 +149,7 @@ function copyPouchToSQL() {
 					stripe_token: card.stripe_token
 				}
 
+				docs++;
 				var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -157,7 +161,7 @@ function copyPouchToSQL() {
 		if (ords.length > 0) {
 			_.each(ords, function(order) {
 				let ord = {
-					id: order.id,
+					original_id: order.id,
 					created_at: order.created_at,
 					customer_id: order.customer_id,
 					readable_id: order.readable_id,
@@ -175,6 +179,7 @@ function copyPouchToSQL() {
 					delivery_dropoff_id: order.delivery_dropoff_id
 				}
 
+				docs++;
 				var query = SQLconnection.query('INSERT INTO etl_orders SET ?', ord, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -186,7 +191,7 @@ function copyPouchToSQL() {
 		if (ord_items.length > 0) {
 			_.each(ord_items, function(order_item) {
 				let ord_item = {
-					id: order_item.id,
+					original_id: order_item.id,
 					created_at: order_item.created_at,
 					order_id: order_item.order_id,
 					isbn: order_item.isbn,
@@ -203,6 +208,8 @@ function copyPouchToSQL() {
 					brand: order_item.brand,
 					fabric: order_item.fabric
 				}
+				docs++;
+				
 				var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -214,10 +221,13 @@ function copyPouchToSQL() {
 		if (ord_tags.length > 0) {
 			_.each(ord_tags, function(order_tag) {
 				let ord_tag = {
-					id: order_tag.id,
+					original_id: order_tag.id,
 					order_id: order_tag.order_id,
-					tag_number: order_tag.tag_number
+					tag_number: order_tag.tag_number,
+					is_rack: order_tag.is_rack
 				}
+				docs++;
+
 				var query = SQLconnection.query('INSERT INTO etl_order_tags SET ?', ord_tag, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -229,7 +239,7 @@ function copyPouchToSQL() {
 		if (ord_charges.length > 0) {
 			_.each(ord_charges, function(order_charge) {
 				let ord_charge = {
-					id: order_charge.id,
+					original_id: order_charge.id,
 					created_at: order_charge.created_at,
 					order_id: order_charge.order_id,
 					amount: order_charge.amount,
@@ -240,6 +250,7 @@ function copyPouchToSQL() {
 					refund_id: order_charge.refund_id,
 					amount_refunded: order_charge.amount_refunded
 				}
+				docs++;
 				var query = SQLconnection.query('INSERT INTO etl_order_charges SET ?', ord_charge, function(error, results, fields) {
 					if (error) throw error;
 				});
@@ -253,7 +264,7 @@ function copyPouchToSQL() {
 			let i = 0;
 			_.each(delivs, function(delivery) {
 				let deliv = {
-					id: delivery.id,
+					original_id: delivery.id,
 					created_at: delivery.created_at,
 					customer_id: delivery.customer_id,
 					is_pickup: delivery.is_pickup ? 1 : 0,
@@ -263,6 +274,8 @@ function copyPouchToSQL() {
 					is_canceled: delivery.is_canceled ? 1 : 0,
 					express_id: delivery.express_id
 				}
+				docs++;
+				
 				var query = SQLconnection.query('INSERT INTO etl_deliveries SET ?', deliv, function(error, results, fields) {
 					if (error) throw error;
 					i++;
@@ -281,8 +294,6 @@ function copyPouchToSQL() {
 		disconnectSQL();
 	});
 };
-
-
 
 function disconnectSQL() {
 	SQLconnection.destroy();
