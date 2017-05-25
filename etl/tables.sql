@@ -1,9 +1,11 @@
-USE `pouch`;
+use `etl`;
 
-DROP DATABASE `pouch`;
-CREATE DATABASE `pouch`;
-
-USE `pouch`;
+DROP TABLE IF EXISTS `etl_customers`;
+DROP TABLE IF EXISTS `etl_customer_cards`;
+DROP TABLE IF EXISTS `etl_orders`;
+DROP TABLE IF EXISTS `etl_order_items`;
+DROP TABLE IF EXISTS `etl_order_tags`;
+DROP TABLE IF EXISTS `etl_order_charges`;
 
 CREATE TABLE `etl_customers` (
   `id` varchar(36) NOT NULL,
