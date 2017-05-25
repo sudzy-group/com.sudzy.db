@@ -1,9 +1,8 @@
+#!/usr/bin/env node
 import * as PouchDB from "pouchdb";
 import * as _ from 'lodash';
 import * as faker from 'faker';
 import Promise from "ts-promise";
-import * as express from "express";
-import * as expressPouchdb from "express-pouchdb";
 import * as mysql from "mysql";
 
 import { Customers } from "../src/collections/Customers";
@@ -22,13 +21,20 @@ import { OrderTag } from "../src/entities/OrderTag";
 import { OrderCharge } from "../src/entities/OrderCharge";
 import { Delivery } from "../src/entities/Delivery";
 import { Database } from '../src/access/Database';
+import * as commander from 'commander';
 
-var config = {
-	"port": 5555,
-	"pouchURL": "http://localhost:5555/mocks"
+let p = commander
+  .version('0.0.1')
+  .usage('[options]')
+  .option('-r, --remote [value]', 'The remote url')
+  .option('-f, --float [value]', 'A float argument')
+  .parse(process.argv);
+
+if (!p.remote) {
+   console.error('no remote given!');
+   process.exit(1);
 }
 
-var app;
 var pouch;
 var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
@@ -39,10 +45,7 @@ copyPouchToSQL();
 
 
 function connectPouch() {
-	app = express();
-	app.use('/', expressPouchdb(PouchDB));
-	app.listen(config.port);
-	pouch = new PouchDB(config.pouchURL);
+	pouch = new PouchDB(p.remote);
 
 	customers = new Customers(pouch, Customer);
 	customer_cards = new CustomerCards(pouch, CustomerCard);

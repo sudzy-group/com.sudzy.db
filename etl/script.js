@@ -1,9 +1,8 @@
+#!/usr/bin/env node
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var PouchDB = require("pouchdb");
 var _ = require("lodash");
-var express = require("express");
-var expressPouchdb = require("express-pouchdb");
 var mysql = require("mysql");
 var Customers_1 = require("../src/collections/Customers");
 var CustomerCards_1 = require("../src/collections/CustomerCards");
@@ -19,11 +18,17 @@ var OrderItem_1 = require("../src/entities/OrderItem");
 var OrderTag_1 = require("../src/entities/OrderTag");
 var OrderCharge_1 = require("../src/entities/OrderCharge");
 var Delivery_1 = require("../src/entities/Delivery");
-var config = {
-    "port": 5555,
-    "pouchURL": "http://localhost:5555/mocks"
-};
-var app;
+var commander = require("commander");
+var p = commander
+    .version('0.0.1')
+    .usage('[options]')
+    .option('-r, --remote [value]', 'The remote url')
+    .option('-f, --float [value]', 'A float argument')
+    .parse(process.argv);
+if (!p.remote) {
+    console.error('no remote given!');
+    process.exit(1);
+}
 var pouch;
 var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
@@ -31,10 +36,7 @@ connectPouch();
 connectSQL();
 copyPouchToSQL();
 function connectPouch() {
-    app = express();
-    app.use('/', expressPouchdb(PouchDB));
-    app.listen(config.port);
-    pouch = new PouchDB(config.pouchURL);
+    pouch = new PouchDB(p.remote);
     customers = new Customers_1.Customers(pouch, Customer_1.Customer);
     customer_cards = new CustomerCards_1.CustomerCards(pouch, CustomerCard_1.CustomerCard);
     orders = new Orders_1.Orders(pouch, Order_1.Order);
@@ -72,6 +74,9 @@ function copyPouchToSQL() {
             _.each(cs, function (customer) {
                 var cus = {
                     id: customer.id,
+                    created_at: customer.created_at,
+                    allow_notifications: customer.allow_notifications ? 1 : 0,
+                    formatted_mobile: customer.formatted_mobile,
                     mobile: customer.mobile,
                     name: customer.name,
                     email: customer.email,
@@ -86,7 +91,6 @@ function copyPouchToSQL() {
                     lng: customer.lng,
                     delivery_notes: customer.delivery_notes,
                     cleaning_notes: customer.cleaning_notes,
-                    payment_customer_token: customer.payment_customer_token,
                     payment_customer_id: customer.payment_customer_id,
                     is_doorman: customer.is_doorman ? 1 : 0
                 };
@@ -103,11 +107,17 @@ function copyPouchToSQL() {
             _.each(crds, function (card) {
                 var crd = {
                     id: card.id,
+                    created_at: card.created_at,
                     customer_id: card.customer_id,
                     card_id: card.card_id,
                     brand: card.brand,
                     last4: card.last4,
-                    is_default: card.is_default ? 1 : 0
+                    exp_month: card.exp_month,
+                    exp_year: card.exp_year,
+                    is_default: card.is_default ? 1 : 0,
+                    is_forgotten: card.is_forgotten ? 1 : 0,
+                    in_stripe: card.in_stripe ? 1 : 0,
+                    stripe_token: card.stripe_token
                 };
                 var query = SQLconnection.query('INSERT INTO etl_customer_cards SET ?', crd, function (error, results, fields) {
                     if (error)
@@ -122,6 +132,7 @@ function copyPouchToSQL() {
             _.each(ords, function (order) {
                 var ord = {
                     id: order.id,
+                    created_at: order.created_at,
                     customer_id: order.customer_id,
                     readable_id: order.readable_id,
                     due_datetime: order.due_datetime ? new Date(order.due_datetime) : null,
@@ -150,21 +161,21 @@ function copyPouchToSQL() {
             _.each(ord_items, function (order_item) {
                 var ord_item = {
                     id: order_item.id,
+                    created_at: order_item.created_at,
                     order_id: order_item.order_id,
-                    item_id: order_item.item_id,
+                    isbn: order_item.isbn,
+                    type: order_item.type,
                     name: order_item.name,
-                    total_price: order_item.total_price,
                     quantity: order_item.quantity,
-                    notes: order_item.notes,
+                    price: order_item.price,
                     separate: order_item.separate ? 1 : 0,
-                    wash: order_item.wash ? 1 : 0,
-                    dry: order_item.dry ? 1 : 0,
                     detergent: order_item.detergent,
+                    preferred_wash: order_item.preferred_wash,
+                    preferred_dry: order_item.preferred_dry,
                     color: order_item.color,
                     pattern: order_item.pattern,
                     brand: order_item.brand,
-                    fabric: order_item.fabric,
-                    alteration_type: order_item.alteration_type
+                    fabric: order_item.fabric
                 };
                 var query = SQLconnection.query('INSERT INTO etl_order_items SET ?', ord_item, function (error, results, fields) {
                     if (error)
@@ -195,6 +206,7 @@ function copyPouchToSQL() {
             _.each(ord_charges, function (order_charge) {
                 var ord_charge = {
                     id: order_charge.id,
+                    created_at: order_charge.created_at,
                     order_id: order_charge.order_id,
                     amount: order_charge.amount,
                     charge_type: order_charge.charge_type,
@@ -219,6 +231,7 @@ function copyPouchToSQL() {
             _.each(delivs, function (delivery) {
                 var deliv = {
                     id: delivery.id,
+                    created_at: delivery.created_at,
                     customer_id: delivery.customer_id,
                     is_pickup: delivery.is_pickup ? 1 : 0,
                     delivery_time: new Date(delivery.delivery_time),
@@ -242,7 +255,7 @@ function copyPouchToSQL() {
             console.log("About to disconnect");
             disconnectSQL();
         }
-    })["catch"](_.noop);
+    }).catch(_.noop);
 }
 ;
 function disconnectSQL() {
