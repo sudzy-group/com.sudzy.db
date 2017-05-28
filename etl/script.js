@@ -84,55 +84,55 @@ function copyPouchToSQL() {
     pouch.info().then(function (info) {
         return customers.find("name", "", { startsWith: true });
     }).then(function (cs) {
-        var ps = getPromises(cs, customerConvertor, 'etl_customers');
+        var ps = getPromises(cs, customerConvertor, 'customers');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Customers Cards
-        /////////////////////		
+        /////////////////////
         return customer_cards.find("customer_id", "", { startsWith: true });
     }).then(function (crds) {
-        var ps = getPromises(crds, customerCardsConvertor, 'etl_customer_cards');
+        var ps = getPromises(crds, customerCardsConvertor, 'customer_cards');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Orders
-        /////////////////////		
+        /////////////////////
         return orders.find("customer_id", "", { startsWith: true });
     }).then(function (ords) {
-        var ps = getPromises(ords, ordersConvertor, 'etl_orders');
+        var ps = getPromises(ords, ordersConvertor, 'orders');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Order Items
-        /////////////////////		
+        /////////////////////
         return order_items.find("order_id", "", { startsWith: true });
     }).then(function (ord_items) {
-        var ps = getPromises(ord_items, orderItemsConvertor, 'etl_order_items');
+        var ps = getPromises(ord_items, orderItemsConvertor, 'order_items');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Order Tags
-        /////////////////////		
+        /////////////////////
         return order_tags.find("order_id", "", { startsWith: true });
     }).then(function (ord_tags) {
-        var ps = getPromises(ord_tags, orderTagsConvertor, 'etl_order_tags');
+        var ps = getPromises(ord_tags, orderTagsConvertor, 'order_tags');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Order Charges
-        /////////////////////		
+        /////////////////////
         return order_charges.find("order_id", "", { startsWith: true });
     }).then(function (ord_charges) {
-        var ps = getPromises(ord_charges, orderChargesConvertor, 'etl_order_charges');
+        var ps = getPromises(ord_charges, orderChargesConvertor, 'order_charges');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         /////////////////////
         // Deliveries
-        /////////////////////		
+        /////////////////////
         return deliveries.find("delivery_time", "", { startsWith: true });
     }).then(function (delivs) {
-        var ps = getPromises(delivs, deliveriesConvertor, 'etl_deliveries');
+        var ps = getPromises(delivs, deliveriesConvertor, 'deliveries');
         return ts_promise_1.default.all(ps);
     }).then(function (results) {
         console.log("Disconnecting");
@@ -157,7 +157,7 @@ function insert(table, data) {
     });
 }
 function getPromises(es, convertor, tableName) {
-    console.log("Preparing conversion to ." + tableName);
+    console.log("Preparing conversion of " + tableName + ".");
     console.log("Entities to convert: ", es.length);
     var ps = [];
     _.each(es, function (e) {

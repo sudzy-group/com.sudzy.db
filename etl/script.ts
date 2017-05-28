@@ -105,7 +105,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Customers Cards
-	/////////////////////		
+	/////////////////////
 		return customer_cards.find("customer_id", "", { startsWith: true });
 	}).then((crds) => {
 		let ps = getPromises(crds, customerCardsConvertor, 'customer_cards');
@@ -113,7 +113,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Orders
-	/////////////////////		
+	/////////////////////
 		return orders.find("customer_id", "", { startsWith: true });
 	}).then((ords) => {
 		let ps = getPromises(ords, ordersConvertor, 'orders');
@@ -121,7 +121,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Order Items
-	/////////////////////		
+	/////////////////////
 		return order_items.find("order_id", "", { startsWith: true });
 	}).then((ord_items) => {
 		let ps = getPromises(ord_items, orderItemsConvertor, 'order_items');
@@ -129,7 +129,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Order Tags
-	/////////////////////		
+	/////////////////////
 		return order_tags.find("order_id", "", { startsWith: true });
 	}).then((ord_tags) => {
 		let ps = getPromises(ord_tags, orderTagsConvertor, 'order_tags');
@@ -137,7 +137,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Order Charges
-	/////////////////////		
+	/////////////////////
 		return order_charges.find("order_id", "", { startsWith: true });
 	}).then((ord_charges) => {
 		let ps = getPromises(ord_charges, orderChargesConvertor, 'order_charges');
@@ -145,7 +145,7 @@ function copyPouchToSQL() {
 	}).then((results) => {
 	/////////////////////
 	// Deliveries
-	/////////////////////		
+	/////////////////////
 		return deliveries.find("delivery_time", "", { startsWith: true });
 	}).then((delivs) => {
 		let ps = getPromises(delivs, deliveriesConvertor, 'deliveries');
@@ -175,7 +175,7 @@ function insert(table, data) {
 function getPromises(es, convertor, tableName) {
 	console.log("Preparing conversion of " + tableName + ".");
 	console.log("Entities to convert: ", es.length);
-	
+
 	let ps = [];
 	_.each(es, e => {
 		ps.push(insert(tableName, convertor(e)));
@@ -205,7 +205,7 @@ function customerConvertor(customer: Customer) {
 			cleaning_notes: customer.cleaning_notes,
 			payment_customer_id: customer.payment_customer_id,
 			is_doorman: customer.is_doorman ? 1 : 0
-		};	
+		};
 }
 
 function customerCardsConvertor(card: CustomerCard) {
@@ -222,7 +222,7 @@ function customerCardsConvertor(card: CustomerCard) {
 			is_forgotten: card.is_forgotten ? 1 : 0,
 			in_stripe: card.in_stripe ? 1 : 0,
 			stripe_token: card.stripe_token
-		}	
+		}
 }
 
 function ordersConvertor(order: Order) {
@@ -263,7 +263,7 @@ function orderItemsConvertor(order_item: OrderItem) {
 function orderTagsConvertor(order_tag: OrderTag) {
 	return {
 		original_id: order_tag.id,
-		created_at: new Date(order_tag._base.core.created_at),					
+		created_at: new Date(order_tag._base.core.created_at),
 		order_id: order_tag.order_id,
 		tag_number: order_tag.tag_number,
 		is_rack: order_tag.is_rack
@@ -273,7 +273,7 @@ function orderTagsConvertor(order_tag: OrderTag) {
 function orderChargesConvertor(order_charge: OrderCharge) {
 	return {
 		original_id: order_charge.id,
-		created_at: new Date(order_charge._base.core.created_at),					
+		created_at: new Date(order_charge._base.core.created_at),
 		order_id: order_charge.order_id,
 		amount: order_charge.amount,
 		charge_type: order_charge.charge_type,
@@ -288,7 +288,7 @@ function orderChargesConvertor(order_charge: OrderCharge) {
 function deliveriesConvertor(delivery: Delivery) {
 	return {
 		original_id: delivery.id,
-		created_at: new Date(delivery._base.core.created_at),					
+		created_at: new Date(delivery._base.core.created_at),
 		customer_id: delivery.customer_id,
 		is_pickup: delivery.is_pickup ? 1 : 0,
 		delivery_time: new Date(delivery.delivery_time),
