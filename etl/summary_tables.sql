@@ -56,12 +56,11 @@ INSERT INTO `{{store_id}}_orders_summary` (order_id, created_at, balance, all_re
 SELECT `{{store_id}}_orders`.`original_id`, `{{store_id}}_orders`.`created_at`, `balance`, `all_ready`, `all_pickedup`, `total_order_price`, `readable_id`, `formatted_mobile`, `name`, `autocomplete`, `notes` FROM `{{store_id}}_orders` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_orders.customer_id = {{store_id}}_customers.original_id LEFT JOIN {{store_id}}_orders_pricing ON {{store_id}}_orders_pricing.order_id = {{store_id}}_orders.original_id;
 
 ########################
-# Payments count
+# Payments summary
 ########################
+DROP TABLE IF EXISTS `{{store_id}}_payments_summary`;
 
-DROP TABLE IF EXISTS `{{store_id}}_payments`;
-
-CREATE TABLE `{{store_id}}_payments` (
+CREATE TABLE `{{store_id}}_payments_summary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `day` date NOT NULL,
   `counts` INT NULL,
@@ -70,5 +69,23 @@ CREATE TABLE `{{store_id}}_payments` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `{{store_id}}_payments` (day, counts, sums, avgs)
+INSERT INTO `{{store_id}}_payments_summary` (day, counts, sums, avgs)
 SELECT date(created_at) as day, count(date(created_at)) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` group by date(created_at);
+
+########################
+# Payments
+########################
+DROP TABLE IF EXISTS `{{store_id}}_payments`;
+
+CREATE TABLE `{{store_id}}_payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` date NULL,
+  `readable_id` varchar(10) NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `method` varchar(30) NULL,
+  `amount` DOUBLE NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount)
+SELECT `{{store_id}}_orders`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
