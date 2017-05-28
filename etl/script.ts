@@ -4,7 +4,6 @@ import * as PouchableAuthentication from 'pouchdb-authentication';
 PouchDB.plugin(PouchableAuthentication);
 
 import * as _ from 'lodash';
-import * as faker from 'faker';
 import Promise from "ts-promise";
 import * as mysql from "mysql";
 
