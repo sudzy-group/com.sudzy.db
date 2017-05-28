@@ -46,13 +46,14 @@ CREATE TABLE `{{store_id}}_orders_summary` (
   `readable_id` VARCHAR(20) NULL,
   `formatted_mobile` VARCHAR(20) NULL,
   `name` VARCHAR(100) NULL,
+  `balance` VARCHAR(255) NULL,
   `autocomplete` VARCHAR(255) NULL,
   `notes` VARCHAR(255) NULL,
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `{{store_id}}_orders_summary` (order_id, created_at, all_ready, all_pickedup, total_order_price, readable_id, formatted_mobile, name, autocomplete, notes)
-SELECT `{{store_id}}_orders`.`original_id`, `{{store_id}}_orders`.`created_at`, `all_ready`, `all_pickedup`, `total_order_price`, `readable_id`, `formatted_mobile`, `name`, `autocomplete`, `notes` FROM `{{store_id}}_orders` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_orders.customer_id = {{store_id}}_customers.original_id LEFT JOIN {{store_id}}_orders_pricing ON {{store_id}}_orders_pricing.order_id = {{store_id}}_orders.original_id;
+INSERT INTO `{{store_id}}_orders_summary` (order_id, created_at, balance, all_ready, all_pickedup, total_order_price, readable_id, formatted_mobile, name, autocomplete, notes)
+SELECT `{{store_id}}_orders`.`original_id`, `{{store_id}}_orders`.`created_at`, `balance`, `all_ready`, `all_pickedup`, `total_order_price`, `readable_id`, `formatted_mobile`, `name`, `autocomplete`, `notes` FROM `{{store_id}}_orders` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_orders.customer_id = {{store_id}}_customers.original_id LEFT JOIN {{store_id}}_orders_pricing ON {{store_id}}_orders_pricing.order_id = {{store_id}}_orders.original_id;
 
 ########################
 # Payments count
