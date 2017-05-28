@@ -30,6 +30,30 @@ CREATE TABLE `{{store_id}}_orders_pricing` (
 INSERT INTO `{{store_id}}_orders_pricing` (order_id, day, items_count, total_order_price)
 SELECT order_id, date(MIN(created_at)) as day, count(id) as items_count, sum(price) as total_order_price FROM `{{store_id}}_order_items` group by order_id;
 
+
+########################
+# Orders summary
+########################
+DROP TABLE IF EXISTS `{{store_id}}_orders_summary`;
+
+CREATE TABLE `{{store_id}}_orders_summary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` VARCHAR(20) NULL,
+  `created_at` datetime NOT NULL,
+  `all_ready` int(1) NULL,
+  `all_pickedup` int(1) NULL,
+  `total_order_price` DOUBLE NULL,
+  `readable_id` VARCHAR(20) NULL,
+  `formatted_mobile` VARCHAR(20) NULL,
+  `name` VARCHAR(100) NULL,
+  `autocomplete` VARCHAR(255) NULL,
+  `notes` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_orders_summary` (order_id, created_at, all_ready, all_pickedup, total_order_price, readable_id, formatted_mobile, name, autocomplete, notes)
+SELECT `{{store_id}}_orders`.`original_id`, `{{store_id}}_orders`.`created_at`, `all_ready`, `all_pickedup`, `total_order_price`, `readable_id`, `formatted_mobile`, `name`, `autocomplete`, `notes` FROM `{{store_id}}_orders` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_orders.customer_id = {{store_id}}_customers.original_id LEFT JOIN {{store_id}}_orders_pricing ON {{store_id}}_orders_pricing.order_id = {{store_id}}_orders.original_id;
+
 ########################
 # Payments count
 ########################
