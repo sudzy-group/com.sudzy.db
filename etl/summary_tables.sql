@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS `{{store_id}}_payments`;
 
 CREATE TABLE `{{store_id}}_payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` date NULL,
+  `created_at` datetime NULL,
   `readable_id` varchar(10) NULL,
   `name` varchar(100) DEFAULT NULL,
   `method` varchar(30) NULL,
