@@ -250,7 +250,8 @@ class OrderTest {
     let orders = OrderTest.orders;
     let orderObj = {
      customer_id: "i2i",
-     readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz"
+     readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz",
+     coupon_code: "abcdefg"
    }
    orders.insert(orderObj).then((ord) => {
       let orderUpdated = {
@@ -259,6 +260,7 @@ class OrderTest {
       return orders.update(ord, orderUpdated);
      }).then((ordUpdated) => {   
        expect(ordUpdated.notes).to.equal("Perdy outfit");
+       expect(ordUpdated.coupon_code).to.equal("abcdefg");
        done();
     }).catch(m=>console.log(m));
   }  

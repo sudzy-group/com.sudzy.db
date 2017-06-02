@@ -86,6 +86,14 @@ export class Order extends Entity {
     public balance: number;
 
     @EntityField({
+        group: "coupon_code",
+        name: "coupon_code",
+        description: "Coupon code used"
+    })
+    public coupon_code: string;
+
+
+    @EntityField({
         group: "status",
         name: "all_ready",
         description: "Whether order is ready"
