@@ -33,7 +33,7 @@ class CustomerTest {
     customers.insert({ mobile: "6465490561" }).then((c) => {
       expect(c.mobile).to.equal("6465490561");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should insert all parameters")
@@ -66,7 +66,7 @@ class CustomerTest {
         expect(c[key]).to.equal(value);
       })
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   //Search
@@ -79,7 +79,7 @@ class CustomerTest {
       expect(cs.length).to.equal(1);
       expect(cs[0].mobile).to.equal("6465490562");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be searchable by last4")
@@ -91,7 +91,7 @@ class CustomerTest {
       expect(cs.length).to.equal(1);
       expect(cs[0].mobile).to.equal("6465490563");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be searchable by metaphone")
@@ -103,7 +103,7 @@ class CustomerTest {
       expect(cs.length).to.equal(1);
       expect(cs[0].name).to.equal("Roy Ganor");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be searchable by name")
@@ -115,7 +115,7 @@ class CustomerTest {
       expect(cs.length).to.equal(1);
       expect(cs[0].name).to.equal("Roo Ganor");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be possible to paginate")
@@ -146,7 +146,7 @@ class CustomerTest {
       expect(custs1.length).to.equal(1);
       expect(custs1[0].name).to.equal("Boo Gan3");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   //Update
@@ -188,7 +188,7 @@ class CustomerTest {
       expect(cus.is_doorman).to.equal(false);
       expect(cus.autocomplete).to.equal("199 Orchard St, New York, NY 10002, USA");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   //Update
@@ -344,7 +344,7 @@ class CustomerTest {
     customers.insert({ mobile: "6165490561", lng: "-73.988152" }).then((c) => {
       expect(c.lng).to.equal("-73.988152");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("shouldn't allow invalid longitude")
@@ -362,7 +362,7 @@ class CustomerTest {
     customers.insert({ mobile: "6165490561", lat: "41.25" }).then((c) => {
       expect(c.lat).to.equal("41.25");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("shouldn't allow invalid latitude")
@@ -380,7 +380,7 @@ class CustomerTest {
     customers.insert({ mobile: "6465490566", email: "jshmo@gmail.com" }).then((c) => {
       expect(c.email).to.equal("jshmo@gmail.com");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should not allow invalid email")

@@ -41,7 +41,7 @@ class OrderTest {
       expect(ord.customer_id).to.equal("xxx");
       expect(ord.readable_id).to.equal("e5d4707d-cd54-bed3-7570-6e9dbec307zz");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should insert order with notes")
@@ -55,7 +55,7 @@ class OrderTest {
    orders.insert(orderObj).then((ord) => {
       expect(ord.notes).to.equal("Pick up quickly");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should insert order with payment info")
@@ -75,7 +75,7 @@ class OrderTest {
       expect(ord.tip).to.equal(3.00);
       expect(ord.discount_fixed).to.equal(5.00);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
  
   //Search
@@ -92,7 +92,7 @@ class OrderTest {
    }).then((ords) => {   
      expect(ords.length).to.equal(1);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should search readable_id")
@@ -108,7 +108,7 @@ class OrderTest {
    }).then((ords) => {   
      expect(ords.length).to.equal(1);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should search balance")
@@ -145,7 +145,7 @@ class OrderTest {
       expect(summary.sum).to.equal(95.55);
       expect(summary.ids.length).to.equal(2);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   //Update
@@ -203,7 +203,7 @@ class OrderTest {
      }).then((ordUpdated) => {   
        expect(ordUpdated.all_ready).to.equal(true);
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }  
 
   @test("should update all_pickedup")
@@ -222,7 +222,7 @@ class OrderTest {
      }).then((ordUpdated) => {   
        expect(ordUpdated.all_pickedup).to.equal(true);
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }  
 
   @test("should update delivery ids")
@@ -242,7 +242,7 @@ class OrderTest {
        expect(ordUpdated.delivery_pickup_id).to.equal("abc");
        expect(ordUpdated.delivery_dropoff_id).to.equal("efg");
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }  
 
   @test("should update note")
@@ -260,7 +260,7 @@ class OrderTest {
      }).then((ordUpdated) => {   
        expect(ordUpdated.notes).to.equal("Perdy outfit");
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }  
 
   @test("should update payment info")
@@ -284,7 +284,7 @@ class OrderTest {
        expect(ordUpdated.discount_percent).to.equal(5);
        expect(ordUpdated.balance).to.equal(250.40);
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   } 
 
 

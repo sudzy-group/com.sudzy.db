@@ -50,7 +50,7 @@ class DeliveryTest {
         expect(deliv.customer_id).to.exist;
         expect(deliv.is_pickup).to.equal(true);
         done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
  @test("should insert dropoff")
@@ -69,7 +69,7 @@ class DeliveryTest {
         expect(deliv.customer_id).to.exist;
         expect(deliv.is_pickup).to.equal(false);
         done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   } 
 
   @test("should insert express delivery")
@@ -88,7 +88,7 @@ class DeliveryTest {
         expect(deliv.customer_id).to.exist;
         expect(deliv.express_id).to.equal("del_x039303");
         done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   } 
 
  @test("should insert two deliveries")
@@ -117,7 +117,7 @@ class DeliveryTest {
       expect(deliv2.customer_id).to.exist;
       expect(deliv2.is_pickup).to.equal(false);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 
@@ -139,7 +139,7 @@ class DeliveryTest {
      }).then((delivs) => {   
         expect(delivs.length).to.equal(1);
         done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   } 
 
 //Update
@@ -164,7 +164,7 @@ class DeliveryTest {
     }).then((updated_deliv) => {
       expect(updated_deliv.delivery_person).to.equal("Mike");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be able to update is_confirmed")
@@ -188,7 +188,7 @@ class DeliveryTest {
     }).then((updated_deliv) => {
       expect(updated_deliv.is_confirmed).to.equal(true);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be able to search by is_confirmed")
@@ -208,7 +208,7 @@ class DeliveryTest {
     }).then((ds) => {
       expect(ds.length).to.be.above(0);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }  
 
 
@@ -232,7 +232,7 @@ class DeliveryTest {
     }).then((updated_deliv) => {
       expect(updated_deliv.express_id).to.equal("del_2222");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should be able to update is_canceled")
@@ -255,7 +255,7 @@ class DeliveryTest {
     }).then((updated_deliv) => {
       expect(updated_deliv.is_canceled).to.equal(true);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 

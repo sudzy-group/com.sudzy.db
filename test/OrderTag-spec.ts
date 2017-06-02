@@ -39,7 +39,7 @@ class OrderTagTest {
    order_tags.insert(orderTagObj).then((tag) => {
       expect(tag.tag_number).to.equal(333);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 @test("should insert 3 tags")
@@ -67,7 +67,7 @@ class OrderTagTest {
       expect(tag3.tag_number).to.equal(333);
      
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   
@@ -79,7 +79,7 @@ class OrderTagTest {
      expect(tags.length).to.equal(3);
      done();
 
-   }).catch(_.noop);
+   }).catch(m=>console.log(m));
   }
 
 //Delete

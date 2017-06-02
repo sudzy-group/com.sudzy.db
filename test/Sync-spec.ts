@@ -59,7 +59,7 @@ class DatabaseAccess {
                         throw new Error("couldn't sync with database");
                     }
                     done()
-                }).catch(_.noop);
+                }).catch(m=>console.log(m));
             }).on('error', _.noop);
         }).catch((m) => {
             console.log(m)

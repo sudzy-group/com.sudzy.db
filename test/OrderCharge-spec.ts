@@ -43,7 +43,7 @@ class OrderChargeTest {
       expect(charge.order_id).to.equal("1");
       expect(charge.amount).to.equal(100.00);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 
@@ -61,7 +61,7 @@ class OrderChargeTest {
   //     expect(charge.order_id).to.equal("2");
   //     expect(charge.card_id).to.equal("cd_249492_aa");
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
   // @test("should insert cash charge")
@@ -79,7 +79,7 @@ class OrderChargeTest {
   //     expect(charge.charge_type).to.equal("cash");
   //     expect(charge.date_cash).to.equal("1489710720493");
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
 
@@ -98,7 +98,7 @@ class OrderChargeTest {
   //   }).then((charges) => {
   //     expect(charges.length).to.equal(1);
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
 
@@ -172,7 +172,7 @@ class OrderChargeTest {
   //     expect(updatedCharge.amount_refunded).to.equal(100.00);
   //     expect(updatedCharge.refund_id).to.equal("f932");
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
   // @test("should update refunded card attributes")
@@ -196,7 +196,7 @@ class OrderChargeTest {
   //     expect(updatedCharge.amount_refunded).to.equal(100.00);
   //     expect(updatedCharge.refund_id).to.equal("f932");
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
   // // //Delete

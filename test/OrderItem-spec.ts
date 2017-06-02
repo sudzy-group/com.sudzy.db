@@ -49,7 +49,7 @@ class OrderItemTest {
       expect(item.quantity).to.equal(1);
       expect(item.notes.length).to.equal(1);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should insert 3 order items")
@@ -95,7 +95,7 @@ class OrderItemTest {
       expect(items.length).to.equal(3);
       expect(items[0].type).to.equal('wf');
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 
@@ -118,7 +118,7 @@ class OrderItemTest {
   }).then((items) => {
       expect(items.length).to.equal(1);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 //Update
@@ -212,7 +212,7 @@ class OrderItemTest {
         expect(updatedItem.price).to.equal(20.00);
         expect(updatedItem.quantity).to.equal(10);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 //Delete
@@ -273,7 +273,7 @@ class OrderItemTest {
    order_items.insert(orderItem).then((item) => {
       expect(item.quantity).to.equal(0);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
   @test("should allow positive quantity")
@@ -290,7 +290,7 @@ class OrderItemTest {
    order_items.insert(orderItem).then((item) => {
       expect(item.quantity).to.equal(10);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 }
 
