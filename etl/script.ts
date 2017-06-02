@@ -238,6 +238,7 @@ function ordersConvertor(order: Order) {
 		discount_percent: order.discount_percent,
 		discount_fixed: order.discount_fixed,
 		balance: order.balance,
+    coupon_code: order.coupon_code,
 		all_ready: order.all_ready ? 1 : 0,
 		all_pickedup: order.all_pickedup ? 1 : 0,
 		delivery_pickup_id: order.delivery_pickup_id,
