@@ -52,7 +52,7 @@ class CustomerCardTest {
         expect(card.customer_id).to.exist;
         expect(card.last4).to.equal("4242");
         done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 
@@ -65,6 +65,8 @@ class CustomerCardTest {
         customer_id: cust.id,
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
         brand: "Visa",
+        exp_month: "01",
+        exp_year: "20",
         last4: "4242",
         is_default: true
       }
@@ -75,13 +77,15 @@ class CustomerCardTest {
         customer_id: card1.customer_id,
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4X",
         brand: "Mastercard",
+        exp_month: "01",
+        exp_year: "20",
         last4: "2222"
       }
       return customer_cards.insert(cardObj2);
     }).then((card2) => {
       expect(card2.last4).to.equal("2222");
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 //Search 
@@ -94,6 +98,8 @@ class CustomerCardTest {
         customer_id: cust.id,
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
         brand: "Visa",
+        exp_month: "01",
+        exp_year: "20",
         last4: "4242"
       }
       return customer_cards.insert(cardObj);
@@ -104,7 +110,7 @@ class CustomerCardTest {
     }).then((cards) => {
        expect(cards.length).to.equal(1);
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 //delete card
@@ -117,6 +123,8 @@ class CustomerCardTest {
       let cardObj = {
         customer_id: cust.id,
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
+        exp_month: "01",
+        exp_year: "20",
         brand: "Visa",
         last4: "4242"
       }
@@ -143,6 +151,8 @@ class CustomerCardTest {
       let cardObj = {
         customer_id: cust.id,
         card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
+        exp_month: "01",
+        exp_year: "20",
         brand: "Visa",
         last4: "4242",
         is_default: true
@@ -157,7 +167,7 @@ class CustomerCardTest {
     }).then((updated_card) => {
       expect(updated_card.is_default).to.equal(false);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 
 //TODO uncomment
@@ -183,7 +193,7 @@ class CustomerCardTest {
   //   }).then((updated_card) => {
   //     expect(updated_card.is_default).to.equal(true);
   //     done();
-  //   }).catch(_.noop);
+  //   }).catch(m=>console.log(m));
   // }
 
   @test("should not be able to update customer_id")

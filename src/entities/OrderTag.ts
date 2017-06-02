@@ -7,6 +7,7 @@ import { identity } from 'lodash';
 export class OrderTag extends Entity {
 	@EntityField({
         group: "default",
+        mandatory: true,
         name: "order_id",
         description: "Order id",
         search_by: [ identity ] 
@@ -15,13 +16,14 @@ export class OrderTag extends Entity {
 
     @EntityField({
         group: "default",
+        mandatory: true,
         name: "tag_number",
         description: "Tag number" 
     })
     public tag_number: string;
 
     @EntityField({
-        group: "default",
+        group: "rack",
         name: "is_rack",
         description: "True if this tag holds the rack of the items" 
     })

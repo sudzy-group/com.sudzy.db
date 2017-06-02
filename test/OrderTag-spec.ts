@@ -101,28 +101,8 @@ class OrderTagTest {
     });
   }
 
-
 //Update
-  @test("should update order_id")
-  public testUpdateOrderId(done) {
-    let order_tags = OrderTagTest.order_tags;
-    let orderTagObj = {
-     order_id: "4343",
-     tag_number: 111
-    }
-    order_tags.insert(orderTagObj).then((tag) => {
-      expect(tag.order_id).to.equal("4343");
-      let updatedTag = {
-        order_id: "34343"
-      }
-      return order_tags.update(tag, updatedTag);
-     }).then((updated_deliv) => {
-     expect(updated_deliv.order_id).to.equal("34343");
-      done();
-    }).catch(_.noop);
-  }
-
-  @test("should update tag_number")
+  @test("should update is_rack")
   public testUpdateTagNumber(done) {
     let order_tags = OrderTagTest.order_tags;
     let orderTagObj = {
@@ -132,13 +112,13 @@ class OrderTagTest {
     order_tags.insert(orderTagObj).then((tag) => {
       expect(tag.tag_number).to.equal(555);
       let updatedTag = {
-        tag_number: 666
+        is_rack: true
       }
       return order_tags.update(tag, updatedTag);
      }).then((updated_deliv) => {
-     expect(updated_deliv.tag_number).to.equal(666);
+     expect(updated_deliv.is_rack).to.equal(true);
       done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   }
 }
 

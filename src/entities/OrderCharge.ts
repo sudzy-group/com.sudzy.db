@@ -27,6 +27,7 @@ export class OrderCharge extends Entity {
     @EntityField({
         group: "default",
         name: "charge_type",
+        mandatory: true,
         description: "Charge type of cash, credit, other"
     })
     public charge_type: string;

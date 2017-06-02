@@ -59,6 +59,8 @@ class WorkflowTest {
    private customerDefaultCardObj: any = {
      card_id: "card_19lhGEDMuhhpO1mOmpfsdX4I",
      brand: "Visa",
+     exp_month: "01",
+     exp_year: "20",
      last4: "4242",
      is_default: true
    };
@@ -67,6 +69,8 @@ class WorkflowTest {
      card_id: "card_19lh5ADMuhhpO1mOISZJFYt0",
      brand: "Visa",
      last4: "0341",
+     exp_month: "01",
+     exp_year: "20",
      is_default: false
    };
 
@@ -131,6 +135,7 @@ class WorkflowTest {
 
    private orderChargeObj: any = {
      amount: 100.00,
+     charge_type: 'visa',
      charge_id: "ch_19p52VDMuhhpO1mOP08I3P3B"
    };
 
@@ -226,7 +231,7 @@ class WorkflowTest {
        expect(delivDropoff.customer_id).to.exist;
   
        done();
-    }).catch(_.noop);
+    }).catch(m=>console.log(m));
   } 
 }
 

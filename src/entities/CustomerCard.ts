@@ -48,6 +48,7 @@ export class CustomerCard extends Entity {
     @EntityField({
         group: "default",
         name: "exp_month",
+        mandatory: true,
         description: "Expiration month"
     })
     public exp_month: string;    
@@ -55,6 +56,7 @@ export class CustomerCard extends Entity {
     @EntityField({
         group: "default",
         name: "exp_year",
+        mandatory: true,
         validate: twoDigitsLong,
         description: "Expiration year"
     })
