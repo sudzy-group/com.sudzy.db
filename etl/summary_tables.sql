@@ -86,8 +86,9 @@ CREATE TABLE `{{store_id}}_payments` (
   `amount` DOUBLE NULL,
   `charge_id` varchar(250) NULL,
   `refund_id` varchar(250) NULL,
+  `coupon_code` varchar(10) NULL,
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount, charge_id, refund_id)
-SELECT `{{store_id}}_order_charges`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount`, `charge_id`, `refund_id` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
+INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount, charge_id, refund_id, coupon_code)
+SELECT `{{store_id}}_order_charges`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount`, `charge_id`, `refund_id`, `{{store_id}}_orders`.`coupon_code` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
