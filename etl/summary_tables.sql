@@ -1,4 +1,19 @@
 ########################
+# New customers count
+########################
+DROP TABLE IF EXISTS `{{store_id}}_customers_count`;
+
+CREATE TABLE `{{store_id}}_customers_count` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` date NOT NULL,
+  `customers_count` INT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_customers_count` (day, customers_count)
+SELECT date(created_at) as day, count(date(created_at)) as customers_count FROM `{{store_id}}_customers` group by date(created_at);
+
+########################
 # Orders count
 ########################
 DROP TABLE IF EXISTS `{{store_id}}_orders_count`;
