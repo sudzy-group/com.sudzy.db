@@ -37,24 +37,25 @@
 | in_stripe    | `boolean`  | settings | Whether card is stored in stripe             |                |
 | stripe_token | `string`   | settings | Stripe token before it is turned into a card |                |
 # Order
-| Field Name          | Field Type | Group    | Description                         | Comments              |
-| ------------------- | ---------- | -------- | ----------------------------------- | --------------------- |
-| id                  | `string`   | default  | Entity id                           | Auto-generated        |
-| created_at          | `number`   | default  | Creation datetime (unix)            | Auto-generated        |
-| customer_id         | `string`   | default  | Customer id                         | Searchable            |
-| readable_id         | `string`   | default  | Human readable id                   | Validated, Searchable |
-| due_datetime        | `string`   | due      | Date order due                      |                       |
-| rack                | `string`   | rack     | Rack number                         |                       |
-| notes               | `string`   | notes    | Order notes                         |                       |
-| tax                 | `number`   | payment  | Tax                                 |                       |
-| tip                 | `number`   | payment  | Tip                                 |                       |
-| discount_percent    | `number`   | payment  | Discount percent                    |                       |
-| discount_fixed      | `number`   | payment  | Discount in dollar amount           |                       |
-| balance             | `number`   | balance  | Balance remaining                   | Validated, Searchable |
-| all_ready           | `boolean`  | status   | Whether order is ready              |                       |
-| all_pickedup        | `boolean`  | status   | Whether order is back with customer |                       |
-| delivery_pickup_id  | `string`   | delivery | Delivery pickup id                  | Validated             |
-| delivery_dropoff_id | `string`   | delivery | Delivery dropoff id                 | Validated             |
+| Field Name          | Field Type | Group       | Description                         | Comments              |
+| ------------------- | ---------- | ----------- | ----------------------------------- | --------------------- |
+| id                  | `string`   | default     | Entity id                           | Auto-generated        |
+| created_at          | `number`   | default     | Creation datetime (unix)            | Auto-generated        |
+| customer_id         | `string`   | default     | Customer id                         | Searchable            |
+| readable_id         | `string`   | default     | Human readable id                   | Validated, Searchable |
+| due_datetime        | `string`   | due         | Date order due                      |                       |
+| rack                | `string`   | rack        | Rack number                         |                       |
+| notes               | `string`   | notes       | Order notes                         |                       |
+| tax                 | `number`   | payment     | Tax                                 |                       |
+| tip                 | `number`   | payment     | Tip                                 |                       |
+| discount_percent    | `number`   | payment     | Discount percent                    |                       |
+| discount_fixed      | `number`   | payment     | Discount in dollar amount           |                       |
+| balance             | `number`   | balance     | Balance remaining                   | Validated, Searchable |
+| coupon_code         | `string`   | coupon_code | Coupon code used                    |                       |
+| all_ready           | `boolean`  | status      | Whether order is ready              |                       |
+| all_pickedup        | `boolean`  | status      | Whether order is back with customer |                       |
+| delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                  | Validated             |
+| delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                 | Validated             |
 # OrderItem
 | Field Name | Field Type | Group   | Description                              | Comments       |
 | ---------- | ---------- | ------- | ---------------------------------------- | -------------- |
@@ -76,20 +77,20 @@
 | created_at | `number`   | default | Creation datetime (unix)                     | Auto-generated |
 | order_id   | `string`   | default | Order id                                     | Searchable     |
 | tag_number | `string`   | default | Tag number                                   |                |
-| is_rack    | `string`   | default | True if this tag holds the rack of the items |                |
+| is_rack    | `string`   | rack    | True if this tag holds the rack of the items |                |
 # OrderCharge
-| Field Name      | Field Type | Group   | Description                                    | Comments       |
-| --------------- | ---------- | ------- | ---------------------------------------------- | -------------- |
-| id              | `string`   | default | Entity id                                      | Auto-generated |
-| created_at      | `number`   | default | Creation datetime (unix)                       | Auto-generated |
-| order_id        | `string`   | default | Order id                                       | Searchable     |
-| amount          | `number`   | default | Amount charged                                 |                |
-| charge_type     | `string`   | default | Charge type of cash, credit, other             |                |
-| charge_id       | `string`   | card    | Charge id                                      | Validated      |
-| card_id         | `string`   | card    | Card id                                        | Validated      |
-| date_cash       | `string`   | cash    | Get all cash deposited today in drawer if cash |                |
-| refund_id       | `string`   | refund  | Refund id                                      |                |
-| amount_refunded | `number`   | refund  | Amount refunded                                |                |
+| Field Name      | Field Type | Group   | Description                        | Comments       |
+| --------------- | ---------- | ------- | ---------------------------------- | -------------- |
+| id              | `string`   | default | Entity id                          | Auto-generated |
+| created_at      | `number`   | default | Creation datetime (unix)           | Auto-generated |
+| order_id        | `string`   | default | Order id                           | Searchable     |
+| amount          | `number`   | default | Amount charged                     |                |
+| charge_type     | `string`   | default | Charge type of cash, credit, other |                |
+| charge_id       | `string`   | card    | Charge id                          | Validated      |
+| card_id         | `string`   | card    | Card id                            | Validated      |
+| date_cash       | `string`   | cash    | date of cash receieved             | Searchable     |
+| refund_id       | `string`   | refund  | Refund id                          |                |
+| amount_refunded | `number`   | refund  | Amount refunded                    |                |
 # Delivery
 | Field Name      | Field Type | Group   | Description                      | Comments       |
 | --------------- | ---------- | ------- | -------------------------------- | -------------- |

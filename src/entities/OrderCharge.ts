@@ -52,7 +52,8 @@ export class OrderCharge extends Entity {
     @EntityField({
         group: "cash",
         name: "date_cash",
-        description: "Get all cash deposited today in drawer if cash"
+        search_by: [identity],
+        description: "date of cash receieved"
     })
     public date_cash: string;
 
