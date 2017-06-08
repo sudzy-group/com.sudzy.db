@@ -57,19 +57,20 @@
 | delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                  | Validated             |
 | delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                 | Validated             |
 # OrderItem
-| Field Name | Field Type | Group   | Description                              | Comments       |
-| ---------- | ---------- | ------- | ---------------------------------------- | -------------- |
-| id         | `string`   | default | Entity id                                | Auto-generated |
-| created_at | `number`   | default | Creation datetime (unix)                 | Auto-generated |
-| order_id   | `string`   | default | Order id                                 | Searchable     |
-| isbn       | `string`   | default | isbn                                     | Validated      |
-| type       | `string`   | default | type                                     |                |
-| name       | `string`   | default | Item name                                |                |
-| quantity   | `number`   | pricing | Quantity of item                         | Validated      |
-| price      | `number`   | pricing | Total price                              |                |
-| notes      | `string[]` | notes   | Specific notes about this item           |                |
-| ready      | `boolean`  | status  | Specific ready status about this item    |                |
-| pickedup   | `boolean`  | status  | Specific pickedup status about this item |                |
+| Field Name        | Field Type | Group   | Description                              | Comments       |
+| ----------------- | ---------- | ------- | ---------------------------------------- | -------------- |
+| id                | `string`   | default | Entity id                                | Auto-generated |
+| created_at        | `number`   | default | Creation datetime (unix)                 | Auto-generated |
+| order_id          | `string`   | default | Order id                                 | Searchable     |
+| isbn              | `string`   | default | isbn                                     | Validated      |
+| type              | `string`   | default | type                                     |                |
+| name              | `string`   | default | Item name                                |                |
+| quantity          | `number`   | pricing | Quantity of item                         | Validated      |
+| price             | `number`   | pricing | Total price                              |                |
+| is_manual_pricing | `boolean`  | pricing | User selected manual pricing             |                |
+| notes             | `string[]` | notes   | Specific notes about this item           |                |
+| ready             | `boolean`  | status  | Specific ready status about this item    |                |
+| pickedup          | `boolean`  | status  | Specific pickedup status about this item |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description                                  | Comments       |
 | ---------- | ---------- | ------- | -------------------------------------------- | -------------- |

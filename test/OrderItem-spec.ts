@@ -62,6 +62,7 @@ class OrderItemTest {
      name: "Washfold",
      ready: true,
      price: 10.00,
+     is_manual_pricing: true,
      quantity: 1
    };
 

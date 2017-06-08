@@ -58,6 +58,13 @@ export class OrderItem extends Entity {
     public price: number;
 
     @EntityField({
+        group: "pricing",
+        name: "is_manual_pricing",
+        description: "User selected manual pricing" 
+    })
+    public is_manual_pricing: boolean;
+
+    @EntityField({
         group: "notes",
         name: "notes",
         description: "Specific notes about this item" 
