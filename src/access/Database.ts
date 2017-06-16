@@ -25,6 +25,7 @@ export class Database {
      * @param name 
      */
     public constructor(name : string) {
+        name = name.toLowerCase();
         this._db = new PouchDB(name);
     }
 
