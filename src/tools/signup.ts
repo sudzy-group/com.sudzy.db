@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as PouchDB from 'pouchdb';
 import Promise from 'ts-promise';
 import * as PouchableAuthentication from 'pouchdb-authentication';
@@ -29,6 +31,7 @@ let auth = {
 console.log(auth);
 
 let db = new PouchDB(p.remotePouchDB + ":5984/" + p.storeId, {
+  auth: auth,
   skip_setup: true
 });
 
