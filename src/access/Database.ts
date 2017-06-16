@@ -29,6 +29,10 @@ export class Database {
     }
 
     public connect(remoteHost: string, remoteDb: string, remoteUser: string, remotePass: string) {
+        remoteDb = remoteDb.toLowerCase();
+        remoteUser = remoteUser.toLowerCase();
+        remotePass = remotePass.toLowerCase();
+        
         let t = this;
         return new Promise((resolved, rejected) => {
             if (!remoteHost || !remoteUser || !remotePass) {
