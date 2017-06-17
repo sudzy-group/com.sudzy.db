@@ -201,7 +201,7 @@ class CustomerTest {
       name: "Roy Ganor",
     }
     const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert(customerObj).then((c) => {
+    customers.insert(customerObj, new Date().getTime() - 200).then((c) => {
       return customers.find('mobile','19292778391');
     }).then(cs => {
       let c = cs[0];

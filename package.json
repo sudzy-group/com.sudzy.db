@@ -1,12 +1,12 @@
 {
   "name": "sudzy-db",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "sudzy-db",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/sudzy-group/com.sudzy.db.git",
   "author": "",
   "keywords": [
-    ""
+    "pouchable"
   ],
   "files": [
     "lib"
@@ -28,7 +28,7 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
-    "pouchable": "^1.1.14",
+    "pouchable": "^1.1.15",
     "pouchdb": "^6.1.2",
     "pouchdb-authentication": "^0.5.5"
   },

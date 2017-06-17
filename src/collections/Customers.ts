@@ -8,9 +8,9 @@ import { Promise } from 'ts-promise';
  */
 export class Customers extends Collection<Customer> {
 
-    public insert(data)  {
+    public insert(data, created_at?)  {
         data.allow_notifications = data.allow_notifications || true;
-        return super.insert(data);
+        return super.insert(data, created_at);
     }
 
     public getPrefix() {

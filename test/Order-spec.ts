@@ -253,7 +253,7 @@ class OrderTest {
      readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz",
      coupon_code: "abcdefg"
    }
-   orders.insert(orderObj).then((ord) => {
+   orders.insert(orderObj, new Date().getTime() - 200).then((ord) => {
       let orderUpdated = {
          notes: "Perdy outfit"
       }
