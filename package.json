@@ -23,8 +23,7 @@
     "report-cover": "npm run build && nyc --reporter=lcov mocha --compilers ts:ts-node/register && node_modules/.bin/istanbul-coveralls",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch",
-    "genSQL": "tsc --experimentalDecorators --target es5 etl/script.ts",
-    "import-customers": "tsc --experimentalDecorators --target es5 src/tools/import-customers.ts"
+    "genSQL": "tsc --experimentalDecorators --target es5 etl/script.ts"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -38,13 +37,15 @@
     "@types/mocha": "^2.0.0",
     "@types/node": "^7.0.16",
     "acorn": "^4.0.11",
+    "async": "^2.4.1",
     "babel-plugin-istanbul": "^4.0.0",
     "chai": "^3.0.0",
     "commander": "^2.9.0",
+    "csvtojson": "^1.1.6",
     "express": "^4.15.2",
     "express-pouchdb": "^2.3.6",
     "faker": "^4.1.0",
-    "fast-csv": "^2.4.0",
+    "google-libphonenumber": "^2.0.18",
     "istanbul-coveralls": "^1.0.3",
     "markdown-table": "^1.1.0",
     "memdown": "^1.2.4",
