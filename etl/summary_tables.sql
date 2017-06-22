@@ -85,7 +85,7 @@ CREATE TABLE `{{store_id}}_payments_summary` (
 );
 
 INSERT INTO `{{store_id}}_payments_summary` (day, counts, sums, avgs)
-SELECT date(created_at) as day, count(date(created_at)) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is not null group by date(created_at);
+SELECT date(created_at) as day, count(date(created_at)) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is null group by date(created_at);
 
 ########################
 # Payments
