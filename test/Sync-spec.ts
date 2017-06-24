@@ -46,7 +46,6 @@ class DatabaseAccess {
     public testRemote(done) {
         let access = new Database("aa0c19ba");
         access.connect("http://localhost:5555", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {
-        // access.connect("http://35.185.57.20:5984", "aa0c19ba", "aa0c19ba", "aa0c19ba").then((r) => {    
             return access.remoteStatus();
         }).then((response) => {
             const customers = new Customers(access.db, Customer);
