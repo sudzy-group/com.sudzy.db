@@ -58,7 +58,8 @@
     "ts-node": "1.0.0",
     "ts-promise": "^0.3.4",
     "tspoon": "^1.0.328",
-    "typescript": "2.2.2"
+    "typescript": "2.2.2",
+    "typescript-node": "^0.1.3"
   },
   "engines": {
     "node": ">=4.0.0"
