@@ -69,6 +69,7 @@ connectPouch( () => {
 				let ps = [];
 				oss.forEach(o => {
 					let order_id = o.id;
+					let created_at = o.created_at;
 					let readable_id = o.readable_id;
 					let items = loadedOrderItems[readable_id];
 					let total = 0;
@@ -94,11 +95,9 @@ connectPouch( () => {
 						amount: total,
 						charge_type: 'cash'
 					}
-					console.log(charge);
-					ps.push(orderCharges.insert(charge))
+					ps.push(orderCharges.insert(charge, created_at))
 				});
 				Promise.all(ps).then(() => {
-					console.log("3");
 					database.sync().on('complete', () => {
 						console.log('sync done');
 					}).on('error', m => console.log(m));

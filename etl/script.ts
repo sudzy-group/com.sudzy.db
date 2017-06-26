@@ -101,19 +101,19 @@ function copyPouchToSQL() {
 	/////////////////////
 	pouch.info().then(function(info) {
 		console.log(info)
-		return extract(customers, "mobile", customerConvertor, 'customers');
+		return extract(customers, "mobile", customerConvertor, 'customers', 1000);
 	}).then(() => {
-		return extract(customer_cards, "customer_id", customerCardsConvertor, 'customer_cards');
+		return extract(customer_cards, "customer_id", customerCardsConvertor, 'customer_cards', 1000);
 	}).then(() => {
-		return extract(orders, "customer_id", ordersConvertor, 'orders');
+		return extract(orders, "customer_id", ordersConvertor, 'orders', 1000);
 	}).then(() => {
-		return extract(order_items, "order_id", orderItemsConvertor, 'order_items');
+		return extract(order_items, "order_id", orderItemsConvertor, 'order_items', 2000);
 	}).then(() => {
-		return extract(order_tags, "order_id", orderTagsConvertor, 'order_tags');
+		return extract(order_tags, "order_id", orderTagsConvertor, 'order_tags', 2000);
 	}).then(() => {
-		return extract(order_charges, "order_id", orderChargesConvertor, 'order_charges');
+		return extract(order_charges, "order_id", orderChargesConvertor, 'order_charges', 1000);
 	}).then(() => {
-		return extract(deliveries, "delivery_time", deliveriesConvertor, 'deliveries');
+		return extract(deliveries, "delivery_time", deliveriesConvertor, 'deliveries', 500);
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -124,7 +124,7 @@ function copyPouchToSQL() {
 
 }		
 
-function extract(collection, field, convertor, keyName) {
+function extract(collection, field, convertor, keyName, limit) {
 	console.log('extracting ' + keyName);
 	return new Promise((resolve, reject) => {
 		collection.findIds(field, "", { startsWith: true }).then(ids => {
@@ -132,7 +132,7 @@ function extract(collection, field, convertor, keyName) {
 			console.log('total to convert' , l, keyName);
 			let skip = 0;
 			let ps = [];
-			while (l > 0) {
+			while (l > 0 && skip < limit) {
 				let find = _.partialRight((callback, skip) => {
 					collection.find(field, "", { startsWith: true, skip: skip, limit: SKIP_INTERVAL }).then((result) => {
 						console.log('converting...', result.length);
