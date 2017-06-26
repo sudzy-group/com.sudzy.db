@@ -4,8 +4,9 @@ import * as PouchableAuthentication from 'pouchdb-authentication';
 PouchDB.plugin(PouchableAuthentication);
 
 import * as _ from 'lodash';
-import Promise from "ts-promise";
-import * as mysql from "mysql";
+import * as mysql from 'mysql';
+import Promise from 'ts-promise';
+import * as async from "async";
 
 import { Customers } from "../src/collections/Customers";
 import { CustomerCards } from "../src/collections/CustomerCards";
@@ -24,6 +25,8 @@ import { OrderCharge } from "../src/entities/OrderCharge";
 import { Delivery } from "../src/entities/Delivery";
 import { Database } from '../src/access/Database';
 import * as commander from 'commander';
+
+const SKIP_INTERVAL = 500;
 
 let p = commander
   .version('0.0.1')
@@ -45,7 +48,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
+var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
 var SQLconnection;
 
 var docs = 0;
@@ -97,66 +100,65 @@ function copyPouchToSQL() {
 	// Customers
 	/////////////////////
 	pouch.info().then(function(info) {
-		return customers.find("name", "", { startsWith: true });
-	}).then((cs) => {
-		let ps = getPromises(cs, customerConvertor, 'customers');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Customers Cards
-	/////////////////////
-		return customer_cards.find("customer_id", "", { startsWith: true });
-	}).then((crds) => {
-		let ps = getPromises(crds, customerCardsConvertor, 'customer_cards');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Orders
-	/////////////////////
-		return orders.find("customer_id", "", { startsWith: true });
-	}).then((ords) => {
-		let ps = getPromises(ords, ordersConvertor, 'orders');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Order Items
-	/////////////////////
-		return order_items.find("order_id", "", { startsWith: true });
-	}).then((ord_items) => {
-		let ps = getPromises(ord_items, orderItemsConvertor, 'order_items');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Order Tags
-	/////////////////////
-		return order_tags.find("order_id", "", { startsWith: true });
-	}).then((ord_tags) => {
-		let ps = getPromises(ord_tags, orderTagsConvertor, 'order_tags');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Order Charges
-	/////////////////////
-		return order_charges.find("order_id", "", { startsWith: true });
-	}).then((ord_charges) => {
-		let ps = getPromises(ord_charges, orderChargesConvertor, 'order_charges');
-		return Promise.all(ps);
-	}).then((results) => {
-	/////////////////////
-	// Deliveries
-	/////////////////////
-		return deliveries.find("delivery_time", "", { startsWith: true });
-	}).then((delivs) => {
-		let ps = getPromises(delivs, deliveriesConvertor, 'deliveries');
-		return Promise.all(ps);
-	}).then((results) => {
+		console.log(info)
+		return extract(customers, "mobile", customerConvertor, 'customers');
+	}).then(() => {
+		return extract(customer_cards, "customer_id", customerCardsConvertor, 'customer_cards');
+	}).then(() => {
+		return extract(orders, "customer_id", ordersConvertor, 'orders');
+	}).then(() => {
+		return extract(order_items, "order_id", orderItemsConvertor, 'order_items');
+	}).then(() => {
+		return extract(order_tags, "order_id", orderTagsConvertor, 'order_tags');
+	}).then(() => {
+		return extract(order_charges, "order_id", orderChargesConvertor, 'order_charges');
+	}).then(() => {
+		return extract(deliveries, "delivery_time", deliveriesConvertor, 'deliveries');
+	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
 	}).catch(m => {
 		console.log(m);
 		disconnectSQL(1);
 	});
-};
+
+}		
+
+function extract(collection, field, convertor, keyName) {
+	console.log('extracting ' + keyName);
+	return new Promise((resolve, reject) => {
+		collection.findIds(field, "", { startsWith: true }).then(ids => {
+			let l = ids.length;
+			console.log('total to convert' , l, keyName);
+			let skip = 0;
+			let ps = [];
+			while (l > 0) {
+				let find = _.partialRight((callback, skip) => {
+					collection.find(field, "", { startsWith: true, skip: skip, limit: SKIP_INTERVAL }).then((result) => {
+						console.log('converting...', result.length);
+						let ps = getPromises(result, convertor, keyName);
+						return Promise.all(ps);
+					}).then((r) => {
+						callback(null, r.length);
+					}).catch(m=> {
+						console.log('error converting...');
+						callback(m)
+					});						
+				}, skip)
+				ps.push(find);
+				skip += SKIP_INTERVAL;
+				l -= SKIP_INTERVAL;
+			}
+			async.series(ps, (err, results) => {
+				if (err) {
+					return reject(err);
+				}
+				return resolve(results);
+			})
+
+		}).catch(reject);
+	});
+}
 
 function disconnectSQL(status = 0) {
 	SQLconnection.destroy();
