@@ -101,19 +101,19 @@ function copyPouchToSQL() {
 	/////////////////////
 	pouch.info().then(function(info) {
 		console.log(info)
-		return extract(customers, "mobile", customerConvertor, 'customers', 1000);
+		return extract(customers, "mobile", customerConvertor, 'customers');
 	}).then(() => {
-		return extract(customer_cards, "customer_id", customerCardsConvertor, 'customer_cards', 1000);
+		return extract(customer_cards, "customer_id", customerCardsConvertor, 'customer_cards');
 	}).then(() => {
-		return extract(orders, "customer_id", ordersConvertor, 'orders', 1000);
+		return extract(orders, "customer_id", ordersConvertor, 'orders');
 	}).then(() => {
-		return extract(order_items, "order_id", orderItemsConvertor, 'order_items', 2000);
+		return extract(order_items, "order_id", orderItemsConvertor, 'order_items');
 	}).then(() => {
-		return extract(order_tags, "order_id", orderTagsConvertor, 'order_tags', 2000);
+		return extract(order_tags, "order_id", orderTagsConvertor, 'order_tags');
 	}).then(() => {
-		return extract(order_charges, "order_id", orderChargesConvertor, 'order_charges', 1000);
+		return extract(order_charges, "order_id", orderChargesConvertor, 'order_charges');
 	}).then(() => {
-		return extract(deliveries, "delivery_time", deliveriesConvertor, 'deliveries', 500);
+		return extract(deliveries, "delivery_time", deliveriesConvertor, 'deliveries');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -121,25 +121,38 @@ function copyPouchToSQL() {
 		console.log(m);
 		disconnectSQL(1);
 	});
+}
 
-}		
+function write_content(arr, filename) {
+	var fs = require('fs');
+	var file = fs.createWriteStream(filename);
+	file.on('error', function(err) { /* error handling */ });
+	arr.forEach(function(v) { file.write(v + '\n'); });
+	file.end();
+}
 
-function extract(collection, field, convertor, keyName, limit) {
+function extract(collection, field, convertor, keyName) {
 	console.log('extracting ' + keyName);
 	return new Promise((resolve, reject) => {
 		collection.findIds(field, "", { startsWith: true }).then(ids => {
 			let l = ids.length;
+			let sorted = _.map(ids, 'id');
+			sorted.sort(function(a, b){return b>a});
 			console.log('total to convert' , l, keyName);
 			let skip = 0;
 			let ps = [];
-			while (l > 0 && skip < limit) {
+			while (l > 0) {
 				let find = _.partialRight((callback, skip) => {
-					collection.find(field, "", { startsWith: true, skip: skip, limit: SKIP_INTERVAL }).then((result) => {
+					let toLoad = [];
+					let values = sorted.splice(0, SKIP_INTERVAL);
+					values.forEach(value => {
+						toLoad.push(collection.get(value));	
+					});
+					Promise.all(toLoad).then(result => { 
 						console.log('converting...', result.length);
-						let ps = getPromises(result, convertor, keyName);
-						return Promise.all(ps);
+						return insertAll(result, convertor, keyName);
 					}).then((r) => {
-						callback(null, r.length);
+						callback(null, r);
 					}).catch(m=> {
 						console.log('error converting...');
 						callback(m)
@@ -167,21 +180,21 @@ function disconnectSQL(status = 0) {
 
 function insert(table, data) {
 	return new Promise((resolve, reject) => {
-		SQLconnection.query('INSERT INTO ' + p.storeId + '_' + table +' SET ?', data, function(error, results, fields) {
+		SQLconnection.query('INSERT INTO ' + p.storeId + '_' + table +' VALUES ?', data, function(error, results, fields) {
 			resolve(results);
 		});
 	})
 }
 
-function getPromises(es, convertor, tableName) {
+function insertAll(es, convertor, tableName) {
 	console.log("Preparing conversion of " + tableName + ".");
 	console.log("Entities to convert: ", es.length);
 
-	let ps = [];
+	let inserts = [];
 	_.each(es, e => {
-		ps.push(insert(tableName, convertor(e)));
+		inserts.push(convertor(e));
 	})
-	return ps;
+	return insert(tableName, inserts);
 }
 
 function customerConvertor(customer: Customer) {
