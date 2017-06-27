@@ -8,22 +8,22 @@ import * as mysql from 'mysql';
 import Promise from 'ts-promise';
 import * as async from "async";
 
-import { Customers } from "../src/collections/Customers";
-import { CustomerCards } from "../src/collections/CustomerCards";
-import { Orders } from "../src/collections/Orders";
-import { OrderItems } from "../src/collections/OrderItems";
-import { OrderTags } from "../src/collections/OrderTags";
-import { OrderCharges } from "../src/collections/OrderCharges";
-import { Deliveries } from "../src/collections/Deliveries";
+import { Customers } from "../collections/Customers";
+import { CustomerCards } from "../collections/CustomerCards";
+import { Orders } from "../collections/Orders";
+import { OrderItems } from "../collections/OrderItems";
+import { OrderTags } from "../collections/OrderTags";
+import { OrderCharges } from "../collections/OrderCharges";
+import { Deliveries } from "../collections/Deliveries";
 
-import { Customer } from "../src/entities/Customer";
-import { CustomerCard } from "../src/entities/CustomerCard";
-import { Order } from "../src/entities/Order";
-import { OrderItem } from "../src/entities/OrderItem";
-import { OrderTag } from "../src/entities/OrderTag";
-import { OrderCharge } from "../src/entities/OrderCharge";
-import { Delivery } from "../src/entities/Delivery";
-import { Database } from '../src/access/Database';
+import { Customer } from "../entities/Customer";
+import { CustomerCard } from "../entities/CustomerCard";
+import { Order } from "../entities/Order";
+import { OrderItem } from "../entities/OrderItem";
+import { OrderTag } from "../entities/OrderTag";
+import { OrderCharge } from "../entities/OrderCharge";
+import { Delivery } from "../entities/Delivery";
+import { Database } from '../access/Database';
 import * as commander from 'commander';
 
 const SKIP_INTERVAL = 500;
