@@ -9,7 +9,10 @@
     "sourceMap": true,
     "preserveConstEnums": true,
     "outDir": "./lib",
-    "removeComments": true
+    "removeComments": true,
+    "types": [
+      "node"
+    ]    
   },
   "include": [
     "src/**/*"
