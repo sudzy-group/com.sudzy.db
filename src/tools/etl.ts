@@ -340,7 +340,7 @@ function deliveriesConvertor(delivery: Delivery) {
 		new Date(delivery._base.core.created_at),
 		delivery.customer_id,
 		delivery.is_pickup ? 1 : 0,
-		new Date(delivery.delivery_time),
+		new Date(parseInt(delivery.delivery_time)),
 		delivery.delivery_person,
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
