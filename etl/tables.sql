@@ -122,3 +122,4 @@ CREATE TABLE `{{store_id}}_deliveries` (
   `express_id` varchar(250) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
+
