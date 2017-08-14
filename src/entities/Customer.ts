@@ -58,6 +58,13 @@ export class Customer extends Entity {
     public email: string;
 
     @EntityField({
+        group: "pricing_group",
+        name: "pricing_group",
+        description: "Customer's pricing_group"
+    })
+    public pricing_group: string;
+
+    @EntityField({
         group: "address",
         name: "autocomplete",
         validate: autocomplete,
@@ -159,4 +166,5 @@ export class Customer extends Entity {
     protected last4(mobile) {
         return mobile.substr(-4);
     }
+
 }

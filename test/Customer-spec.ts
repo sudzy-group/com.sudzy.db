@@ -400,5 +400,18 @@ class CustomerTest {
         done();
       });
   }
+
+  @test("should set pricing group")
+  public testPricingGroup(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6125490405", pricing_group: "abc" }).then((c) => {
+      return customers.find("mobile", "6125490405")
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].pricing_group).to.equal("abc");
+      done();
+    }).catch(m=>console.log(m));
+  }
+  
 }
 
