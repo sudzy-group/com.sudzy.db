@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-import * as PouchDB from "pouchdb";
+import * as PouchDB from 'pouchdb';
 import * as PouchableAuthentication from 'pouchdb-authentication';
 PouchDB.plugin(PouchableAuthentication);
 
 import * as _ from 'lodash';
 import * as mysql from 'mysql';
 import Promise from 'ts-promise';
-import * as async from "async";
+import * as async from 'async';
 
 import { Customers } from "../collections/Customers";
 import { CustomerCards } from "../collections/CustomerCards";
@@ -15,6 +15,7 @@ import { OrderItems } from "../collections/OrderItems";
 import { OrderTags } from "../collections/OrderTags";
 import { OrderCharges } from "../collections/OrderCharges";
 import { Deliveries } from "../collections/Deliveries";
+import { Timesheets } from '../collections/Timesheets';
 
 import { Customer } from "../entities/Customer";
 import { CustomerCard } from "../entities/CustomerCard";
@@ -23,6 +24,8 @@ import { OrderItem } from "../entities/OrderItem";
 import { OrderTag } from "../entities/OrderTag";
 import { OrderCharge } from "../entities/OrderCharge";
 import { Delivery } from "../entities/Delivery";
+import { Timesheet } from '../entities/Timesheet';
+
 import { Database } from '../access/Database';
 import * as commander from 'commander';
 
@@ -48,7 +51,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges;
+var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets;
 var SQLconnection;
 
 var docs = 0;
@@ -72,6 +75,7 @@ function connectPouch() {
 	order_items = new OrderItems(pouch, OrderItem);
 	order_tags = new OrderTags(pouch, OrderTag);
 	order_charges = new OrderCharges(pouch, OrderCharge);
+	timesheets = new Timesheets(pouch, Timesheet);
 }
 
 function connectSQL() {
@@ -114,6 +118,8 @@ function copyPouchToSQL() {
 		return extract(order_charges, "order_id", orderChargesConvertor, orderChargesConvertorFields, 'order_charges');
 	}).then(() => {
 		return extract(deliveries, "delivery_time", deliveriesConvertor, deliveriesConvertorFields, 'deliveries');
+	}).then(() => {
+		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -345,6 +351,22 @@ function deliveriesConvertor(delivery: Delivery) {
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
 		delivery.express_id
+	]
+}
+
+
+function timesheetsConvertorFields() {
+	return [ "original_id", "created_at", "employee_id", "is_clockin", "event_time", "comment" ];
+}
+
+function timesheetsConvertor(timesheet: Timesheet) {
+	return [
+		timesheet.id,
+		new Date(timesheet.created_at),
+		timesheet.employee_id,
+		timesheet.is_clockin ? 1 : 0,
+		new Date(parseInt(timesheet.event_time)),
+		timesheet.comment
 	]
 }
 

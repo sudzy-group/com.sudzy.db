@@ -123,3 +123,14 @@ CREATE TABLE `{{store_id}}_deliveries` (
    PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `{{store_id}}_timesheets` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `employee_id` varchar(100) NOT NULL,
+  `is_clockin` tinyint(1) NULL,
+  `event_time` datetime NULL,
+  `comment` varchar(200) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+);
+

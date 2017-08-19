@@ -93,16 +93,12 @@
 | date_cash       | `string`   | cash    | date of cash receieved             | Searchable     |
 | refund_id       | `string`   | refund  | Refund id                          |                |
 | amount_refunded | `number`   | refund  | Amount refunded                    |                |
-# Delivery
-| Field Name      | Field Type | Group   | Description                      | Comments       |
-| --------------- | ---------- | ------- | -------------------------------- | -------------- |
-| id              | `string`   | default | Entity id                        | Auto-generated |
-| created_at      | `number`   | default | Creation datetime (unix)         | Auto-generated |
-| customer_id     | `string`   | default | Customer id                      |                |
-| is_pickup       | `boolean`  | default | Whether delivery is pickup       |                |
-| delivery_time   | `string`   | default | Delivery time                    | Searchable     |
-| delivery_person | `string`   | person  | Delivery person                  | Validated      |
-| delivery_notes  | `string`   | notes   | Delivery notes                   |                |
-| is_confirmed    | `boolean`  | status  | Whether store confirmed delivery | Searchable     |
-| is_canceled     | `boolean`  | status  | Whether delivery is canceled     |                |
-| express_id      | `string`   | express | Express id                       | Validated      |
+# Timesheet
+| Field Name  | Field Type | Group   | Description              | Comments       |
+| ----------- | ---------- | ------- | ------------------------ | -------------- |
+| id          | `string`   | default | Entity id                | Auto-generated |
+| created_at  | `number`   | default | Creation datetime (unix) | Auto-generated |
+| employee_id | `string`   | default | Employee ID              | Searchable     |
+| is_clockin  | `boolean`  | default | Is clock in              |                |
+| event_time  | `string`   | default | Time of the event        | Searchable     |
+| comment     | `string`   | comment | Optional comment         |                |
