@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `{{store_id}}_order_items`;
 DROP TABLE IF EXISTS `{{store_id}}_order_tags`;
 DROP TABLE IF EXISTS `{{store_id}}_order_charges`;
 DROP TABLE IF EXISTS `{{store_id}}_deliveries`;
+DROP TABLE IF EXISTS `{{store_id}}_timesheets`;
 
 CREATE TABLE `{{store_id}}_customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
