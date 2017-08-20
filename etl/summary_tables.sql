@@ -107,3 +107,22 @@ CREATE TABLE `{{store_id}}_payments` (
 
 INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount, charge_id, refund_id, coupon_code)
 SELECT `{{store_id}}_order_charges`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount`, `charge_id`, `refund_id`, `{{store_id}}_orders`.`coupon_code` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
+
+########################
+# Timesheets
+########################
+DROP TABLE IF EXISTS `{{store_id}}_timesheets_summary`;
+
+CREATE TABLE `{{store_id}}_timesheets_summary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(100) NOT NULL,
+  `day` date NULL,
+  `min` datetime NULL,
+  `max` datetime NULL,
+  `list` varchar(200) DEFAULT NULL,
+  `count` DOUBLE NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_timesheets_summary` (employee_id, day, min, max, list, count)
+SELECT MIN(employee_id) employee_id, DATE(MIN(event_time)) as day, MIN(event_time) as min, MAX(event_time) as max, GROUP_CONCAT(event_time) as list, COUNT(event_time) as count from `{{store_id}}_timesheets` GROUP BY DAY(event_time), employee_id;
