@@ -19,5 +19,6 @@ export { Delivery } from "./entities/Delivery";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
+export { Employee, Employees } from './config/Employees';
 
 export { Database } from './access/Database';
