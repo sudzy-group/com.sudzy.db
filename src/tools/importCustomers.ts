@@ -54,6 +54,10 @@ connectPouch( () => {
 		
 		let ps = [];
 		cs.forEach(c => {
+			if (!c.name || !c.mobile || c.mobile.length != 10) {
+				console.log("skipped line, no name or mobile", c.name, c.mobile)
+				return;
+			}
 			c.created_at = new Date(c.created_at).getTime();
 			let customer = {
 				name: c.name,
@@ -65,6 +69,8 @@ connectPouch( () => {
 			}
 			if (c.autocomplete) {
 				customer['autocomplete'] = c.autocomplete;
+			}
+			if (c.lat) {
 				customer['street_num'] = c.street_num;
 				customer['street_route'] = c.street_route;
 				customer['city'] = c.city;
@@ -82,6 +88,7 @@ connectPouch( () => {
 			}
 			ps.push(customers.insert(customer, c.created_at)) ;
 		});
+		console.log('sync started');
 		Promise.all(ps).then(
 			css => {
 				database.sync().on('complete', () => {
@@ -125,7 +132,6 @@ function toString(val) {
 		return val.join(', ');
 	}
 }
-
 
 function format(value) {
 	if (!value) { return '' };
