@@ -8,6 +8,7 @@ export { OrderItems } from "./collections/OrderItems";
 export { OrderTags } from "./collections/OrderTags";
 export { OrderCharges } from "./collections/OrderCharges";
 export { Deliveries } from "./collections/Deliveries";
+export { Timesheets } from "./collections/Timesheets";
 
 export { Customer } from "./entities/Customer";
 export { CustomerCard } from "./entities/CustomerCard";
@@ -16,6 +17,7 @@ export { OrderItem } from "./entities/OrderItem";
 export { OrderTag } from "./entities/OrderTag";
 export { OrderCharge } from "./entities/OrderCharge";
 export { Delivery } from "./entities/Delivery";
+export { Timesheet } from "./entities/Timesheet";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
