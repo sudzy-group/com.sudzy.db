@@ -68,7 +68,7 @@ export class Employees {
      * Employees by isbn
      */
     public get(pincode: string) {
-        if (!pincode) {
+        if (!pincode || !this._employees[pincode]) {
             return null;
         }
         return new Employee(this._employees[pincode]);
