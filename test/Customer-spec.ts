@@ -317,16 +317,6 @@ class CustomerTest {
       });
   }
 
-  @test("shouldn't allow autocomplete that doesn't begin in number")
-  public testInvalidAutocomplete(done) {
-    const customers = new Customers(CustomerTest.db, Customer);
-    customers.insert({ mobile: "6165490566", autocomplete: "A Big Street, New York, NY, USA" })
-      .then(_.noop)
-      .catch((c) => {
-        done();
-      });
-  }
-
   @test("shouldn't allow invalid zip")
   public testInvalidZip(done) {
     const customers = new Customers(CustomerTest.db, Customer);
