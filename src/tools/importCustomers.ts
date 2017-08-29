@@ -54,7 +54,9 @@ connectPouch( () => {
 		
 		let ps = [];
 		cs.forEach(c => {
-			if (!c.name || !c.mobile || c.mobile.length != 10) {
+			c.mobile = c.mobile.toString();
+
+			if (c.mobile.length != 10 || c.name.length < 2) {
 				console.log("skipped line, no name or mobile", c.name, c.mobile)
 				return;
 			}
@@ -69,6 +71,9 @@ connectPouch( () => {
 			}
 			if (c.autocomplete) {
 				customer['autocomplete'] = c.autocomplete;
+			}
+			if (c.pricing_group) {
+				customer['pricing_group'] = c.pricing_group;
 			}
 			if (c.lat) {
 				customer['street_num'] = c.street_num;
@@ -88,14 +93,16 @@ connectPouch( () => {
 			}
 			ps.push(customers.insert(customer, c.created_at)) ;
 		});
-		console.log('sync started');
+		console.log('sync started: ', ps.length);
 		Promise.all(ps).then(
 			css => {
 				database.sync().on('complete', () => {
 					console.log('sync done');
+				}).on('change', m => { 
+					console.log("updating")		
 				}).on('error', m => console.log(m));
 			}
-		);
+		).catch(m=> console.log(m));
 	});
 });
 
@@ -105,6 +112,8 @@ function connectPouch(callback) {
 		database.sync().on('complete', () => {
 			customers = new Customers(database.db, Customer);
 			callback();
+		}).on('change', m => { 
+			console.log("updating")		
 		}).on('error', m => console.log(m));
 	}).catch(m => console.log(m));
 }

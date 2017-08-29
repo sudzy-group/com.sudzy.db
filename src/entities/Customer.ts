@@ -67,7 +67,6 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "autocomplete",
-        validate: autocomplete,
         description: "Full address as captured by Google Places API"
     })
     public autocomplete: string;
@@ -97,7 +96,6 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "city",
-        validate: lengthGreater1,
         description: "City"
     })
     public city: string;
@@ -105,7 +103,6 @@ export class Customer extends Entity {
     @EntityField({
         group: "address",
         name: "state",
-        validate: lengthGreater1,
         description: "State"
     })
     public state: string;
