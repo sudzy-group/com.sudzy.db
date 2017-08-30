@@ -120,8 +120,6 @@ class DeliveryTest {
     }).catch(m=>console.log(m));
   }
 
-
-
 //Search
   @test("should be able to search by delivery_time")
   public testSearchDeliveryTime(done) {
@@ -136,6 +134,26 @@ class DeliveryTest {
       return deliveries.insert(deliveryObj);
     }).then((deliv) => {
        return deliveries.find("delivery_time", "1489627534819")
+     }).then((delivs) => {   
+        expect(delivs.length).to.equal(1);
+        done();
+    }).catch(m=>console.log(m));
+  } 
+
+  @test("should be able to search by external id")
+  public testSearchDeliveryExternalId(done) {
+    let customers = DeliveryTest.customers;
+    let deliveries = DeliveryTest.deliveries;
+    customers.insert({ mobile: "1465490999" }).then((cust) => {
+      let deliveryObj = {
+        customer_id: cust.id,
+        is_pickup: false,
+        delivery_time: "1489627534819",
+        external_id: "37644"
+      }
+      return deliveries.insert(deliveryObj);
+    }).then((deliv) => {
+       return deliveries.find("external_id", "37644")
      }).then((delivs) => {   
         expect(delivs.length).to.equal(1);
         done();

@@ -69,4 +69,12 @@ export class Delivery extends Entity {
         description: "Express id"
     })
     public express_id: string;
+
+    @EntityField({
+        group: "external",
+        name: "external_id",
+        search_by: [identity], 
+        description: "External Delivery id"
+    })
+    public external_id: string;
 }

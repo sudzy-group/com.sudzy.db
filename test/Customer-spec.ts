@@ -82,6 +82,18 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should be searchable by email")
+  public testSearchEmail(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "1235490562", email: "MYEMAIL@gmail.com" }).then((c) => {
+      return customers.find("email", "myemail@gmail.com")
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].mobile).to.equal("1235490562");
+      done();
+    }).catch(m=>console.log(m));
+  }  
+
   @test("should be searchable by last4")
   public testSearchLast4(done) {
     const customers = new Customers(CustomerTest.db, Customer);
@@ -326,7 +338,6 @@ class CustomerTest {
         done();
       });
   }
-
 
   @test("should allow valid longitude")
   public testValidLng(done) {

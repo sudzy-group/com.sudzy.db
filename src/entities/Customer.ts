@@ -2,12 +2,11 @@ import { Entity, EntityField } from "pouchable";
 import { mobile } from "../validators/mobile";
 import { lengthGreater1 } from "../validators/lengthGreater1";
 import { email } from "../validators/email";
-import { autocomplete } from '../validators/autocomplete';
 import { zip } from '../validators/zip';
 import { latitude } from '../validators/latitude';
 import { longitude } from '../validators/longitude';
 import { noWhitespace } from '../validators/noWhitespace';
-import { identity } from 'lodash';
+import { identity, toLower } from 'lodash';
 import * as metaphone from 'metaphone';
 
 /**
@@ -53,6 +52,7 @@ export class Customer extends Entity {
         group: "email",
         name: "email",
         validate: email,
+        search_by: toLower,
         description: "Customer's email"
     })
     public email: string;
