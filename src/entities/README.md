@@ -7,14 +7,14 @@
 | allow_notifications | `string`   | default       | Customer's consent to get email / sms  notifications |                       |
 | formatted_mobile    | `string`   | formatted     | Customer's mobile phone (formatted)                  |                       |
 | name                | `string`   | name          | Customer's name                                      | Validated, Searchable |
-| email               | `string`   | email         | Customer's email                                     | Validated             |
+| email               | `string`   | email         | Customer's email                                     | Validated, Searchable |
 | pricing_group       | `string`   | pricing_group | Customer's pricing_group                             |                       |
-| autocomplete        | `string`   | address       | Full address as captured by Google Places API        | Validated             |
+| autocomplete        | `string`   | address       | Full address as captured by Google Places API        |                       |
 | street_num          | `string`   | address       | Street number                                        |                       |
 | street_route        | `string`   | address       | Street name                                          | Validated             |
 | apartment           | `string`   | address       | Apartment                                            |                       |
-| city                | `string`   | address       | City                                                 | Validated             |
-| state               | `string`   | address       | State                                                | Validated             |
+| city                | `string`   | address       | City                                                 |                       |
+| state               | `string`   | address       | State                                                |                       |
 | zip                 | `string`   | address       | Zip code                                             | Validated             |
 | lat                 | `string`   | address       | Latitude                                             | Validated             |
 | lng                 | `string`   | address       | Longtitude                                           | Validated             |
@@ -93,6 +93,20 @@
 | date_cash       | `string`   | cash    | date of cash receieved             | Searchable     |
 | refund_id       | `string`   | refund  | Refund id                          |                |
 | amount_refunded | `number`   | refund  | Amount refunded                    |                |
+# Delivery
+| Field Name      | Field Type | Group    | Description                      | Comments       |
+| --------------- | ---------- | -------- | -------------------------------- | -------------- |
+| id              | `string`   | default  | Entity id                        | Auto-generated |
+| created_at      | `number`   | default  | Creation datetime (unix)         | Auto-generated |
+| customer_id     | `string`   | default  | Customer id                      |                |
+| is_pickup       | `boolean`  | default  | Whether delivery is pickup       |                |
+| delivery_time   | `string`   | default  | Delivery time                    | Searchable     |
+| delivery_person | `string`   | person   | Delivery person                  | Validated      |
+| delivery_notes  | `string`   | notes    | Delivery notes                   |                |
+| is_confirmed    | `boolean`  | status   | Whether store confirmed delivery | Searchable     |
+| is_canceled     | `boolean`  | status   | Whether delivery is canceled     |                |
+| express_id      | `string`   | express  | Express id                       | Validated      |
+| external_id     | `string`   | external | External Delivery id             | Searchable     |
 # Timesheet
 | Field Name  | Field Type | Group   | Description              | Comments       |
 | ----------- | ---------- | ------- | ------------------------ | -------------- |
