@@ -20,6 +20,7 @@ export class Item {
     get first_x_price():    number  { return this._data['first_x_price'] };
     get priority():         number  { return this._data['priority'] };
     get pricing_group():    string  { return this._data['pricing_group'] };    
+    get parent_isbn():      string  { return this._data['parent_isbn'] };
 }
 
 /**

@@ -41,6 +41,9 @@ class ItemsTest {
       data['hidden'] = false;
       data['price'] = 10.2;
       data['priority'] = 1;
+      data['pricing_group'] = 1;
+      data['parent_isbn'] = 1;
+      
       ic.save({'it-001': data }).then((items: Items) => {
         return items.reload();
       }).then((items) => {
@@ -57,6 +60,8 @@ class ItemsTest {
         expect(item.priority).to.not.equal(undefined);
         expect(item.first_x).to.equal(undefined);
         expect(item.first_x_price).to.equal(undefined);
+        expect(item.pricing_group).to.equal(1);
+        expect(item.parent_isbn).to.equal(1);
         let keys = items.keys();
         expect(keys.length).to.equal(1);
         done()
