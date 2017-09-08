@@ -15,6 +15,7 @@ CREATE TABLE `{{store_id}}_customers` (
   `allow_notifications` tinyint(1) DEFAULT NULL,
   `formatted_mobile` varchar(20) NULL,
   `name` varchar(100) DEFAULT NULL,
+  `capital_name` varchar(100) DEFAULT NULL,
   `email` varchar(254) DEFAULT NULL,
   `autocomplete` varchar(100) DEFAULT NULL,
   `street_num` varchar(12) DEFAULT NULL,

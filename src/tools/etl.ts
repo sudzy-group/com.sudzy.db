@@ -210,7 +210,7 @@ function insertAll(es, convertor, convertoFields, tableName) {
 }
 
 function customerConvertorFields() {
-	return [ "original_id", "created_at", "allow_notifications", "formatted_mobile", "mobile", "name", "email", "autocomplete", "street_num", "street_route", "apartment", "city", "state", "zip", "lat", "lng", "delivery_notes", "cleaning_notes", "payment_customer_id", "is_doorman" ];
+	return [ "original_id", "created_at", "allow_notifications", "formatted_mobile", "mobile", "name", "capital_name", "email", "autocomplete", "street_num", "street_route", "apartment", "city", "state", "zip", "lat", "lng", "delivery_notes", "cleaning_notes", "payment_customer_id", "is_doorman" ];
 }
 
 function customerConvertor(customer: Customer) {
@@ -221,6 +221,7 @@ function customerConvertor(customer: Customer) {
 			customer.formatted_mobile,
 			customer.mobile,
 			customer.name,
+			_.toUpper(customer.name),
 			customer.email,
 			customer.autocomplete,
 			customer.street_num,
