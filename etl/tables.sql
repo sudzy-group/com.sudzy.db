@@ -1,12 +1,4 @@
 DROP TABLE IF EXISTS `{{store_id}}_customers`;
-DROP TABLE IF EXISTS `{{store_id}}_customer_cards`;
-DROP TABLE IF EXISTS `{{store_id}}_orders`;
-DROP TABLE IF EXISTS `{{store_id}}_order_items`;
-DROP TABLE IF EXISTS `{{store_id}}_order_tags`;
-DROP TABLE IF EXISTS `{{store_id}}_order_charges`;
-DROP TABLE IF EXISTS `{{store_id}}_deliveries`;
-DROP TABLE IF EXISTS `{{store_id}}_timesheets`;
-
 CREATE TABLE `{{store_id}}_customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -33,6 +25,7 @@ CREATE TABLE `{{store_id}}_customers` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_customer_cards`;
 CREATE TABLE `{{store_id}}_customer_cards` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -50,6 +43,7 @@ CREATE TABLE `{{store_id}}_customer_cards` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_orders`;
 CREATE TABLE `{{store_id}}_orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -72,6 +66,7 @@ CREATE TABLE `{{store_id}}_orders` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_order_items`;
 CREATE TABLE `{{store_id}}_order_items` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -86,6 +81,7 @@ CREATE TABLE `{{store_id}}_order_items` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_order_tags`;
 CREATE TABLE `{{store_id}}_order_tags` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -96,6 +92,7 @@ CREATE TABLE `{{store_id}}_order_tags` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_order_charges`;
 CREATE TABLE `{{store_id}}_order_charges` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -111,6 +108,7 @@ CREATE TABLE `{{store_id}}_order_charges` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_deliveries`;
 CREATE TABLE `{{store_id}}_deliveries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -125,6 +123,7 @@ CREATE TABLE `{{store_id}}_deliveries` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_timesheets`;
 CREATE TABLE `{{store_id}}_timesheets` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
@@ -136,6 +135,7 @@ CREATE TABLE `{{store_id}}_timesheets` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_timelines`;
 CREATE TABLE `{{store_id}}_timelines` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
