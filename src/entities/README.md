@@ -116,3 +116,12 @@
 | is_clockin  | `boolean`  | default | Is clock in              |                |
 | event_time  | `string`   | default | Time of the event        | Searchable     |
 | comment     | `string`   | comment | Optional comment         |                |
+# Timeline
+| Field Name  | Field Type | Group   | Description                       | Comments       |
+| ----------- | ---------- | ------- | --------------------------------- | -------------- |
+| id          | `string`   | default | Entity id                         | Auto-generated |
+| created_at  | `number`   | default | Creation datetime (unix)          | Auto-generated |
+| employee_id | `string`   | default | Employee ID                       |                |
+| operation   | `number`   | default | Operation code                    |                |
+| order_id    | `string`   | default | Order id related to the operation | Searchable     |
+| text        | `string`   | default | Text of the event                 |                |

@@ -16,6 +16,7 @@ import { OrderTags } from "../collections/OrderTags";
 import { OrderCharges } from "../collections/OrderCharges";
 import { Deliveries } from "../collections/Deliveries";
 import { Timesheets } from '../collections/Timesheets';
+import { Timelines } from '../collections/Timelines';
 
 import { Customer } from "../entities/Customer";
 import { CustomerCard } from "../entities/CustomerCard";
@@ -25,6 +26,7 @@ import { OrderTag } from "../entities/OrderTag";
 import { OrderCharge } from "../entities/OrderCharge";
 import { Delivery } from "../entities/Delivery";
 import { Timesheet } from '../entities/Timesheet';
+import { Timeline } from '../entities/Timeline';
 
 import { Database } from '../access/Database';
 import * as commander from 'commander';
@@ -51,7 +53,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets;
+var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines;
 var SQLconnection;
 
 var docs = 0;
@@ -76,6 +78,8 @@ function connectPouch() {
 	order_tags = new OrderTags(pouch, OrderTag);
 	order_charges = new OrderCharges(pouch, OrderCharge);
 	timesheets = new Timesheets(pouch, Timesheet);
+	timelines = new Timelines(pouch, Timeline);
+	
 }
 
 function connectSQL() {
@@ -120,6 +124,8 @@ function copyPouchToSQL() {
 		return extract(deliveries, "delivery_time", deliveriesConvertor, deliveriesConvertorFields, 'deliveries');
 	}).then(() => {
 		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets');
+	}).then(() => {
+		return extract(timelines, "order_id", timelinesConvertor, timelinesConvertorFields, 'timelines');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -368,6 +374,21 @@ function timesheetsConvertor(timesheet: Timesheet) {
 		timesheet.is_clockin ? 1 : 0,
 		new Date(parseInt(timesheet.event_time)),
 		timesheet.comment
+	]
+}
+
+function timelinesConvertorFields() {
+	return [ "original_id", "created_at", "employee_id", "operation", "order_id", "text" ];
+}
+
+function timelinesConvertor(timeline: Timeline) {
+	return [
+		timeline.id,
+		new Date(timeline.created_at),
+		timeline.employee_id,
+		timeline.operation,
+		timeline.order_id,
+		timeline.text
 	]
 }
 

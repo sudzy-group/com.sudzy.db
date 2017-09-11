@@ -136,3 +136,13 @@ CREATE TABLE `{{store_id}}_timesheets` (
    PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `{{store_id}}_timelines` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `employee_id` varchar(100) NOT NULL,
+  `order_id` varchar(250) NOT NULL,
+  `operation` int(10) NULL,
+  `text` varchar(500) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+);
