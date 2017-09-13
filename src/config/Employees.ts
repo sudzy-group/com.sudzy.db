@@ -11,6 +11,7 @@ export class Employee {
     get id():               string  { return this._data['id'] };
     get name():             string  { return this._data['name'] };
     get pincode():          string  { return this._data['pincode'] };
+    get role():             number  { return this._data['role'] };
 }
 
 /**
