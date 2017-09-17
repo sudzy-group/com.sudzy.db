@@ -10,6 +10,8 @@ export { OrderCharges } from "./collections/OrderCharges";
 export { Deliveries } from "./collections/Deliveries";
 export { Timesheets } from "./collections/Timesheets";
 export { Timelines } from "./collections/Timelines";
+export { Products } from "./collections/Products";
+export { Purchases } from "./collections/Purchases";
 
 export { Customer } from "./entities/Customer";
 export { CustomerCard } from "./entities/CustomerCard";
@@ -20,6 +22,8 @@ export { OrderCharge } from "./entities/OrderCharge";
 export { Delivery } from "./entities/Delivery";
 export { Timesheet } from "./entities/Timesheet";
 export { Timeline } from "./entities/Timeline";
+export { Product } from "./entities/Product";
+export { Purchase } from "./entities/Purchase";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
