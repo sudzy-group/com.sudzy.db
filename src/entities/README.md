@@ -125,3 +125,23 @@
 | operation   | `number`   | default | Operation code                    |                |
 | order_id    | `string`   | default | Order id related to the operation | Searchable     |
 | text        | `string`   | default | Text of the event                 |                |
+# Product
+| Field Name     | Field Type | Group          | Description              | Comments       |
+| -------------- | ---------- | -------------- | ------------------------ | -------------- |
+| id             | `string`   | default        | Entity id                | Auto-generated |
+| created_at     | `number`   | default        | Creation datetime (unix) | Auto-generated |
+| name           | `string`   | default        | Product's name           | Validated      |
+| sku            | `string`   | default        | Product's SKU            | Searchable     |
+| image          | `string`   | default        | Product's image          |                |
+| price          | `number`   | price          | Product's price          |                |
+| goods_in_stock | `number`   | goods_in_stock | Goods in stock           |                |
+# Purchase
+| Field Name   | Field Type | Group   | Description                   | Comments       |
+| ------------ | ---------- | ------- | ----------------------------- | -------------- |
+| id           | `string`   | default | Entity id                     | Auto-generated |
+| created_at   | `number`   | default | Creation datetime (unix)      | Auto-generated |
+| product_ids  | `string[]` | default | List of products purchased    |                |
+| total_price  | `number`   | default | Purchase total price          |                |
+| payment_type | `string`   | default | Payment's type (cash or card) |                |
+| payment_id   | `string`   | default | Payment's id                  | Searchable     |
+| refund_id    | `string`   | refund  | Refund's id                   |                |

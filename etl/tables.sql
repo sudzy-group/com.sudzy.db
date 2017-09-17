@@ -146,3 +146,28 @@ CREATE TABLE `{{store_id}}_timelines` (
   `text` varchar(500) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
+
+DROP TABLE IF EXISTS `{{store_id}}_products`;
+CREATE TABLE `{{store_id}}_products` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `sku` varchar(100) DEFAULT NULL,
+  `image` varchar(100) DEFAULT NULL,
+  `price` DECIMAL(10,2) DEFAULT NULL,
+  `goods_in_stock` int(3) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `{{store_id}}_purchases`;
+CREATE TABLE `{{store_id}}_purchases` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `total_price` DECIMAL(10,2) NOT NULL,
+  `payment_type` varchar(15) NOT NULL,
+  `payment_id` varchar(100) NOT NULL,
+  `refund_id` varchar(100) NOT NULL,
+   PRIMARY KEY (`id`)
+);

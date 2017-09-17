@@ -17,6 +17,8 @@ import { OrderCharges } from "../collections/OrderCharges";
 import { Deliveries } from "../collections/Deliveries";
 import { Timesheets } from '../collections/Timesheets';
 import { Timelines } from '../collections/Timelines';
+import { Purchases } from '../collections/Purchases';
+import { Products } from '../collections/Products';
 
 import { Customer } from "../entities/Customer";
 import { CustomerCard } from "../entities/CustomerCard";
@@ -27,6 +29,8 @@ import { OrderCharge } from "../entities/OrderCharge";
 import { Delivery } from "../entities/Delivery";
 import { Timesheet } from '../entities/Timesheet';
 import { Timeline } from '../entities/Timeline';
+import { Purchase } from '../entities/Purchase';
+import { Product } from '../entities/Product';
 
 import { Database } from '../access/Database';
 import * as commander from 'commander';
@@ -53,7 +57,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines;
+var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
 var SQLconnection;
 
 var docs = 0;
@@ -79,7 +83,8 @@ function connectPouch() {
 	order_charges = new OrderCharges(pouch, OrderCharge);
 	timesheets = new Timesheets(pouch, Timesheet);
 	timelines = new Timelines(pouch, Timeline);
-	
+	products = new Products(pouch, Product);
+	purchases = new Purchases(pouch, Purchase);
 }
 
 function connectSQL() {
@@ -126,6 +131,10 @@ function copyPouchToSQL() {
 		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets');
 	}).then(() => {
 		return extract(timelines, "order_id", timelinesConvertor, timelinesConvertorFields, 'timelines');
+	}).then(() => {
+		return extract(products, "sku", productsConvertor, productsConvertorFields, 'products');
+	}).then(() => {
+		return extract(purchases, "payment_id", purchasesConvertor, purchasesConvertorFields, 'purchases');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -389,6 +398,37 @@ function timelinesConvertor(timeline: Timeline) {
 		timeline.operation,
 		timeline.order_id,
 		timeline.text
+	]
+}
+
+function productsConvertorFields() {
+	return [ "original_id", "created_at", "name", "sku", "image", "price", "goods_in_stock" ];
+}
+
+function productsConvertor(product: Product) {
+	return [
+		product.id,
+		new Date(product.created_at),
+		product.name,
+		product.sku,
+		product.image,
+		product.price,
+		product.goods_in_stock
+	]
+}
+
+function purchasesConvertorFields() {
+	return [ "original_id", "created_at", "total_price", "payment_type", "payment_id", "refund_id" ];
+}
+
+function purchasesConvertor(purchase: Purchase) {
+	return [
+		purchase.id,
+		new Date(purchase.created_at),
+		purchase.total_price,
+		purchase.payment_type,
+		purchase.payment_id,
+		purchase.refund_id
 	]
 }
 
