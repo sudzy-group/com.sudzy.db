@@ -165,9 +165,10 @@ CREATE TABLE `{{store_id}}_purchases` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `total_price` DECIMAL(10,2) NOT NULL,
-  `payment_type` varchar(15) NOT NULL,
-  `payment_id` varchar(100) NOT NULL,
-  `refund_id` varchar(100) NOT NULL,
+  `total_price` DECIMAL(10,2)  NULL,
+  `payment_type` varchar(15)  NULL,
+  `payment_id` varchar(100)  NULL,
+  `refund_id` varchar(100)  NULL,
+  `number_of_items` int(3)  NULL,
    PRIMARY KEY (`id`)
 );
