@@ -34,6 +34,8 @@ class PurchaseTest {
       .insert({
         product_ids: ['123', '234', '43243'],
         total_price: 16.7,
+        tax : 1.2,
+        readable_id: '111',
         payment_type: "cash",
         payment_id: "2321321",
         refund_id: "32343243"
@@ -57,6 +59,8 @@ class PurchaseTest {
       .insert({
         product_ids: ['123', '234', '43243'],
         total_price: 16.7,
+        tax : 1.2,
+        readable_id: '111',
         payment_type: "cash",
         payment_id: "2321321",
         refund_id: "32343243"

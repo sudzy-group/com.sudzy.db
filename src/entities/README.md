@@ -140,8 +140,10 @@
 | ------------ | ---------- | ------- | ----------------------------- | -------------- |
 | id           | `string`   | default | Entity id                     | Auto-generated |
 | created_at   | `number`   | default | Creation datetime (unix)      | Auto-generated |
+| readable_id  | `string`   | default | Payment's readable id         |                |
 | product_ids  | `string[]` | default | List of products purchased    |                |
 | total_price  | `number`   | default | Purchase total price          |                |
+| tax          | `number`   | default | Purchase tax                  |                |
 | payment_type | `string`   | default | Payment's type (cash or card) |                |
 | payment_id   | `string`   | default | Payment's id                  | Searchable     |
 | refund_id    | `string`   | refund  | Refund's id                   |                |

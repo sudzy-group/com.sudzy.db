@@ -9,6 +9,14 @@ export class Purchase extends Entity {
     @EntityField({
         group: "default",
         mandatory: true,
+        name: "readable_id",
+        description: "Payment's readable id"
+    })
+    public readable_id: string;
+
+    @EntityField({
+        group: "default",
+        mandatory: true,
         name: "product_ids",
         description: "List of products purchased"
     })
@@ -21,6 +29,14 @@ export class Purchase extends Entity {
         description: "Purchase total price"
     })
     public total_price: number;
+
+    @EntityField({
+        group: "default",
+        mandatory: true,
+        name: "tax",
+        description: "Purchase tax"
+    })
+    public tax: number;
 
     @EntityField({
         group: "default",
