@@ -418,7 +418,7 @@ function productsConvertor(product: Product) {
 }
 
 function purchasesConvertorFields() {
-	return [ "original_id", "created_at", "total_price", "payment_type", "payment_id", "refund_id", "number_of_items", 'tax', 'readable_id'];
+	return [ "original_id", "created_at", "total_price", "payment_type", "payment_id", "refund_id", "number_of_items", 'tax', 'readable_id', 'product_ids'];
 }
 
 function purchasesConvertor(purchase: Purchase) {
@@ -431,7 +431,8 @@ function purchasesConvertor(purchase: Purchase) {
 		purchase.refund_id,
 		purchase.product_ids ? purchase.product_ids.length : 0,
 		purchase.tax || 0,
-		purchase.readable_id || ''
+		purchase.readable_id || '',
+		purchase.product_ids ? purchase.product_ids.join(',') : ''
 	]
 }
 

@@ -171,6 +171,7 @@ CREATE TABLE `{{store_id}}_purchases` (
   `payment_type` varchar(15)  NULL,
   `payment_id` varchar(100)  NULL,
   `refund_id` varchar(100)  NULL,
+  `product_ids` VARCHAR(2000)  NULL,
   `number_of_items` int(3)  NULL,
    PRIMARY KEY (`id`)
 );
