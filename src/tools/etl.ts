@@ -224,9 +224,6 @@ function insertAll(es, convertor, convertoFields, tableName) {
 
 }
 
-
-function convertDateToUTC(date) { return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); }
-
 function customerConvertorFields() {
 	return [ "original_id", "created_at", "allow_notifications", "formatted_mobile", "mobile", "name", "capital_name", "email", "autocomplete", "street_num", "street_route", "apartment", "city", "state", "zip", "lat", "lng", "delivery_notes", "cleaning_notes", "payment_customer_id", "is_doorman" ];
 }
@@ -285,7 +282,7 @@ function ordersConvertorFields() {
 function ordersConvertor(order: Order) {
 	return [
 		order.id,
-		convertDateToUTC(order._base.core.created_at),
+		new Date(order._base.core.created_at),
 		order.customer_id,
 		order.readable_id,
 		order.due_datetime ? new Date(order.due_datetime) : null,
