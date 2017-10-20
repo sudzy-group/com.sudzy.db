@@ -451,5 +451,5 @@ function toString(val) {
 }
 
 function convertDateToUTC(date) { 
-	return moment(date).utc().format('YYYY-MM-DD hh:mm:ssA');
+	return moment(date).format('YYYY-MM-DD HH:mm:ss');
 }
