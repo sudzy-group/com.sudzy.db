@@ -348,7 +348,7 @@ function orderChargesConvertor(order_charge: OrderCharge) {
 		order_charge.charge_type,
 		order_charge.charge_id,
 		order_charge.card_id,
-		order_charge.date_cash ? convertDateToUTC(order_charge.date_cash) : null,
+		order_charge.date_cash ? new Date(order_charge.date_cash) : null,
 		order_charge.refund_id,
 		order_charge.amount_refunded
 	]
