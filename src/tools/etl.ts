@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import * as mysql from 'mysql';
 import Promise from 'ts-promise';
 import * as async from 'async';
+import * as moment from 'moment';
 
 import { Customers } from "../collections/Customers";
 import { CustomerCards } from "../collections/CustomerCards";
@@ -94,7 +95,6 @@ function connectSQL() {
 		password: p.remoteMySQLPassword,
 		database: p.remoteMySQLDatabase,
 		timezone: 'utc',
-		dateStrings : true,
 		multipleStatements: true
 	});
 
@@ -451,6 +451,5 @@ function toString(val) {
 }
 
 function convertDateToUTC(date) { 
-	date = new Date(date);
-	return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()); 
+	return moment(date).format('YYYY-MM-DD HH:mm:ss');
 }
