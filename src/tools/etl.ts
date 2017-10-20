@@ -287,7 +287,7 @@ function ordersConvertor(order: Order) {
 		convertDateToUTC(order.created_at),
 		order.customer_id,
 		order.readable_id,
-		order.due_datetime ? convertDateToUTC(order.due_datetime) : null,
+		order.due_datetime ? new Date(order.due_datetime) : null,
 		order.rack,
 		order.notes,
 		order.tax,
