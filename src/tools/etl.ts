@@ -233,7 +233,7 @@ function customerConvertorFields() {
 function customerConvertor(customer: Customer) {
 		return [
 			customer.id,
-			new Date(customer._base.core.created_at),
+			convertDateToUTC(customer._base.core.created_at),
 			customer.allow_notifications ? 1 : 0,
 			customer.formatted_mobile,
 			customer.mobile,
@@ -263,7 +263,7 @@ function customerCardsConvertorFields() {
 function customerCardsConvertor(card: CustomerCard) {
 		return [
 			card.id,
-			new Date(card._base.core.created_at),
+			convertDateToUTC(card._base.core.created_at),
 			card.customer_id,
 			card.card_id,
 			card.brand,
@@ -287,7 +287,7 @@ function ordersConvertor(order: Order) {
 		convertDateToUTC(order.created_at),
 		order.customer_id,
 		order.readable_id,
-		order.due_datetime ? new Date(order.due_datetime) : null,
+		order.due_datetime ? convertDateToUTC(order.due_datetime) : null,
 		order.rack,
 		order.notes,
 		order.tax,
@@ -310,7 +310,7 @@ function orderItemsConvertorFields() {
 function orderItemsConvertor(order_item: OrderItem) {
 	return [
 		order_item.id,
-		new Date(order_item._base.core.created_at),
+		convertDateToUTC(order_item.created_at),
 		order_item.order_id,
 		order_item.isbn,
 		order_item.type,
@@ -328,7 +328,7 @@ function orderTagsConvertorFields() {
 function orderTagsConvertor(order_tag: OrderTag) {
 	return [
 		order_tag.id,
-		new Date(order_tag._base.core.created_at),
+		convertDateToUTC(order_tag.created_at),
 		order_tag.order_id,
 		order_tag.tag_number,
 		order_tag.is_rack
@@ -342,13 +342,13 @@ function orderChargesConvertorFields() {
 function orderChargesConvertor(order_charge: OrderCharge) {
 	return [
 		order_charge.id,
-		new Date(order_charge._base.core.created_at),
+		convertDateToUTC(order_charge._base.core.created_at),
 		order_charge.order_id,
 		order_charge.amount,
 		order_charge.charge_type,
 		order_charge.charge_id,
 		order_charge.card_id,
-		order_charge.date_cash ? new Date(order_charge.date_cash) : null,
+		order_charge.date_cash ? convertDateToUTC(order_charge.date_cash) : null,
 		order_charge.refund_id,
 		order_charge.amount_refunded
 	]
@@ -361,10 +361,10 @@ function deliveriesConvertorFields() {
 function deliveriesConvertor(delivery: Delivery) {
 	return [
 		delivery.id,
-		new Date(delivery._base.core.created_at),
+		convertDateToUTC(delivery._base.core.created_at),
 		delivery.customer_id,
 		delivery.is_pickup ? 1 : 0,
-		new Date(parseInt(delivery.delivery_time)),
+		convertDateToUTC(parseInt(delivery.delivery_time)),
 		delivery.delivery_person,
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
@@ -380,10 +380,10 @@ function timesheetsConvertorFields() {
 function timesheetsConvertor(timesheet: Timesheet) {
 	return [
 		timesheet.id,
-		new Date(timesheet.created_at),
+		convertDateToUTC(timesheet.created_at),
 		timesheet.employee_id,
 		timesheet.is_clockin ? 1 : 0,
-		new Date(parseInt(timesheet.event_time)),
+		convertDateToUTC(parseInt(timesheet.event_time)),
 		timesheet.comment
 	]
 }
@@ -395,7 +395,7 @@ function timelinesConvertorFields() {
 function timelinesConvertor(timeline: Timeline) {
 	return [
 		timeline.id,
-		new Date(timeline.created_at),
+		convertDateToUTC(timeline.created_at),
 		timeline.employee_id,
 		timeline.operation,
 		timeline.order_id,
@@ -410,7 +410,7 @@ function productsConvertorFields() {
 function productsConvertor(product: Product) {
 	return [
 		product.id,
-		new Date(product.created_at),
+		convertDateToUTC(product.created_at),
 		product.name,
 		product.sku,
 		product.image,
@@ -426,7 +426,7 @@ function purchasesConvertorFields() {
 function purchasesConvertor(purchase: Purchase) {
 	return [
 		purchase.id,
-		new Date(purchase.created_at),
+		convertDateToUTC(purchase.created_at),
 		purchase.total_price,
 		purchase.payment_type,
 		purchase.payment_id,
