@@ -130,7 +130,7 @@ CREATE TABLE `{{store_id}}_timesheets` (
   `created_at` BIGINT DEFAULT NULL,
   `employee_id` varchar(100) NOT NULL,
   `is_clockin` tinyint(1) NULL,
-  `event_time` INT NULL,
+  `event_time` BIGINT NULL,
   `comment` varchar(200) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
