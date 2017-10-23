@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `{{store_id}}_orders_summary`;
 CREATE TABLE `{{store_id}}_orders_summary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` VARCHAR(20) NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` BIGINT NOT NULL,
   `all_ready` int(1) NULL,
   `all_pickedup` int(1) NULL,
   `total_order_price` DOUBLE NULL,
@@ -95,7 +95,7 @@ DROP TABLE IF EXISTS `{{store_id}}_payments`;
 
 CREATE TABLE `{{store_id}}_payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` datetime NULL,
+  `created_at` BIGINT NULL,
   `readable_id` varchar(10) NULL,
   `name` varchar(100) DEFAULT NULL,
   `method` varchar(30) NULL,
@@ -118,8 +118,8 @@ CREATE TABLE `{{store_id}}_timesheets_summary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `employee_id` int(100) NOT NULL,
   `day` date NULL,
-  `min` datetime NULL,
-  `max` datetime NULL,
+  `min` BIGINT NULL,
+  `max` BIGINT NULL,
   `list` varchar(200) DEFAULT NULL,
   `count` DOUBLE NULL,
   PRIMARY KEY (`id`)

@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS `{{store_id}}_customers`;
 CREATE TABLE `{{store_id}}_customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `mobile` varchar(15) NULL,
   `allow_notifications` tinyint(1) DEFAULT NULL,
   `formatted_mobile` varchar(20) NULL,
@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS `{{store_id}}_customer_cards`;
 CREATE TABLE `{{store_id}}_customer_cards` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `card_id` varchar(250) NOT NULL,
   `brand` varchar(50) NOT NULL,
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `{{store_id}}_orders`;
 CREATE TABLE `{{store_id}}_orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `readable_id` varchar(12) NULL,
   `due_datetime` INT DEFAULT NULL,
@@ -70,7 +70,7 @@ DROP TABLE IF EXISTS `{{store_id}}_order_items`;
 CREATE TABLE `{{store_id}}_order_items` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `isbn` varchar(250) NULL,
   `type` varchar(100) NULL,
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `{{store_id}}_order_tags`;
 CREATE TABLE `{{store_id}}_order_tags` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `tag_number` int(10) NULL,
   `is_rack` int(1) NULL,
@@ -96,7 +96,7 @@ DROP TABLE IF EXISTS `{{store_id}}_order_charges`;
 CREATE TABLE `{{store_id}}_order_charges` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `order_id` varchar(250) NOT NULL,
   `amount` DECIMAL(10,2)  NULL,
   `charge_type` varchar(30) NULL,
@@ -112,10 +112,10 @@ DROP TABLE IF EXISTS `{{store_id}}_deliveries`;
 CREATE TABLE `{{store_id}}_deliveries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `is_pickup` tinyint(1) NULL,
-  `delivery_time` INT NULL,
+  `delivery_time` BIGINT NULL,
   `delivery_person` varchar(100) DEFAULT NULL,
   `is_confirmed` tinyint(1) DEFAULT NULL,
   `is_canceled` tinyint(1) DEFAULT NULL,
@@ -127,7 +127,7 @@ DROP TABLE IF EXISTS `{{store_id}}_timesheets`;
 CREATE TABLE `{{store_id}}_timesheets` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `employee_id` varchar(100) NOT NULL,
   `is_clockin` tinyint(1) NULL,
   `event_time` INT NULL,
@@ -139,7 +139,7 @@ DROP TABLE IF EXISTS `{{store_id}}_timelines`;
 CREATE TABLE `{{store_id}}_timelines` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `employee_id` varchar(100) NOT NULL,
   `order_id` varchar(250) NOT NULL,
   `operation` int(10) NULL,
@@ -151,7 +151,7 @@ DROP TABLE IF EXISTS `{{store_id}}_products`;
 CREATE TABLE `{{store_id}}_products` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `sku` varchar(100) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS `{{store_id}}_purchases`;
 CREATE TABLE `{{store_id}}_purchases` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
-  `created_at` INT DEFAULT NULL,
+  `created_at` BIGINT DEFAULT NULL,
   `readable_id` varchar(15)  NULL,
   `total_price` DECIMAL(10,2)  NULL,
   `tax` DECIMAL(10,2) NULL,
