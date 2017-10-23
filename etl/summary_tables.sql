@@ -11,7 +11,7 @@ CREATE TABLE `{{store_id}}_customers_count` (
 );
 
 INSERT INTO `{{store_id}}_customers_count` (day, customers_count)
-SELECT date(created_at) as day, count(date(created_at)) as customers_count FROM `{{store_id}}_customers` group by date(created_at);
+SELECT date(FROM_UNIXTIME(created_at/1000)) as day, count(date(FROM_UNIXTIME(created_at/1000))) as customers_count FROM `{{store_id}}_customers` group by date(FROM_UNIXTIME(created_at/1000));
 
 ########################
 # Orders count
@@ -26,7 +26,7 @@ CREATE TABLE `{{store_id}}_orders_count` (
 );
 
 INSERT INTO `{{store_id}}_orders_count` (day, orders_count)
-SELECT date(created_at) as day, count(date(created_at)) as orders_count FROM `{{store_id}}_orders` group by date(created_at);
+SELECT date(FROM_UNIXTIME(created_at/1000)) as day, count(date(FROM_UNIXTIME(created_at/1000))) as orders_count FROM `{{store_id}}_orders` group by date(FROM_UNIXTIME(created_at/1000));
 
 ########################
 # Orders pricing
@@ -43,7 +43,7 @@ CREATE TABLE `{{store_id}}_orders_pricing` (
 );
 
 INSERT INTO `{{store_id}}_orders_pricing` (order_id, day, items_count, total_order_price)
-SELECT order_id, date(MIN(created_at)) as day, count(id) as items_count, sum(price) as total_order_price FROM `{{store_id}}_order_items` group by order_id;
+SELECT order_id, date(FROM_UNIXTIME(MIN(created_at)/1000)) as day, count(id) as items_count, sum(price) as total_order_price FROM `{{store_id}}_order_items` group by order_id;
 
 
 ########################
@@ -86,7 +86,7 @@ CREATE TABLE `{{store_id}}_payments_summary` (
 );
 
 INSERT INTO `{{store_id}}_payments_summary` (day, counts, sums, avgs)
-SELECT date(created_at) as day, count(date(created_at)) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is null group by date(created_at);
+SELECT date(FROM_UNIXTIME(created_at/1000)) as day, count(date(FROM_UNIXTIME(created_at/1000))) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is null group by date(FROM_UNIXTIME(created_at/1000));
 
 ########################
 # Payments
