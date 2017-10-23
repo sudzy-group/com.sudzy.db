@@ -126,4 +126,4 @@ CREATE TABLE `{{store_id}}_timesheets_summary` (
 );
 
 INSERT INTO `{{store_id}}_timesheets_summary` (employee_id, day, min, max, list, count)
-SELECT MIN(employee_id) employee_id, DATE(MIN(event_time)) as day, MIN(event_time) as min, MAX(event_time) as max, GROUP_CONCAT(event_time) as list, COUNT(event_time) as count from `{{store_id}}_timesheets` GROUP BY DAY(event_time), employee_id;
+SELECT MIN(employee_id) employee_id, DATE(MIN(event_time)) as day, MIN(event_time) as min, MAX(event_time) as max, GROUP_CONCAT(event_time) as list, COUNT(event_time) as count from `{{store_id}}_timesheets` GROUP BY DAY(FROM_UNIXTIME(event_time/1000)), employee_id;
