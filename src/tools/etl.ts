@@ -233,7 +233,7 @@ function customerConvertorFields() {
 function customerConvertor(customer: Customer) {
 		return [
 			customer.id,
-			convertDateToUTC(customer._base.core.created_at),
+			convertDateToUTC(customer.created_at),
 			customer.allow_notifications ? 1 : 0,
 			customer.formatted_mobile,
 			customer.mobile,
@@ -263,7 +263,7 @@ function customerCardsConvertorFields() {
 function customerCardsConvertor(card: CustomerCard) {
 		return [
 			card.id,
-			convertDateToUTC(card._base.core.created_at),
+			convertDateToUTC(card.created_at),
 			card.customer_id,
 			card.card_id,
 			card.brand,
@@ -342,7 +342,7 @@ function orderChargesConvertorFields() {
 function orderChargesConvertor(order_charge: OrderCharge) {
 	return [
 		order_charge.id,
-		convertDateToUTC(order_charge._base.core.created_at),
+		convertDateToUTC(order_charge.created_at),
 		order_charge.order_id,
 		order_charge.amount,
 		order_charge.charge_type,
@@ -361,7 +361,7 @@ function deliveriesConvertorFields() {
 function deliveriesConvertor(delivery: Delivery) {
 	return [
 		delivery.id,
-		convertDateToUTC(delivery._base.core.created_at),
+		convertDateToUTC(delivery.created_at),
 		delivery.customer_id,
 		delivery.is_pickup ? 1 : 0,
 		convertDateToUTC(parseInt(delivery.delivery_time)),
@@ -451,5 +451,5 @@ function toString(val) {
 }
 
 function convertDateToUTC(date) { 
-	return moment(date).utc().format('YYYY-MM-DD HH:mm:ss');
+	return moment(date).utc().format('YYYY-MM-DDTHH:mm:ssZ');
 }
