@@ -232,7 +232,7 @@ function customerConvertorFields() {
 function customerConvertor(customer: Customer) {
 		return [
 			customer.id,
-			convertDateToUTC(customer.created_at),
+			customer.created_at,
 			customer.allow_notifications ? 1 : 0,
 			customer.formatted_mobile,
 			customer.mobile,
@@ -262,7 +262,7 @@ function customerCardsConvertorFields() {
 function customerCardsConvertor(card: CustomerCard) {
 		return [
 			card.id,
-			convertDateToUTC(card.created_at),
+			card.created_at,
 			card.customer_id,
 			card.card_id,
 			card.brand,
@@ -283,7 +283,7 @@ function ordersConvertorFields() {
 function ordersConvertor(order: Order) {
 	return [
 		order.id,
-		convertDateToUTC(order.created_at),
+		order.created_at,
 		order.customer_id,
 		order.readable_id,
 		order.due_datetime ? new Date(order.due_datetime) : null,
@@ -309,7 +309,7 @@ function orderItemsConvertorFields() {
 function orderItemsConvertor(order_item: OrderItem) {
 	return [
 		order_item.id,
-		convertDateToUTC(order_item.created_at),
+		order_item.created_at,
 		order_item.order_id,
 		order_item.isbn,
 		order_item.type,
@@ -327,7 +327,7 @@ function orderTagsConvertorFields() {
 function orderTagsConvertor(order_tag: OrderTag) {
 	return [
 		order_tag.id,
-		convertDateToUTC(order_tag.created_at),
+		order_tag.created_at,
 		order_tag.order_id,
 		order_tag.tag_number,
 		order_tag.is_rack
@@ -341,7 +341,7 @@ function orderChargesConvertorFields() {
 function orderChargesConvertor(order_charge: OrderCharge) {
 	return [
 		order_charge.id,
-		convertDateToUTC(order_charge.created_at),
+		order_charge.created_at,
 		order_charge.order_id,
 		order_charge.amount,
 		order_charge.charge_type,
@@ -360,10 +360,10 @@ function deliveriesConvertorFields() {
 function deliveriesConvertor(delivery: Delivery) {
 	return [
 		delivery.id,
-		convertDateToUTC(delivery.created_at),
+		delivery.created_at,
 		delivery.customer_id,
 		delivery.is_pickup ? 1 : 0,
-		convertDateToUTC(parseInt(delivery.delivery_time)),
+		parseInt(delivery.delivery_time),
 		delivery.delivery_person,
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
@@ -379,10 +379,10 @@ function timesheetsConvertorFields() {
 function timesheetsConvertor(timesheet: Timesheet) {
 	return [
 		timesheet.id,
-		convertDateToUTC(timesheet.created_at),
+		timesheet.created_at,
 		timesheet.employee_id,
 		timesheet.is_clockin ? 1 : 0,
-		convertDateToUTC(parseInt(timesheet.event_time)),
+		parseInt(timesheet.event_time),
 		timesheet.comment
 	]
 }
@@ -394,7 +394,7 @@ function timelinesConvertorFields() {
 function timelinesConvertor(timeline: Timeline) {
 	return [
 		timeline.id,
-		convertDateToUTC(timeline.created_at),
+		timeline.created_at,
 		timeline.employee_id,
 		timeline.operation,
 		timeline.order_id,
@@ -409,7 +409,7 @@ function productsConvertorFields() {
 function productsConvertor(product: Product) {
 	return [
 		product.id,
-		convertDateToUTC(product.created_at),
+		product.created_at,
 		product.name,
 		product.sku,
 		product.image,
@@ -425,7 +425,7 @@ function purchasesConvertorFields() {
 function purchasesConvertor(purchase: Purchase) {
 	return [
 		purchase.id,
-		convertDateToUTC(purchase.created_at),
+		purchase.created_at,
 		purchase.total_price,
 		purchase.payment_type,
 		purchase.payment_id,
@@ -447,9 +447,4 @@ function toString(val) {
 	if (_.isArray(val)) {
 		return val.join(', ');
 	}
-}
-
-function convertDateToUTC(date) { 
-	console.log(date, moment(date).format('YYYY-MM-DDTHH:mm:ssZ'))
-	return moment(date).format('YYYY-MM-DDTHH:mm:ssZ');
 }
