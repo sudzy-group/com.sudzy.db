@@ -94,7 +94,6 @@ function connectSQL() {
 		user: p.remoteMySQLUser,
 		password: p.remoteMySQLPassword,
 		database: p.remoteMySQLDatabase,
-		timezone: 'utc',
 		multipleStatements: true
 	});
 
@@ -451,5 +450,6 @@ function toString(val) {
 }
 
 function convertDateToUTC(date) { 
+	console.log(date, moment(date).format('YYYY-MM-DDTHH:mm:ssZ'))
 	return moment(date).format('YYYY-MM-DDTHH:mm:ssZ');
 }
