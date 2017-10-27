@@ -277,6 +277,29 @@ class OrderItemTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should allow extra item details")
+  public testExtra(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItem = { order_id: "444", type: "dc", isbn: "324", price: 10.0, name: "Washfold", quantity: 2, extra: [{ quantity: 1, name: "red", price: 0 }, { quantity: 1, name: "blue", price: 1 }] };
+    order_items
+      .insert(orderItem)
+      .then(item => {
+        return order_items.get(item.id);
+      })
+      .then(item => {
+        expect(item.extra.length).to.equal(2);
+        return order_items.update(item, {extra : null});
+      })
+      .then(item => {
+        return order_items.get(item.id);
+      })
+      .then(item => {
+        expect(item.extra).to.equal(null);
+        done();
+      })
+      .catch(m => console.log(m));
+  }
+
   @test("should allow positive quantity")
   public testPositiveQuantity(done) {
     let order_items = OrderItemTest.order_items;

@@ -85,5 +85,10 @@ export class OrderItem extends Entity {
     })
     public pickedup: boolean;
 
-
+    @EntityField({
+        group: "extra",
+        name: "extra",
+        description: "extra description and upcharges for item" 
+    })
+    public extra: any[];
 }

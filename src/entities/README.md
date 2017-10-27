@@ -72,6 +72,7 @@
 | notes             | `string[]` | notes   | Specific notes about this item           |                |
 | ready             | `boolean`  | status  | Specific ready status about this item    |                |
 | pickedup          | `boolean`  | status  | Specific pickedup status about this item |                |
+| extra             | `any[]`    | extra   | extra description and upcharges for item |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description                                  | Comments       |
 | ---------- | ---------- | ------- | -------------------------------------------- | -------------- |
