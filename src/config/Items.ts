@@ -21,6 +21,7 @@ export class Item {
     get priority():         number  { return this._data['priority'] };
     get pricing_group():    string  { return this._data['pricing_group'] };    
     get parent_isbn():      string  { return this._data['parent_isbn'] };
+    get upcharges():        any[]   { return this._data['upcharges'] };
 }
 
 /**
