@@ -77,6 +77,13 @@ export class Order extends Entity {
     public discount_fixed: number;
 
     @EntityField({
+        group: "paid_in",
+        name: "paid_in",
+        description: "Indicates the order id of the paid order"
+    })
+    public paid_in: string;    
+
+    @EntityField({
         group: "balance",
         name: "balance",
         description: "Balance remaining",
