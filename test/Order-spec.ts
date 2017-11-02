@@ -144,7 +144,10 @@ class OrderTest {
    }).then((summary : any) => {
       expect(summary.sum).to.equal(95.55);
       expect(summary.ids.length).to.equal(2);
-      done();
+      return orders.find("balance", "", {startsWith: true, descending: true});
+    }).then((all) => {
+       expect(all[0].balance).to.equal(50.00);
+       done();
     }).catch(m=>console.log(m));
   }
 

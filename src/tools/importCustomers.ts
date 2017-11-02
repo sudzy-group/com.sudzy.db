@@ -66,7 +66,7 @@ connectPouch( () => {
 				mobile: c.mobile,
 				formatted_mobile: format(c.mobile),
 			}
-			if (c.email) {
+			if (!_.isEmpty(c.email)) {
 				customer['email'] = c.email;
 			}
 			if (c.autocomplete) {
