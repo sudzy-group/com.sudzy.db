@@ -137,8 +137,8 @@ function resolveAddress(address) {
 			if (ps && ps.length > 0) {
 				return acs.details(ps[0]).then(d => {
 					let p: any = toPlace(d);
-					console.log('"' + p.autocomplete + '","' + p.street_number + '","' + p.route + '","' + p.locality + '","' + p.administrative_area_level_1 + '","' + p.country + '","' + p.postal_code + '",' +p.lat + ',' + p.lng);
-					return callback(null, '"' + p.autocomplete + '","' + p.street_number + '","' + p.route + '","' + p.locality + '","' + p.administrative_area_level_1 + '","' + p.country + '","' + p.postal_code + '"');
+					console.log('"' + p.autocomplete + '","' + p.street_number + '","' + p.route + '","' + (p.locality || p.sublocality_level_1) + '","' + p.administrative_area_level_1 + '","' + p.country + '","' + p.postal_code + '",' +p.lat + ',' + p.lng);
+					return callback(null, '"' + p.autocomplete + '","' + p.street_number + '","' + p.route + '","' + (p.locality || p.sublocality_level_1) + '","' + p.administrative_area_level_1 + '","' + p.country + '","' + p.postal_code + '"');
 				})
 			};
 			console.log("")

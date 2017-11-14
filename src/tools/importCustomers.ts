@@ -80,7 +80,9 @@ connectPouch( () => {
 				customer['street_route'] = c.street_route;
 				customer['city'] = c.city;
 				customer['state'] = c.state;
-				customer['zip'] = c.zip;
+				if (!_.isEmpty(c.zip)) {
+					customer['zip'] = c.zip;
+				}
 				customer['lat'] = c.lat;
 				customer['lng'] = c.lng;
 				customer['apartment'] = c.apartment;
