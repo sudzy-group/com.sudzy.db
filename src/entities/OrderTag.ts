@@ -18,7 +18,8 @@ export class OrderTag extends Entity {
         group: "default",
         mandatory: true,
         name: "tag_number",
-        description: "Tag number" 
+        description: "Tag number",
+        search_by: [ identity ] 
     })
     public tag_number: string;
 

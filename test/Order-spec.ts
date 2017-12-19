@@ -77,6 +77,20 @@ class OrderTest {
       done();
     }).catch(m=>console.log(m));
   }
+
+  @test("should insert order")
+  public testInsertOrderWithOriginal(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "xxx",
+     readable_id: "123dsasa",
+     original_id: "abcd-4re"
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.original_id).to.equal("abcd-4re");
+      done();
+    }).catch(m=>console.log(m));
+  }
  
   //Search
   @test("should search customer id")

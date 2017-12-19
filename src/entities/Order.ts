@@ -130,6 +130,14 @@ export class Order extends Entity {
     })
     public delivery_dropoff_id: string;
 
+    @EntityField({
+        group: "wholesale",
+        name: "original_id",
+        description: "Original ticket id for wholesale order",
+        search_by: [ identity ] 
+    })
+    public original_id: string;
+
     protected existingBalance(balance) {
         if (balance > 0) {
             return balance;

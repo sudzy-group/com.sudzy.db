@@ -60,11 +60,11 @@ class OrderTagTest {
      expect(tag2.tag_number).to.equal(333);
      let orderTag3 = {
        order_id: "222",
-       tag_number: 333
+       tag_number: 123
      }
      return order_tags.insert(orderTag3);
    }).then((tag3) => {
-      expect(tag3.tag_number).to.equal(333);
+      expect(tag3.tag_number).to.equal(123);
      
       done();
     }).catch(m=>console.log(m));
@@ -81,6 +81,19 @@ class OrderTagTest {
 
    }).catch(m=>console.log(m));
   }
+
+  
+//Search
+@test("should search by order id")
+  public testSearchTag(done) {
+   let order_tags = OrderTagTest.order_tags;
+   order_tags.find("tag_number", "123").then((tags)=>{
+     expect(tags.length).to.equal(1);
+     done();
+
+   }).catch(m=>console.log(m));
+  }
+
 
 //Delete
   @test("should delete tag")
