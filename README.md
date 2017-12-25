@@ -27,11 +27,20 @@ customers.insert({ mobile : "6465490561" }).then((c) => {
 }).catch(_.noop);
 ```
 
-
 # Configure mySQL
 1. One time: in MySQL workbench click file - run script etl/tables.sql - refresh all to create tables
 2. One time. Change config.numMocks if you want and uncomment deleteMocks if you want: tsc etl/mocks.ts
 3. One time: node etl/mocks.js
 4. tsc etl/script.ts
 5. node etl/script.js
+
+# Installing CouchDB
+see http://docs.couchdb.org/en/master/install/unix.html
+```
+apt-get install apt-transport-https ca-certificates
+echo "deb https://apache.bintray.com/couchdb-deb stretch main"  | sudo tee -a /etc/apt/sources.list
+curl -L https://couchdb.apache.org/repo/bintray-pubkey.asc | sudo apt-key add -
+sudo apt-get update && sudo apt-get install couchdb
+```
+select 0.0.0.0 (or update in /opt/couchdb/etc/local.ini the binding ip)
 
