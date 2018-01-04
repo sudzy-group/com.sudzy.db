@@ -128,3 +128,24 @@ CREATE TABLE `{{store_id}}_timesheets_summary` (
 
 INSERT INTO `{{store_id}}_timesheets_summary` (employee_id, day, min, max, list, count)
 SELECT MIN(employee_id) employee_id, DATE(CONVERT_TZ(FROM_UNIXTIME(MIN(event_time)/1000),'+00:00','-05:00')) as day, MIN(event_time) as min, MAX(event_time) as max, GROUP_CONCAT(event_time) as list, COUNT(event_time) as count from `{{store_id}}_timesheets` GROUP BY DATE(CONVERT_TZ(FROM_UNIXTIME(event_time/1000),'+00:00','-05:00')), employee_id;
+
+########################
+# Customers
+########################
+DROP TABLE IF EXISTS `{{store_id}}_customers_info`;
+
+CREATE TABLE `{{store_id}}_customers_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `mobile` varchar(15) NULL,
+  `address` varchar(100) NULL,
+  `min` BIGINT NULL,
+  `max` BIGINT NULL,
+  `orders` INT NULL,
+  `days_since_last_order` INT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_customers_info` (customer_id, name, mobile, address, min, max, orders, days_since_last_order)
+SELECT `{{store_id}}_customers`.original_id, name, formatted_mobile, autocomplete, min(`{{store_id}}_orders`.created_at) as min , max(`{{store_id}}_orders`.created_at) as max, count(`{{store_id}}_orders`.created_at) as orders, CEILING( (UNIX_TIMESTAMP() * 1000 - max(`{{store_id}}_orders`.created_at))/86400000) as days_since_last_order FROM `{{store_id}}_customers` left join `{{store_id}}_orders` on `{{store_id}}_customers`.original_id = `{{store_id}}_orders`.customer_id group by `{{store_id}}_customers`.original_id
