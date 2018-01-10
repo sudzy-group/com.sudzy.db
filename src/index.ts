@@ -12,6 +12,8 @@ export { Timesheets } from "./collections/Timesheets";
 export { Timelines } from "./collections/Timelines";
 export { Products } from "./collections/Products";
 export { Purchases } from "./collections/Purchases";
+export { Tasks } from "./collections/Tasks";
+export { TaskDatas } from "./collections/TaskDatas";
 
 export { Customer } from "./entities/Customer";
 export { CustomerCard } from "./entities/CustomerCard";
@@ -24,9 +26,12 @@ export { Timesheet } from "./entities/Timesheet";
 export { Timeline } from "./entities/Timeline";
 export { Product } from "./entities/Product";
 export { Purchase } from "./entities/Purchase";
+export { Task } from "./entities/Task";
+export { TaskData } from "./entities/TaskData";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
 export { Employee, Employees } from './config/Employees';
+export { TaskField, TaskFields } from './config/TaskFields';
 
 export { Database } from './access/Database';

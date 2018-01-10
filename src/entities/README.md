@@ -58,6 +58,7 @@
 | all_pickedup        | `boolean`  | status      | Whether order is back with customer      |                       |
 | delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                       | Validated             |
 | delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                      | Validated             |
+| original_id         | `string`   | wholesale   | Original ticket id for wholesale order   | Searchable            |
 # OrderItem
 | Field Name        | Field Type | Group   | Description                              | Comments       |
 | ----------------- | ---------- | ------- | ---------------------------------------- | -------------- |
@@ -80,7 +81,7 @@
 | id         | `string`   | default | Entity id                                    | Auto-generated |
 | created_at | `number`   | default | Creation datetime (unix)                     | Auto-generated |
 | order_id   | `string`   | default | Order id                                     | Searchable     |
-| tag_number | `string`   | default | Tag number                                   |                |
+| tag_number | `string`   | default | Tag number                                   | Searchable     |
 | is_rack    | `string`   | rack    | True if this tag holds the rack of the items |                |
 # OrderCharge
 | Field Name      | Field Type | Group   | Description                        | Comments       |
@@ -149,3 +150,23 @@
 | payment_type | `string`   | default | Payment's type (cash or card) |                |
 | payment_id   | `string`   | default | Payment's id                  | Searchable     |
 | refund_id    | `string`   | refund  | Refund's id                   |                |
+# Task
+| Field Name    | Field Type | Group        | Description                                           | Comments       |
+| ------------- | ---------- | ------------ | ----------------------------------------------------- | -------------- |
+| id            | `string`   | default      | Entity id                                             | Auto-generated |
+| created_at    | `number`   | default      | Creation datetime (unix)                              | Auto-generated |
+| readable_id   | `string`   | default      | Task readable id                                      |                |
+| shift_id      | `string`   | default      | This task's shift id                                  | Searchable     |
+| customer_name | `string`   | default      | Customer name                                         |                |
+| group         | `string`   | default      | Group name                                            |                |
+| employee_id   | `number`   | default      | Employee id                                           |                |
+| completed_at  | `number`   | completed_at | The time this task has been marked as done            |                |
+| duration      | `number`   | duration     | The time duration this task has been taken to process |                |
+# TaskData
+| Field Name | Field Type | Group   | Description              | Comments       |
+| ---------- | ---------- | ------- | ------------------------ | -------------- |
+| id         | `string`   | default | Entity id                | Auto-generated |
+| created_at | `number`   | default | Creation datetime (unix) | Auto-generated |
+| task_id    | `string`   | default | Task id                  | Searchable     |
+| field_id   | `string`   | default | Task Field id            |                |
+| value      | `any`      | value   | The data value           |                |
