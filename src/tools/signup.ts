@@ -14,6 +14,7 @@ let p = commander
   .option('-p, --remotePouchDB [value]', 'The remote PouchDB url')
   .option('-U, --remotePouchDBUser [value]', 'The remote PouchDB user')
   .option('-P, --remotePouchDBPassword [value]', 'The remote PouchDB password')
+  .option('-d, --remotePouchDBName [value]', 'The remote PouchDB database name')  
 	.option('-s, --storeId [value]', 'The store id argument')
 	.parse(process.argv);
 
@@ -30,7 +31,7 @@ let auth = {
 
 console.log(auth);
 
-let db = new PouchDB(p.remotePouchDB + ":5984/" + p.storeId, {
+let db = new PouchDB(p.remotePouchDB + ":5984/" + p.remotePouchDBName, {
   auth: auth,
   skip_setup: true
 });
