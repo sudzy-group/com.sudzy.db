@@ -151,17 +151,17 @@
 | payment_id   | `string`   | default | Payment's id                  | Searchable     |
 | refund_id    | `string`   | refund  | Refund's id                   |                |
 # Task
-| Field Name    | Field Type | Group        | Description                                           | Comments       |
-| ------------- | ---------- | ------------ | ----------------------------------------------------- | -------------- |
-| id            | `string`   | default      | Entity id                                             | Auto-generated |
-| created_at    | `number`   | default      | Creation datetime (unix)                              | Auto-generated |
-| readable_id   | `string`   | default      | Task readable id                                      |                |
-| shift_id      | `string`   | default      | This task's shift id                                  | Searchable     |
-| customer_name | `string`   | default      | Customer name                                         |                |
-| group         | `string`   | default      | Group name                                            |                |
-| employee_id   | `number`   | default      | Employee id                                           |                |
-| completed_at  | `number`   | completed_at | The time this task has been marked as done            |                |
-| duration      | `number`   | duration     | The time duration this task has been taken to process |                |
+| Field Name    | Field Type | Group   | Description                                           | Comments       |
+| ------------- | ---------- | ------- | ----------------------------------------------------- | -------------- |
+| id            | `string`   | default | Entity id                                             | Auto-generated |
+| created_at    | `number`   | default | Creation datetime (unix)                              | Auto-generated |
+| shift_id      | `string`   | default | This task's shift id                                  | Searchable     |
+| employee_id   | `number`   | default | Employee id                                           |                |
+| readable_id   | `string`   | base    | Task readable id                                      |                |
+| customer_name | `string`   | base    | Customer name                                         |                |
+| group         | `string`   | base    | Group name                                            |                |
+| completed_at  | `number`   | time    | The time this task has been marked as done            |                |
+| duration      | `number`   | time    | The time duration this task has been taken to process |                |
 # TaskData
 | Field Name | Field Type | Group   | Description              | Comments       |
 | ---------- | ---------- | ------- | ------------------------ | -------------- |
