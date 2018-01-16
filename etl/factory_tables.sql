@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `{{store_id}}_factory_timesheets`;
-CREATE TABLE `{{store_id}}_timesheets` (
+CREATE TABLE `{{store_id}}_factory_timesheets` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` BIGINT DEFAULT NULL,
