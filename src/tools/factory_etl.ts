@@ -91,7 +91,7 @@ function copyPouchToSQL() {
 	/////////////////////
 	pouch.info().then(function(info) {
 		console.log(info)
-		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets');
+		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'factory_timesheets');
 	}).then(() => {
 		return extract(tasks, "shift_id", tasksConvertor, tasksConvertorFields, 'tasks');
 	}).then(() => {
