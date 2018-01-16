@@ -19,7 +19,7 @@ CREATE TABLE `{{store_id}}_tasks` (
   `employee_id` varchar(30) NOT NULL,
   `readable_id` varchar(15) DEFAULT NULL,
   `customer_name` varchar(100) DEFAULT NULL,
-  `group` varchar(100)  DEFAULT NULL,
+  `customer_group` varchar(100)  DEFAULT NULL,
   `completed_at` BIGINT DEFAULT NULL,
   `duration` BIGINT DEFAULT NULL,
    PRIMARY KEY (`id`)

@@ -201,7 +201,7 @@ function timesheetsConvertor(timesheet: Timesheet) {
 }
 
 function tasksConvertorFields() {
-	return [ "original_id", "created_at", "shift_id", "employee_id", "readable_id", "customer_name", "group", 'completed_at', 'duration'];
+	return [ "original_id", "created_at", "shift_id", "employee_id", "readable_id", "customer_name", "customer_group", 'completed_at', 'duration'];
 }
 
 function tasksConvertor(task: Task) {
