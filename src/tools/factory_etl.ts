@@ -95,7 +95,7 @@ function copyPouchToSQL() {
 	}).then(() => {
 		return extract(tasks, "shift_id", tasksConvertor, tasksConvertorFields, 'tasks');
 	}).then(() => {
-		return extract(taskDatas, "task_id", taskDatasConvertor, taskDatasConvertorFields, 'taskDatas');
+		return extract(taskDatas, "task_id", taskDatasConvertor, taskDatasConvertorFields, 'task_datas');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
