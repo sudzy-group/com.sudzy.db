@@ -30,7 +30,7 @@ CREATE TABLE `{{store_id}}_task_datas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `original_id` varchar(36) NOT NULL,
   `created_at` BIGINT DEFAULT NULL,
-  `task_id` INT NOT NULL,
+  `task_id` varchar(36) NOT NULL,
   `field_id` INT NOT NULL,
   `value` varchar(50) DEFAULT NULL,
    PRIMARY KEY (`id`)
