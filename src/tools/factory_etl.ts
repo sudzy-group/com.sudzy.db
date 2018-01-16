@@ -83,7 +83,6 @@ function connectSQL() {
 	});
 }
 
-
 function copyPouchToSQL() {
 
 	/////////////////////
