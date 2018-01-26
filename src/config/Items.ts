@@ -22,6 +22,7 @@ export class Item {
     get pricing_group():    string  { return this._data['pricing_group'] };    
     get parent_isbn():      string  { return this._data['parent_isbn'] };
     get upcharges():        any[]   { return this._data['upcharges'] };
+    get tax_rate():         any[]   { return this._data['tax_rate'] };
 }
 
 /**
