@@ -90,7 +90,7 @@ class OrderTest {
       expect(ord.original_id).to.equal("abcd-4re");
       done();
     }).catch(m=>console.log(m));
-  }
+  }  
  
   //Search
   @test("should search customer id")
@@ -164,6 +164,26 @@ class OrderTest {
        done();
     }).catch(m=>console.log(m));
   }
+
+
+  @test("should search due")
+  public testSearchDueDate(done) {
+    let orders = OrderTest.orders;
+    let orderObj = {
+     customer_id: "bbb",
+     readable_id: "c5d4707d-cd54-bed3-7570-6e9dbec307zz",
+     due_datetime: '180304',
+     checkpoint: 'ready'
+   }
+   orders.insert(orderObj).then((ord) => {
+      expect(ord.due_datetime).to.equal("180304");
+      expect(ord.checkpoint).to.equal("ready");
+      return orders.find("due_datetime", ord.due_datetime);
+   }).then((ords) => {   
+     expect(ords.length).to.equal(1);
+      done();
+    }).catch(m=>console.log(m));
+  }  
 
   //Update
   @test("should not update customer_id")

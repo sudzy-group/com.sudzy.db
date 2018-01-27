@@ -44,7 +44,7 @@
 | created_at          | `number`   | default     | Creation datetime (unix)                 | Auto-generated        |
 | customer_id         | `string`   | default     | Customer id                              | Searchable            |
 | readable_id         | `string`   | default     | Human readable id                        | Validated, Searchable |
-| due_datetime        | `string`   | due         | Date order due                           |                       |
+| due_datetime        | `string`   | due         | Date order due                           | Searchable            |
 | rack                | `string`   | rack        | Rack number                              |                       |
 | notes               | `string`   | notes       | Order notes                              |                       |
 | tax                 | `number`   | payment     | Tax                                      |                       |
@@ -56,6 +56,7 @@
 | coupon_code         | `string`   | coupon_code | Coupon code used                         |                       |
 | all_ready           | `boolean`  | status      | Whether order is ready                   |                       |
 | all_pickedup        | `boolean`  | status      | Whether order is back with customer      |                       |
+| checkpoint          | `string`   | cp          | Free text checkpoint                     |                       |
 | delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                       | Validated             |
 | delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                      | Validated             |
 | original_id         | `string`   | wholesale   | Original ticket id for wholesale order   | Searchable            |

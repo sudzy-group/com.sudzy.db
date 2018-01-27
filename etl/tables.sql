@@ -50,7 +50,7 @@ CREATE TABLE `{{store_id}}_orders` (
   `created_at` BIGINT DEFAULT NULL,
   `customer_id` varchar(250) NOT NULL,
   `readable_id` varchar(12) NULL,
-  `due_datetime` INT DEFAULT NULL,
+  `due_datetime` varchar(12) NULL,
   `rack` varchar(20) DEFAULT NULL,
   `notes` varchar(250) DEFAULT NULL,
   `tax` DECIMAL(10,2)  DEFAULT NULL,

@@ -30,7 +30,8 @@ export class Order extends Entity {
     @EntityField({
         group: "due",
         name: "due_datetime",
-        description: "Date order due"
+        description: "Date order due",
+        search_by: [ identity ] 
     })
     public due_datetime: string;
 
@@ -99,7 +100,6 @@ export class Order extends Entity {
     })
     public coupon_code: string;
 
-
     @EntityField({
         group: "status",
         name: "all_ready",
@@ -113,6 +113,13 @@ export class Order extends Entity {
         description: "Whether order is back with customer"
     })
     public all_pickedup: boolean;
+
+    @EntityField({
+        group: "cp",
+        name: "checkpoint",
+        description: "Free text checkpoint"
+    })
+    public checkpoint: string;
 
     @EntityField({
         group: "delivery",

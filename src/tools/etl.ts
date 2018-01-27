@@ -286,7 +286,7 @@ function ordersConvertor(order: Order) {
 		order.created_at,
 		order.customer_id,
 		order.readable_id,
-		order.due_datetime ? new Date(order.due_datetime) : null,
+		order.due_datetime,
 		order.rack,
 		order.notes,
 		order.tax,
