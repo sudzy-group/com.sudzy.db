@@ -15,8 +15,6 @@ CREATE TABLE `{{store_id}}_tasks_summary` (
 INSERT INTO `{{store_id}}_tasks_summary` (shift_id, employee_id, shift_count, total_duration)
 SELECT shift_id, employee_id, count(shift_id) as shift_count, SUM(duration) as total_duration FROM `{{store_id}}_tasks` group by shift_id,employee_id;
 
-# SELECT datas FROM `aa0c19ba_task_datas` datas left join crm.`factory-fields` fields on datas.field_id = fields.id
-
 ########################
 # Timesheets
 ########################
