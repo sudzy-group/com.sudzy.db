@@ -117,7 +117,8 @@ export class Order extends Entity {
     @EntityField({
         group: "cp",
         name: "checkpoint",
-        description: "Free text checkpoint"
+        description: "Free text checkpoint",
+        search_by: [ identity ] 
     })
     public checkpoint: string;
 

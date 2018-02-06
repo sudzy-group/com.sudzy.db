@@ -56,7 +56,7 @@
 | coupon_code         | `string`   | coupon_code | Coupon code used                         |                       |
 | all_ready           | `boolean`  | status      | Whether order is ready                   |                       |
 | all_pickedup        | `boolean`  | status      | Whether order is back with customer      |                       |
-| checkpoint          | `string`   | cp          | Free text checkpoint                     |                       |
+| checkpoint          | `string`   | cp          | Free text checkpoint                     | Searchable            |
 | delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                       | Validated             |
 | delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                      | Validated             |
 | original_id         | `string`   | wholesale   | Original ticket id for wholesale order   | Searchable            |
@@ -110,7 +110,7 @@
 | is_confirmed    | `boolean`  | status   | Whether store confirmed delivery | Searchable     |
 | is_canceled     | `boolean`  | status   | Whether delivery is canceled     |                |
 | express_id      | `string`   | express  | Express id                       | Validated      |
-| external_id     | `string`   | external | External Delivery id             | Searchable     |
+| external_id     | `string`   | external | Order id (eg. dcom or sudzy)     | Searchable     |
 # Timesheet
 | Field Name  | Field Type | Group   | Description              | Comments       |
 | ----------- | ---------- | ------- | ------------------------ | -------------- |

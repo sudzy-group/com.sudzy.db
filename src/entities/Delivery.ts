@@ -74,7 +74,7 @@ export class Delivery extends Entity {
     group: "external",
     name: "external_id",
     search_by: [identity],
-    description: "External Delivery id"
+    description: "Order id (eg. dcom or sudzy)"
   })
   public external_id: string;
 }
