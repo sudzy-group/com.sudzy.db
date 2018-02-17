@@ -161,6 +161,26 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should insert customer with extra mobile")
+  public testInsertExtraMobile(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ mobile: "6465490561", extra_mobile: "6465490562", is_extra_default: true }).then((c) => {
+      expect(c.mobile).to.equal("6465490561");
+      expect(c.extra_mobile).to.equal("6465490562");
+      expect(c.is_extra_default).to.equal(true);
+      return customers.update(c, { formatted_mobile : "6465490562" });
+    }).then((cs) => {
+      return customers.find("extra_mobile", "0562");
+    }).then((cs) => {
+      if (cs.length > 0) {
+        expect(cs[0].mobile).to.equal("6465490561");
+        expect(cs[0].is_extra_default).to.equal(true);
+        expect(cs[0].formatted_mobile).to.equal("6465490562");
+        done();
+      }
+    }).catch(m=>console.log(m));
+  }  
+
   //Update
   @test("should update parameters")
   public testUpdate(done) {

@@ -91,4 +91,12 @@ export class OrderItem extends Entity {
         description: "extra description and upcharges for item" 
     })
     public extra: any[];
+
+    @EntityField({
+        group: "manual_name",
+        name: "manual_name",
+        description: "Item manual name" 
+    })
+    public manual_name: string;
+    
 }

@@ -6,6 +6,8 @@
 | mobile              | `string`   | default       | Customer's mobile phone                              | Validated, Searchable |
 | allow_notifications | `string`   | default       | Customer's consent to get email / sms  notifications |                       |
 | formatted_mobile    | `string`   | formatted     | Customer's mobile phone (formatted)                  |                       |
+| extra_mobile        | `string`   | extra         | Customer's extra mobile phone                        | Searchable            |
+| is_extra_default    | `boolean`  | extra         | Customer's extra mobile is default                   |                       |
 | name                | `string`   | name          | Customer's name                                      | Validated, Searchable |
 | email               | `string`   | email         | Customer's email                                     | Validated, Searchable |
 | pricing_group       | `string`   | pricing_group | Customer's pricing_group                             |                       |
@@ -61,21 +63,22 @@
 | delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                      | Validated             |
 | original_id         | `string`   | wholesale   | Original ticket id for wholesale order   | Searchable            |
 # OrderItem
-| Field Name        | Field Type | Group   | Description                              | Comments       |
-| ----------------- | ---------- | ------- | ---------------------------------------- | -------------- |
-| id                | `string`   | default | Entity id                                | Auto-generated |
-| created_at        | `number`   | default | Creation datetime (unix)                 | Auto-generated |
-| order_id          | `string`   | default | Order id                                 | Searchable     |
-| isbn              | `string`   | default | isbn                                     | Validated      |
-| type              | `string`   | default | type                                     |                |
-| name              | `string`   | default | Item name                                |                |
-| quantity          | `number`   | pricing | Quantity of item                         | Validated      |
-| price             | `number`   | pricing | Total price                              |                |
-| is_manual_pricing | `boolean`  | pricing | User selected manual pricing             |                |
-| notes             | `string[]` | notes   | Specific notes about this item           |                |
-| ready             | `boolean`  | status  | Specific ready status about this item    |                |
-| pickedup          | `boolean`  | status  | Specific pickedup status about this item |                |
-| extra             | `any[]`    | extra   | extra description and upcharges for item |                |
+| Field Name        | Field Type | Group       | Description                              | Comments       |
+| ----------------- | ---------- | ----------- | ---------------------------------------- | -------------- |
+| id                | `string`   | default     | Entity id                                | Auto-generated |
+| created_at        | `number`   | default     | Creation datetime (unix)                 | Auto-generated |
+| order_id          | `string`   | default     | Order id                                 | Searchable     |
+| isbn              | `string`   | default     | isbn                                     | Validated      |
+| type              | `string`   | default     | type                                     |                |
+| name              | `string`   | default     | Item name                                |                |
+| quantity          | `number`   | pricing     | Quantity of item                         | Validated      |
+| price             | `number`   | pricing     | Total price                              |                |
+| is_manual_pricing | `boolean`  | pricing     | User selected manual pricing             |                |
+| notes             | `string[]` | notes       | Specific notes about this item           |                |
+| ready             | `boolean`  | status      | Specific ready status about this item    |                |
+| pickedup          | `boolean`  | status      | Specific pickedup status about this item |                |
+| extra             | `any[]`    | extra       | extra description and upcharges for item |                |
+| manual_name       | `string`   | manual_name | Item manual name                         |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description                                  | Comments       |
 | ---------- | ---------- | ------- | -------------------------------------------- | -------------- |

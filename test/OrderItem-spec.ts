@@ -40,6 +40,7 @@ class OrderItemTest {
      name: "Washfold",     
      price: 10.00,
      quantity: 1,
+     manual_name: "ouch",
      notes: ['separate'],
    };
    order_items.insert(orderItemObj).then((item) => {
@@ -47,6 +48,7 @@ class OrderItemTest {
       expect(item.isbn).to.equal("1234");
       expect(item.price).to.equal(10.00);
       expect(item.quantity).to.equal(1);
+      expect(item.manual_name).to.equal("ouch");
       expect(item.notes.length).to.equal(1);
       done();
     }).catch(m=>console.log(m));
@@ -95,10 +97,10 @@ class OrderItemTest {
   }).then((items) => {
       expect(items.length).to.equal(3);
       expect(items[0].type).to.equal('wf');
+      expect(items[0].manual_name).is.null;
       done();
     }).catch(m=>console.log(m));
   }
-
 
 //Search
  @test("should search by order id")

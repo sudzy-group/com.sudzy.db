@@ -40,6 +40,21 @@ export class Customer extends Entity {
     public formatted_mobile: string;    
 
     @EntityField({
+        group: "extra",
+        name: "extra_mobile",
+        description: "Customer's extra mobile phone",
+        search_by: [ "last4", identity ]        
+    })
+    public extra_mobile: string;    
+
+    @EntityField({
+        group: "extra",
+        name: "is_extra_default",
+        description: "Customer's extra mobile is default"
+    })
+    public is_extra_default: boolean;
+
+    @EntityField({
         group: "name",
         name: "name",
         description: "Customer's name",
