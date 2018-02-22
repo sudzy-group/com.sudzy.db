@@ -55,7 +55,8 @@ class CustomerTest {
       is_doorman: true,
       delivery_notes: "Ring bell twice",
       cleaning_notes: "Clean slowly",
-      payment_customer_id: "cus_9xJOnv9Enc98S"
+      payment_customer_id: "cus_9xJOnv9Enc98S",
+      route_id: "123"
     }
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
@@ -129,6 +130,23 @@ class CustomerTest {
       done();
     }).catch(m=>console.log(m));
   }
+
+  @test("should be searchable by route id")
+  public testSearchRouteId(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ name: "Roy Ganor", mobile: "6465490564", route_id : "567" }).then((c) => {
+      return customers.findByRoute("567");
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].name).to.equal("Roy Ganor");
+      return customers.update(cs[0], { route_id: null});
+    }).then(() => {      
+      return customers.findByRoute("567");
+    }).then((cs) => {
+      expect(cs.length).to.equal(0);
+      done();
+    }).catch(m=>console.log(m));
+  }  
 
   @test("should be possible to paginate")
   public testSearchPaginate(done) {

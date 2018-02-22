@@ -175,6 +175,14 @@ export class Customer extends Entity {
     })
     public payment_customer_id: string;
 
+    @EntityField({
+        group: "route",
+        name: "route_id",
+        search_by: [ identity ],
+        description: "Route id of the customer"
+    })
+    public route_id: string;
+
     protected last4(mobile) {
         return mobile.substr(-4);
     }

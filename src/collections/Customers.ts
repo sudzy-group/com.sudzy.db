@@ -21,4 +21,7 @@ export class Customers extends Collection<Customer> {
         return this.find('name', metaphone(name), options);
     }
 
+    public findByRoute(routeId: string, options?) : Promise<Customer[]> {
+        return this.find('route_id', routeId, options);
+    }
 }

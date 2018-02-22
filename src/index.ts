@@ -33,5 +33,6 @@ export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
 export { Employee, Employees } from './config/Employees';
 export { TaskField, TaskFields } from './config/TaskFields';
+export { Route, Routes } from './config/Routes';
 
 export { Database } from './access/Database';
