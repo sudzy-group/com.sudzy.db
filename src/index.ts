@@ -14,6 +14,7 @@ export { Products } from "./collections/Products";
 export { Purchases } from "./collections/Purchases";
 export { Tasks } from "./collections/Tasks";
 export { TaskDatas } from "./collections/TaskDatas";
+export { Messages } from "./collections/Messages";
 
 export { Customer } from "./entities/Customer";
 export { CustomerCard } from "./entities/CustomerCard";
@@ -28,6 +29,7 @@ export { Product } from "./entities/Product";
 export { Purchase } from "./entities/Purchase";
 export { Task } from "./entities/Task";
 export { TaskData } from "./entities/TaskData";
+export { Message } from "./entities/Message";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';

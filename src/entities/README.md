@@ -175,3 +175,14 @@
 | task_id    | `string`   | default | Task id                  | Searchable     |
 | field_id   | `string`   | default | Task Field id            |                |
 | value      | `any`      | value   | The data value           |                |
+# Message
+| Field Name | Field Type | Group   | Description                       | Comments       |
+| ---------- | ---------- | ------- | --------------------------------- | -------------- |
+| id         | `string`   | default | Entity id                         | Auto-generated |
+| created_at | `number`   | default | Creation datetime (unix)          | Auto-generated |
+| group_id   | `string`   | default | Group ID, customer's phone number | Searchable     |
+| group_name | `string`   | default | Group name, customer's name       |                |
+| sender     | `string`   | default | Sender's mobile number            |                |
+| body       | `string`   | default | Message body                      |                |
+| is_me      | `boolean`  | default | Is me (business)                  |                |
+| is_unread  | `boolean`  | unread  | Is message unread                 | Searchable     |
