@@ -119,6 +119,18 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should be not found by missing mobile")
+  public testSearchNotFound(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ name: "Roy Ganor", mobile: "6465490564" }).then((c) => {
+      return customers.find('mobile', '1111111');
+    }).then((cs) => {
+      expect(cs.length).to.equal(0);
+      done();
+    }).catch(m=>{
+    });
+  }  
+
   @test("should be searchable by name")
   public testSearchMetaphone(done) {
     const customers = new Customers(CustomerTest.db, Customer);
