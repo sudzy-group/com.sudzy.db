@@ -27,6 +27,10 @@ import { Delivery } from "../entities/Delivery";
 import { Database } from '../access/Database';
 import * as commander from 'commander';
 
+/**
+ * Example: 
+ * node lib/tools/importCustomers.js --remotePouchDB ****:5984 --remotePouchDBUser *** --remotePouchDBPassword *** --storeId *** --customersFile ***
+ */
 let p = commander
   .version('0.0.1')
   .usage('[options]')
@@ -71,6 +75,9 @@ connectPouch( () => {
 			}
 			if (c.autocomplete) {
 				customer['autocomplete'] = c.autocomplete;
+			}
+			if (c.route_id) {
+				customer['route_id'] = c.route_id.toString();
 			}
 			if (c.pricing_group) {
 				customer['pricing_group'] = c.pricing_group;

@@ -39,7 +39,12 @@ export class GoogleAutocompleteService {
 			let url = this._getHost() + '/maps/api/place/autocomplete/json?';
 			this.get(url +  queryParams,
 				body => {
-					let result = JSON.parse(body);
+					let result = null;
+					try {
+						result = JSON.parse(body);
+					} catch(e) {
+						console.log(e, body)
+					}
 					return result.predictions ? resolve(this.toPlaces(result.predictions)) : reject(null);
 				}
 			);
@@ -133,7 +138,7 @@ function toPlace(result) {
 
 function resolveAddress(address) {
 	return (callback) => {
-		acs.autocomplete(address, {"longitude": -73.977574, "latitude": 40.726235}).then(ps => {
+		acs.autocomplete(address, {"longitude": -74.031265, "latitude": 40.9912}).then(ps => {
 			if (ps && ps.length > 0) {
 				return acs.details(ps[0]).then(d => {
 					let p: any = toPlace(d);
