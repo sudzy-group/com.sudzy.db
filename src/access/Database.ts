@@ -24,9 +24,9 @@ export class Database {
      * Setup local database
      * @param name 
      */
-    public constructor(name : string) {
+    public constructor(name : string, options?) {
         name = name.toLowerCase();
-        this._db = new PouchDB(name);
+        this._db = new PouchDB(name, options);
     }
 
     public connect(remoteHost: string, remoteDb: string, remoteUser: string, remotePass: string) {
