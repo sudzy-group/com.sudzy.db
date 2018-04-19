@@ -6,7 +6,7 @@ import { zip } from '../validators/zip';
 import { latitude } from '../validators/latitude';
 import { longitude } from '../validators/longitude';
 import { noWhitespace } from '../validators/noWhitespace';
-import { identity, toLower } from 'lodash';
+import { identity, toLower, trim } from 'lodash';
 import * as metaphone from 'metaphone';
 
 /**
@@ -59,7 +59,7 @@ export class Customer extends Entity {
         name: "name",
         description: "Customer's name",
         validate: lengthGreater1,
-        search_by: [ metaphone, identity ] 
+        search_by: [ metaphone, identity, 'lastName' ] 
     })
     public name: string;
 
@@ -185,6 +185,18 @@ export class Customer extends Entity {
 
     protected last4(mobile) {
         return mobile.substr(-4);
+    }
+
+    public lastName(name) {
+        name = trim(name);
+        let index = name.indexOf(' ');
+        if (index == -1) {
+            return null;
+        }
+        index++;
+        let lastIndex = name.indexOf(' ', index);
+        let last = lastIndex == -1 ? name.substr(index) : name.substr(index, lastIndex - index);
+        return metaphone(last);
     }
 
 }

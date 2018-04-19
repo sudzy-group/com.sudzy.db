@@ -119,6 +119,20 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+
+  @test("should be searchable by last name")
+  public testSearchLastName(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert({ name: "Hilary Barr", mobile: "6465490564" }).then((c) => {
+      return customers.findByName("barr");
+    }).then((cs) => {
+      expect(cs.length).to.equal(1);
+      expect(cs[0].name).to.equal("Hilary Barr");
+      done();
+    }).catch(m=>console.log(m));
+  }
+
+
   @test("should be not found by missing mobile")
   public testSearchNotFound(done) {
     const customers = new Customers(CustomerTest.db, Customer);
@@ -463,6 +477,30 @@ class CustomerTest {
       done();
     }).catch(m=>console.log(m));
   }
+
+  // last name
+  @test("should insert all parameters")
+  public testLastName(done) {
+    let customerObj = {
+      mobile: "19292778399",
+      formatted_mobile: '+1(929)277-8399',
+      name: "Joseph Shmoo",
+      email: "joesh@gmail.com",
+    }
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert(customerObj).then((c) => {
+      return customers.find("mobile", "19292778399")
+    }).then((cs) => {
+      let c = cs[0];
+      expect(c.lastName("")).to.equal(null);
+      expect(c.lastName("Booboo Barr")).to.equal("BR");
+      expect(c.lastName("    Booboo Barr    ")).to.equal("BR");
+      expect(c.lastName("    Booboo, Barr    ")).to.equal("BR");
+      expect(c.lastName("Booboo Barr Babba")).to.equal("BR");
+      expect(c.lastName(null)).to.equal(null);
+      done();
+    }).catch(m=>console.log(m));
+  }  
   
 }
 
