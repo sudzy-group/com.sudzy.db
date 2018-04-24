@@ -26,8 +26,8 @@ export class Item {
 }
 
 /**
- * The store configuration object
- * @class Store
+ * The store items configuration object
+ * @class Items
  */
 export class Items {
 

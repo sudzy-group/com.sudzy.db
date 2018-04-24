@@ -33,6 +33,7 @@ export { Message } from "./entities/Message";
 
 export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
+export { Modifiers } from './config/Modifiers';
 export { Employee, Employees } from './config/Employees';
 export { TaskField, TaskFields } from './config/TaskFields';
 export { Route, Routes } from './config/Routes';
