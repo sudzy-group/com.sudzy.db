@@ -15,6 +15,7 @@ export class Item {
     get data_uri():         string  { return this._data['data_uri'] };
     get default_quantity(): number  { return this._data['default_quantity'] };
     get hidden():           boolean { return this._data['hidden'] };
+    get color():            boolean { return this._data['color'] };
     get price():            number  { return this._data['price'] };
     get first_x():          number  { return this._data['first_x'] };
     get first_x_price():    number  { return this._data['first_x_price'] };
