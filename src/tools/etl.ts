@@ -11,6 +11,7 @@ import * as moment from 'moment';
 
 import { Customers } from "../collections/Customers";
 import { CustomerCards } from "../collections/CustomerCards";
+import { CustomerCredits } from "../collections/CustomerCredits";
 import { Orders } from "../collections/Orders";
 import { OrderItems } from "../collections/OrderItems";
 import { OrderTags } from "../collections/OrderTags";
@@ -23,6 +24,7 @@ import { Products } from '../collections/Products';
 
 import { Customer } from "../entities/Customer";
 import { CustomerCard } from "../entities/CustomerCard";
+import { CustomerCredit } from "../entities/CustomerCredit";
 import { Order } from "../entities/Order";
 import { OrderItem } from "../entities/OrderItem";
 import { OrderTag } from "../entities/OrderTag";
@@ -58,7 +60,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
+var customers: Customers, customer_cards, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
 var SQLconnection;
 
 var docs = 0;
@@ -77,6 +79,7 @@ function connectPouch() {
 
 	customers = new Customers(pouch, Customer);
 	customer_cards = new CustomerCards(pouch, CustomerCard);
+	customer_credits = new CustomerCredits(pouch, CustomerCredit);
 	orders = new Orders(pouch, Order);
 	deliveries = new Deliveries(pouch, Delivery);
 	order_items = new OrderItems(pouch, OrderItem);
@@ -136,6 +139,8 @@ function copyPouchToSQL() {
 		return extract(products, "sku", productsConvertor, productsConvertorFields, 'products');
 	}).then(() => {
 		return extract(purchases, "payment_id", purchasesConvertor, purchasesConvertorFields, 'purchases');
+	}).then(() => {
+		return extract(customer_credits, "customer_id", customerCreditConvertor, customerCreditFields, 'customer_credits');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -335,7 +340,7 @@ function orderTagsConvertor(order_tag: OrderTag) {
 }
 
 function orderChargesConvertorFields() {
-	return [ "original_id", "created_at", "order_id", "amount", "charge_type", "charge_id", "card_id", "date_cash", "refund_id", "amount_refunded" ];
+	return [ "original_id", "created_at", "order_id", "amount", "charge_type", "charge_id", "card_id", "date_cash", "refund_id", "amount_refunded", "parent_id"];
 }
 
 function orderChargesConvertor(order_charge: OrderCharge) {
@@ -349,7 +354,8 @@ function orderChargesConvertor(order_charge: OrderCharge) {
 		order_charge.card_id,
 		order_charge.date_cash ? new Date(order_charge.date_cash) : null,
 		order_charge.refund_id,
-		order_charge.amount_refunded
+		order_charge.amount_refunded,
+		order_charge.parent_id || null
 	]
 }
 
@@ -434,6 +440,25 @@ function purchasesConvertor(purchase: Purchase) {
 		purchase.tax || 0,
 		purchase.readable_id || '',
 		purchase.product_ids ? purchase.product_ids.join(',') : ''
+	]
+}
+
+function customerCreditFields() {
+	return [ "original_id", "created_at", "customer_id", "original", "balance", "reason", "description", 'employee_id', 'payment_method', 'payment_id'];
+}
+
+function customerCreditConvertor(credit: CustomerCredit) {
+	return [
+		credit.id,
+		credit.created_at,
+		credit.customer_id,
+		credit.original,
+		credit.getBalance(),
+		credit.reason,
+		credit.description,
+		credit.employee_id,
+		credit.payment_method,
+		credit.payment_id
 	]
 }
 

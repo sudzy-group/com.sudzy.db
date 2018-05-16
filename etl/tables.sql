@@ -43,6 +43,22 @@ CREATE TABLE `{{store_id}}_customer_cards` (
    PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `{{store_id}}_customer_credits`;
+CREATE TABLE `{{store_id}}_customer_credits` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` BIGINT DEFAULT NULL,
+  `customer_id` varchar(36) NOT NULL,
+  `original` INT NOT NULL,
+  `balance` INT DEFAULT 0,
+  `employee_id` varchar(10) NOT NULL,
+  `reason` INT NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `payment_method` varchar(50) NULL,
+  `payment_id` varchar(50) NULL,
+   PRIMARY KEY (`id`)
+);
+
 DROP TABLE IF EXISTS `{{store_id}}_orders`;
 CREATE TABLE `{{store_id}}_orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -105,6 +121,7 @@ CREATE TABLE `{{store_id}}_order_charges` (
   `date_cash` INT DEFAULT NULL,
   `refund_id` varchar(250) DEFAULT NULL,
   `amount_refunded` DECIMAL(10,2) DEFAULT NULL,
+  `parent_id` varchar(36) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
 

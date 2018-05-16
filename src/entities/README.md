@@ -101,6 +101,7 @@
 | date_cash       | `string`   | cash    | date of cash receieved             | Searchable     |
 | refund_id       | `string`   | refund  | Refund id                          |                |
 | amount_refunded | `number`   | refund  | Amount refunded                    |                |
+| parent_id       | `string`   | parent  | The parent payment of this payment | Searchable     |
 # Delivery
 | Field Name      | Field Type | Group    | Description                      | Comments       |
 | --------------- | ---------- | -------- | -------------------------------- | -------------- |
@@ -186,3 +187,16 @@
 | body       | `string`   | default | Message body                      |                |
 | is_me      | `boolean`  | default | Is me (business)                  |                |
 | is_unread  | `boolean`  | unread  | Is message unread                 | Searchable     |
+# CustomerCredit
+| Field Name     | Field Type | Group   | Description                                                              | Comments       |
+| -------------- | ---------- | ------- | ------------------------------------------------------------------------ | -------------- |
+| id             | `string`   | default | Entity id                                                                | Auto-generated |
+| created_at     | `number`   | default | Creation datetime (unix)                                                 | Auto-generated |
+| customer_id    | `string`   | default | Customer id                                                              | Searchable     |
+| original       | `number`   | default | Original credit                                                          |                |
+| reason         | `number`   | default | Reason: 1-Missing item 2-Damaged 3-Gift card 4-Promotion 5-Billing error |                |
+| description    | `string`   | default | Description of this credit                                               |                |
+| employee_id    | `string`   | default | Employee id that created this credit                                     |                |
+| payment_method | `string`   | default | Payment description of this credit                                       |                |
+| payment_id     | `string`   | default | Payment id of this credit (usually the transaction id)                   |                |
+| balance        | `number`   | balance | Balance of the credit                                                    |                |

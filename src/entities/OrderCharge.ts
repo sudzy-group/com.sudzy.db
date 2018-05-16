@@ -70,4 +70,12 @@ export class OrderCharge extends Entity {
         description: "Amount refunded"
     })
     public amount_refunded: number;
+
+    @EntityField({
+        group: "parent",
+        name: "parent_id",
+        description: "The parent payment of this payment",
+        search_by: [identity]       
+    })
+    public parent_id: string;   
 }
