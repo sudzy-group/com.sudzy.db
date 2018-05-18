@@ -3,6 +3,7 @@
  */
 export { Customers } from "./collections/Customers";
 export { CustomerCards } from "./collections/CustomerCards";
+export { CustomerCredits } from "./collections/CustomerCredits";
 export { Orders } from "./collections/Orders";
 export { OrderItems } from "./collections/OrderItems";
 export { OrderTags } from "./collections/OrderTags";
@@ -18,6 +19,7 @@ export { Messages } from "./collections/Messages";
 
 export { Customer } from "./entities/Customer";
 export { CustomerCard } from "./entities/CustomerCard";
+export { CustomerCredit } from "./entities/CustomerCredit";
 export { Order } from "./entities/Order";
 export { OrderItem } from "./entities/OrderItem";
 export { OrderTag } from "./entities/OrderTag";
