@@ -74,6 +74,7 @@ export class CustomerCredit extends Entity {
      * Calculates the balance of this credit
      */
     public getBalance() {
+        if (this.balance === 0) return 0;
         return this.balance || this.original;
     }
 }

@@ -109,4 +109,38 @@ class CustomerCreditTest {
       done();
     }).catch(m=>console.log(m));
   }
+
+  @test("should be able to update double balance")
+  public testUpdateBalanceDouble(done) {
+    let customers = CustomerCreditTest.customers;
+    let customer_credits = CustomerCreditTest.customer_credits;
+    customers.insert({ mobile: "6465490560" }).then((cust) => {
+      let creditObj = {
+        customer_id: cust.id,
+        original: 50,
+        employee_id: "1",
+        reason: 3,
+        description: "Dispute",
+        payment_method: "Visa #3456",
+        payment_id: ""
+      }
+      return customer_credits.insert(creditObj);
+    }).then((credit) => {
+      expect(credit.getBalance()).to.equal(50);
+      let updatedCreditObj = {
+         balance: 5
+      }
+      return customer_credits.update(credit, updatedCreditObj);
+    }).then((credit) => {
+      expect(credit.getBalance()).to.equal(5);
+      let updatedCreditObj = {
+         balance: 0
+      }
+      return customer_credits.update(credit, updatedCreditObj);
+    }).then((credit) => {
+      expect(credit.getBalance()).to.equal(0);
+      done();
+    }).catch(m=>console.log(m));
+  }
+
 }
