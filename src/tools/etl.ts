@@ -128,7 +128,7 @@ function copyPouchToSQL() {
 	}).then(() => {
 		return extract(order_tags, "order_id", orderTagsConvertor, orderTagsConvertorFields, 'order_tags');
 	}).then(() => {
-		return extract(order_charges, "order_id", orderChargesConvertor, orderChargesConvertorFields, 'order_charges');
+		return extract(order_charges, "order_id", orderChargesConvertor, orderChargesConvertorFields, 'order_charges', orderChargersFilter);
 	}).then(() => {
 		return extract(deliveries, "delivery_time", deliveriesConvertor, deliveriesConvertorFields, 'deliveries');
 	}).then(() => {
@@ -158,7 +158,7 @@ function write_content(arr, filename) {
 	file.end();
 }
 
-function extract(collection, field, convertor, convertoFields, keyName) {
+function extract(collection, field, convertor, convertoFields, keyName, filterFunction?) {
 	console.log('extracting ' + keyName);
 	return new Promise((resolve, reject) => {
 		collection.findIds(field, "", { startsWith: true }).then(ids => {
@@ -177,6 +177,9 @@ function extract(collection, field, convertor, convertoFields, keyName) {
 					});
 					Promise.all(toLoad).then(result => { 
 						console.log('converting...', result.length);
+						if (filterFunction) {
+							result = _.filter(result, filterFunction);
+						}
 						return insertAll(result, convertor, convertoFields, keyName);
 					}).then((r) => {
 						callback(null, r);
@@ -357,6 +360,10 @@ function orderChargesConvertor(order_charge: OrderCharge) {
 		order_charge.amount_refunded,
 		order_charge.parent_id || null
 	]
+}
+
+function orderChargersFilter(order_charge: OrderCharge) {
+	return !order_charge.parent_id;
 }
 
 function deliveriesConvertorFields() {
