@@ -37,6 +37,8 @@ export { Store } from './config/Store';
 export { Item, Items } from './config/Items';
 export { Modifiers } from './config/Modifiers';
 export { Employee, Employees } from './config/Employees';
+export { Discount, Discounts } from './config/Discounts';
+export { Promo, Promos } from './config/Promos';
 export { TaskField, TaskFields } from './config/TaskFields';
 export { Route, Routes } from './config/Routes';
 
