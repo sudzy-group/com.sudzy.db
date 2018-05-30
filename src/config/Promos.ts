@@ -51,10 +51,11 @@ export class Promos {
         let t = this;
         return new Promise<Promos>((resolve, reject) => {
             this._applicationSettings.get('promos').then((config) => {
-                this._promos = config;
+                t._promos = config;
                 resolve(t);
             }).catch((err) => {
-                reject(err);
+                t._promos = [];
+                resolve(t);
             });
         });
     }

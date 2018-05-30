@@ -52,10 +52,11 @@ export class Discounts {
         let t = this;
         return new Promise<Discounts>((resolve, reject) => {
             this._applicationSettings.get('discounts').then((config) => {
-                this._discounts = config;
+                t._discounts = config;
                 resolve(t);
             }).catch((err) => {
-                reject(err);
+                t._discounts = []
+                resolve(t);
             });
         });
     }
