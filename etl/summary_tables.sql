@@ -11,7 +11,7 @@ CREATE TABLE `{{store_id}}_customers_count` (
 );
 
 INSERT INTO `{{store_id}}_customers_count` (day, customers_count)
-SELECT date(FROM_UNIXTIME(created_at/1000)) as day, count(date(FROM_UNIXTIME(created_at/1000))) as customers_count FROM `{{store_id}}_customers` group by date(FROM_UNIXTIME(created_at/1000));
+SELECT date(FROM_UNIXTIME(created_at/1000)) as day, count(date(FROM_UNIXTIME(created_at/1000))) as customers_count FROM `{{store_id}}_customers` GROUP BY DATE(CONVERT_TZ(FROM_UNIXTIME(created_at/1000),'+00:00','-04:00'));
 
 ########################
 # Orders count
@@ -26,7 +26,7 @@ CREATE TABLE `{{store_id}}_orders_count` (
 );
 
 INSERT INTO `{{store_id}}_orders_count` (day, orders_count)
-SELECT DATE(CONVERT_TZ(FROM_UNIXTIME(MIN(created_at)/1000),'+00:00','-04:00')) as day, count(date(FROM_UNIXTIME(created_at/1000))) as orders_count FROM `{{store_id}}_orders` group by date(FROM_UNIXTIME(created_at/1000));
+SELECT DATE(CONVERT_TZ(FROM_UNIXTIME(MIN(created_at)/1000),'+00:00','-04:00')) as day, count(date(FROM_UNIXTIME(created_at/1000))) as orders_count FROM `{{store_id}}_orders` GROUP BY DATE(CONVERT_TZ(FROM_UNIXTIME(created_at/1000),'+00:00','-04:00'));
 
 ########################
 # Orders pricing
@@ -87,7 +87,7 @@ CREATE TABLE `{{store_id}}_payments_summary` (
 );
 
 INSERT INTO `{{store_id}}_payments_summary` (day, counts, sums, avgs)
-SELECT DATE(CONVERT_TZ(FROM_UNIXTIME(MIN(created_at)/1000),'+00:00','-04:00')) as day, count(date(FROM_UNIXTIME(created_at/1000))) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is null group by date(FROM_UNIXTIME(created_at/1000));
+SELECT DATE(CONVERT_TZ(FROM_UNIXTIME(MIN(created_at)/1000),'+00:00','-04:00')) as day, count(date(FROM_UNIXTIME(created_at/1000))) as counts, sum(amount) as sums, avg(amount) as avgs FROM `{{store_id}}_order_charges` WHERE refund_id is null GROUP BY DATE(CONVERT_TZ(FROM_UNIXTIME(created_at/1000),'+00:00','-04:00'));
 
 ########################
 # Payments
