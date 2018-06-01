@@ -147,7 +147,7 @@ CREATE TABLE `{{store_id}}_customers_info` (
 );
 
 INSERT INTO `{{store_id}}_customers_info` (customer_id, name, mobile, address, min, max, orders, days_since_last_order)
-SELECT `{{store_id}}_customers`.original_id, name, formatted_mobile, autocomplete, min(`{{store_id}}_orders`.created_at) as min , max(`{{store_id}}_orders`.created_at) as max, count(`{{store_id}}_orders`.created_at) as orders, CEILING( (UNIX_TIMESTAMP() * 1000 - max(`{{store_id}}_orders`.created_at))/86400000) as days_since_last_order FROM `{{store_id}}_customers` left join `{{store_id}}_orders` on `{{store_id}}_customers`.original_id = `{{store_id}}_orders`.customer_id group by `{{store_id}}_customers`.original_id
+SELECT `{{store_id}}_customers`.original_id, name, formatted_mobile, autocomplete, min(`{{store_id}}_orders`.created_at) as min , max(`{{store_id}}_orders`.created_at) as max, count(`{{store_id}}_orders`.created_at) as orders, CEILING( (UNIX_TIMESTAMP() * 1000 - max(`{{store_id}}_orders`.created_at))/86400000) as days_since_last_order FROM `{{store_id}}_customers` left join `{{store_id}}_orders` on `{{store_id}}_customers`.original_id = `{{store_id}}_orders`.customer_id group by `{{store_id}}_customers`.original_id;
 
 ########################
 # Coupons
