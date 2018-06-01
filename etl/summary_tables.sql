@@ -102,7 +102,7 @@ CREATE TABLE `{{store_id}}_payments` (
   `method` varchar(30) NULL,
   `amount` DOUBLE NULL,
   `charge_id` varchar(250) NULL,
-  `refund_id` varchar(250) NULL
+  `refund_id` varchar(250) NULL,
   PRIMARY KEY (`id`)
 );
 
