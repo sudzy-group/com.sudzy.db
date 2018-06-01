@@ -61,7 +61,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
+var customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
 var SQLconnection;
 
 var docs = 0;
@@ -144,7 +144,7 @@ function copyPouchToSQL() {
 	}).then(() => {
 		return extract(customer_credits, "customer_id", customerCreditConvertor, customerCreditFields, 'customer_credits');
 	}).then(() => {
-		return extract(customer_coupons, "customer_id", customerCouponConvertor, customerCouponFields, 'customer_credits');
+		return extract(customer_coupons, "customer_id", customerCouponConvertor, customerCouponFields, 'customer_coupons');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
