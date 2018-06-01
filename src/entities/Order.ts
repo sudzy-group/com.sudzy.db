@@ -65,17 +65,17 @@ export class Order extends Entity {
 
     @EntityField({
         group: "payment",
-        name: "discount_percent",
-        description: "Discount percent"
-    })
-    public discount_percent: number;
-
-    @EntityField({
-        group: "payment",
         name: "discount_fixed",
         description: "Discount in dollar amount"
     })
     public discount_fixed: number;
+
+    @EntityField({
+        group: "payment",
+        name: "discount_id",
+        description: "Discount id applied"
+    })
+    public discount_id: number;
 
     @EntityField({
         group: "paid_in",
@@ -92,13 +92,6 @@ export class Order extends Entity {
         search_by: [ "existingBalance" ]
     })
     public balance: number;
-
-    @EntityField({
-        group: "coupon_code",
-        name: "coupon_code",
-        description: "Coupon code used"
-    })
-    public coupon_code: string;
 
     @EntityField({
         group: "status",

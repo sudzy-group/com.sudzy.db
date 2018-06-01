@@ -40,29 +40,49 @@
 | is_forgotten | `boolean`  | settings | Whether card is hidden                       |                |
 | in_stripe    | `boolean`  | settings | Whether card is stored in stripe             |                |
 | stripe_token | `string`   | settings | Stripe token before it is turned into a card |                |
+# CustomerCredit
+| Field Name     | Field Type | Group   | Description                                                              | Comments       |
+| -------------- | ---------- | ------- | ------------------------------------------------------------------------ | -------------- |
+| id             | `string`   | default | Entity id                                                                | Auto-generated |
+| created_at     | `number`   | default | Creation datetime (unix)                                                 | Auto-generated |
+| customer_id    | `string`   | default | Customer id                                                              | Searchable     |
+| original       | `number`   | default | Original credit                                                          |                |
+| reason         | `number`   | default | Reason: 1-Missing item 2-Damaged 3-Gift card 4-Promotion 5-Billing error |                |
+| description    | `string`   | default | Description of this credit                                               |                |
+| employee_id    | `string`   | default | Employee id that created this credit                                     |                |
+| payment_method | `string`   | default | Payment description of this credit                                       |                |
+| payment_id     | `string`   | default | Payment id of this credit (usually the transaction id)                   |                |
+| balance        | `number`   | balance | Balance of the credit                                                    |                |
+# CustomerCoupon
+| Field Name  | Field Type | Group   | Description                  | Comments       |
+| ----------- | ---------- | ------- | ---------------------------- | -------------- |
+| id          | `string`   | default | Entity id                    | Auto-generated |
+| created_at  | `number`   | default | Creation datetime (unix)     | Auto-generated |
+| customer_id | `string`   | default | Customer id                  | Searchable     |
+| coupon_id   | `number`   | default | Coupon id used in this order |                |
+| order_id    | `string`   | default | Order id using the coupon    |                |
 # Order
-| Field Name          | Field Type | Group       | Description                              | Comments              |
-| ------------------- | ---------- | ----------- | ---------------------------------------- | --------------------- |
-| id                  | `string`   | default     | Entity id                                | Auto-generated        |
-| created_at          | `number`   | default     | Creation datetime (unix)                 | Auto-generated        |
-| customer_id         | `string`   | default     | Customer id                              | Searchable            |
-| readable_id         | `string`   | default     | Human readable id                        | Validated, Searchable |
-| due_datetime        | `string`   | due         | Date order due                           | Searchable            |
-| rack                | `string`   | rack        | Rack number                              |                       |
-| notes               | `string`   | notes       | Order notes                              |                       |
-| tax                 | `number`   | payment     | Tax                                      |                       |
-| tip                 | `number`   | payment     | Tip                                      |                       |
-| discount_percent    | `number`   | payment     | Discount percent                         |                       |
-| discount_fixed      | `number`   | payment     | Discount in dollar amount                |                       |
-| paid_in             | `string`   | paid_in     | Indicates the order id of the paid order |                       |
-| balance             | `number`   | balance     | Balance remaining                        | Validated, Searchable |
-| coupon_code         | `string`   | coupon_code | Coupon code used                         |                       |
-| all_ready           | `boolean`  | status      | Whether order is ready                   |                       |
-| all_pickedup        | `boolean`  | status      | Whether order is back with customer      |                       |
-| checkpoint          | `string`   | cp          | Free text checkpoint                     | Searchable            |
-| delivery_pickup_id  | `string`   | delivery    | Delivery pickup id                       | Validated             |
-| delivery_dropoff_id | `string`   | delivery    | Delivery dropoff id                      | Validated             |
-| original_id         | `string`   | wholesale   | Original ticket id for wholesale order   | Searchable            |
+| Field Name          | Field Type | Group     | Description                              | Comments              |
+| ------------------- | ---------- | --------- | ---------------------------------------- | --------------------- |
+| id                  | `string`   | default   | Entity id                                | Auto-generated        |
+| created_at          | `number`   | default   | Creation datetime (unix)                 | Auto-generated        |
+| customer_id         | `string`   | default   | Customer id                              | Searchable            |
+| readable_id         | `string`   | default   | Human readable id                        | Validated, Searchable |
+| due_datetime        | `string`   | due       | Date order due                           | Searchable            |
+| rack                | `string`   | rack      | Rack number                              |                       |
+| notes               | `string`   | notes     | Order notes                              |                       |
+| tax                 | `number`   | payment   | Tax                                      |                       |
+| tip                 | `number`   | payment   | Tip                                      |                       |
+| discount_fixed      | `number`   | payment   | Discount in dollar amount                |                       |
+| discount_id         | `number`   | payment   | Discount id applied                      |                       |
+| paid_in             | `string`   | paid_in   | Indicates the order id of the paid order |                       |
+| balance             | `number`   | balance   | Balance remaining                        | Validated, Searchable |
+| all_ready           | `boolean`  | status    | Whether order is ready                   |                       |
+| all_pickedup        | `boolean`  | status    | Whether order is back with customer      |                       |
+| checkpoint          | `string`   | cp        | Free text checkpoint                     | Searchable            |
+| delivery_pickup_id  | `string`   | delivery  | Delivery pickup id                       | Validated             |
+| delivery_dropoff_id | `string`   | delivery  | Delivery dropoff id                      | Validated             |
+| original_id         | `string`   | wholesale | Original ticket id for wholesale order   | Searchable            |
 # OrderItem
 | Field Name        | Field Type | Group       | Description                              | Comments       |
 | ----------------- | ---------- | ----------- | ---------------------------------------- | -------------- |
@@ -187,16 +207,3 @@
 | body       | `string`   | default | Message body                      |                |
 | is_me      | `boolean`  | default | Is me (business)                  |                |
 | is_unread  | `boolean`  | unread  | Is message unread                 | Searchable     |
-# CustomerCredit
-| Field Name     | Field Type | Group   | Description                                                              | Comments       |
-| -------------- | ---------- | ------- | ------------------------------------------------------------------------ | -------------- |
-| id             | `string`   | default | Entity id                                                                | Auto-generated |
-| created_at     | `number`   | default | Creation datetime (unix)                                                 | Auto-generated |
-| customer_id    | `string`   | default | Customer id                                                              | Searchable     |
-| original       | `number`   | default | Original credit                                                          |                |
-| reason         | `number`   | default | Reason: 1-Missing item 2-Damaged 3-Gift card 4-Promotion 5-Billing error |                |
-| description    | `string`   | default | Description of this credit                                               |                |
-| employee_id    | `string`   | default | Employee id that created this credit                                     |                |
-| payment_method | `string`   | default | Payment description of this credit                                       |                |
-| payment_id     | `string`   | default | Payment id of this credit (usually the transaction id)                   |                |
-| balance        | `number`   | balance | Balance of the credit                                                    |                |

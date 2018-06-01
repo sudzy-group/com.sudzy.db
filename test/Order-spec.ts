@@ -68,12 +68,14 @@ class OrderTest {
      rack: "222",
      tax: 1.00,
      tip: 3.00,
-     discount_fixed: 5.00
+     discount_fixed: 5.00,
+     discount_id: 4
    }
    orders.insert(orderObj).then((ord) => {
       expect(ord.tax).to.equal(1.00);
       expect(ord.tip).to.equal(3.00);
       expect(ord.discount_fixed).to.equal(5.00);
+      expect(ord.discount_id).to.equal(4);
       done();
     }).catch(m=>console.log(m));
   }
@@ -287,8 +289,7 @@ class OrderTest {
     let orders = OrderTest.orders;
     let orderObj = {
      customer_id: "i2i",
-     readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz",
-     coupon_code: "abcdefg"
+     readable_id: "jjd4707d-cd54-bed3-7570-6e9dbec307zz"
    }
    orders.insert(orderObj, new Date().getTime() - 200).then((ord) => {
       let orderUpdated = {
@@ -297,7 +298,6 @@ class OrderTest {
       return orders.update(ord, orderUpdated);
      }).then((ordUpdated) => {   
        expect(ordUpdated.notes).to.equal("Perdy outfit");
-       expect(ordUpdated.coupon_code).to.equal("abcdefg");
        done();
     }).catch(m=>console.log(m));
   }  
@@ -313,14 +313,12 @@ class OrderTest {
       let orderUpdated = {
          tax: 1.00,
          tip: 3.00,
-         discount_percent: 5,
          balance: 250.40
       }
       return orders.update(ord, orderUpdated);
      }).then((ordUpdated) => {   
        expect(ordUpdated.tax).to.equal(1.00);
        expect(ordUpdated.tip).to.equal(3.00);
-       expect(ordUpdated.discount_percent).to.equal(5);
        expect(ordUpdated.balance).to.equal(250.40);
        done();
     }).catch(m=>console.log(m));

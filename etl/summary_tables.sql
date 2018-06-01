@@ -102,13 +102,12 @@ CREATE TABLE `{{store_id}}_payments` (
   `method` varchar(30) NULL,
   `amount` DOUBLE NULL,
   `charge_id` varchar(250) NULL,
-  `refund_id` varchar(250) NULL,
-  `coupon_code` varchar(10) NULL,
+  `refund_id` varchar(250) NULL
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount, charge_id, refund_id, coupon_code)
-SELECT `{{store_id}}_order_charges`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount`, `charge_id`, `refund_id`, `{{store_id}}_orders`.`coupon_code` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
+INSERT INTO `{{store_id}}_payments` (created_at, readable_id, name, method, amount, charge_id, refund_id)
+SELECT `{{store_id}}_order_charges`.`created_at`, `{{store_id}}_orders`.`readable_id`, `name`, `charge_type` as method, `amount`, `charge_id`, `refund_id` FROM `{{store_id}}_order_charges` LEFT JOIN `{{store_id}}_orders` ON `{{store_id}}_orders`.`original_id` = `{{store_id}}_order_charges`.`order_id` LEFT JOIN `{{store_id}}_customers` ON `{{store_id}}_orders`.`customer_id` = `{{store_id}}_customers`.`original_id`;
 
 ########################
 # Timesheets
@@ -149,3 +148,18 @@ CREATE TABLE `{{store_id}}_customers_info` (
 
 INSERT INTO `{{store_id}}_customers_info` (customer_id, name, mobile, address, min, max, orders, days_since_last_order)
 SELECT `{{store_id}}_customers`.original_id, name, formatted_mobile, autocomplete, min(`{{store_id}}_orders`.created_at) as min , max(`{{store_id}}_orders`.created_at) as max, count(`{{store_id}}_orders`.created_at) as orders, CEILING( (UNIX_TIMESTAMP() * 1000 - max(`{{store_id}}_orders`.created_at))/86400000) as days_since_last_order FROM `{{store_id}}_customers` left join `{{store_id}}_orders` on `{{store_id}}_customers`.original_id = `{{store_id}}_orders`.customer_id group by `{{store_id}}_customers`.original_id
+
+########################
+# Coupons
+########################
+DROP TABLE IF EXISTS `{{store_id}}_coupons`;
+
+CREATE TABLE `{{store_id}}_coupons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` INT NOT NULL,
+  `customers_count` INT NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_coupons` (coupon_id, customers_count)
+SELECT min(`{{store_id}}_customer_coupons`.coupon_id), count(`{{store_id}}_customer_coupons`.created_at) as customers_count FROM `{{store_id}}_customer_coupons` group by `{{store_id}}_customer_coupons`.coupon_id;

@@ -71,10 +71,9 @@ CREATE TABLE `{{store_id}}_orders` (
   `notes` varchar(250) DEFAULT NULL,
   `tax` DECIMAL(10,2)  DEFAULT NULL,
   `tip` DECIMAL(10,2) DEFAULT NULL,
-  `discount_percent` int(3) DEFAULT NULL,
   `discount_fixed` DECIMAL(10,2) DEFAULT NULL,
+  `discount_id` INT DEFAULT NULL,
   `balance` DECIMAL(10,2) DEFAULT NULL,
-  `coupon_code` VARCHAR(10) DEFAULT NULL,
   `all_ready` tinyint(1) DEFAULT NULL,
   `all_pickedup` tinyint(1) DEFAULT NULL,
   `delivery_pickup_id` varchar(250) NULL,
@@ -190,5 +189,16 @@ CREATE TABLE `{{store_id}}_purchases` (
   `refund_id` varchar(100)  NULL,
   `product_ids` VARCHAR(2000)  NULL,
   `number_of_items` int(3)  NULL,
+   PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `{{store_id}}_customer_coupons`;
+CREATE TABLE `{{store_id}}_customer_coupons` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `original_id` varchar(36) NOT NULL,
+  `created_at` BIGINT DEFAULT NULL,
+  `customer_id` varchar(36)  NULL,
+  `order_id` varchar(36)  NULL,
+  `coupon_id` INT  NULL,
    PRIMARY KEY (`id`)
 );

@@ -37,6 +37,7 @@ import { Product } from '../entities/Product';
 
 import { Database } from '../access/Database';
 import * as commander from 'commander';
+import { CustomerCoupon, CustomerCoupons } from '..';
 
 const SKIP_INTERVAL = 500;
 
@@ -60,7 +61,7 @@ if (!p.remotePouchDB || !p.remoteMySQLHost || !p.remoteMySQLUser ||!p.remoteMySQ
 }
 
 var pouch;
-var customers: Customers, customer_cards, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
+var customers: Customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
 var SQLconnection;
 
 var docs = 0;
@@ -80,6 +81,7 @@ function connectPouch() {
 	customers = new Customers(pouch, Customer);
 	customer_cards = new CustomerCards(pouch, CustomerCard);
 	customer_credits = new CustomerCredits(pouch, CustomerCredit);
+	customer_coupons = new CustomerCoupons(pouch, CustomerCoupon);
 	orders = new Orders(pouch, Order);
 	deliveries = new Deliveries(pouch, Delivery);
 	order_items = new OrderItems(pouch, OrderItem);
@@ -141,6 +143,8 @@ function copyPouchToSQL() {
 		return extract(purchases, "payment_id", purchasesConvertor, purchasesConvertorFields, 'purchases');
 	}).then(() => {
 		return extract(customer_credits, "customer_id", customerCreditConvertor, customerCreditFields, 'customer_credits');
+	}).then(() => {
+		return extract(customer_coupons, "customer_id", customerCouponConvertor, customerCouponFields, 'customer_credits');
 	}).then(() => {
 		console.log("Disconnecting");
 		disconnectSQL();
@@ -285,7 +289,7 @@ function customerCardsConvertor(card: CustomerCard) {
 }
 
 function ordersConvertorFields() {
-	return [ "original_id", "created_at", "customer_id", "readable_id", "due_datetime", "rack", "notes", "tax", "tip", "discount_percent", "discount_fixed", "balance", "coupon_code", "all_ready", "all_pickedup", "delivery_pickup_id", "delivery_dropoff_id" ]
+	return [ "original_id", "created_at", "customer_id", "readable_id", "due_datetime", "rack", "notes", "tax", "tip", "discount_fixed", "discount_id", "balance", "all_ready", "all_pickedup", "delivery_pickup_id", "delivery_dropoff_id" ]
 }
 
 function ordersConvertor(order: Order) {
@@ -299,10 +303,9 @@ function ordersConvertor(order: Order) {
 		order.notes,
 		order.tax,
 		order.tip,
-		order.discount_percent,
 		order.discount_fixed,
+		order.discount_id,
 		order.balance,
-    order.coupon_code,
 		order.all_ready ? 1 : 0,
 		order.all_pickedup ? 1 : 0,
 		order.delivery_pickup_id,
@@ -466,6 +469,20 @@ function customerCreditConvertor(credit: CustomerCredit) {
 		credit.employee_id,
 		credit.payment_method,
 		credit.payment_id
+	]
+}
+
+function customerCouponFields() {
+	return [ "original_id", "created_at", "customer_id", "order_id", "coupon_id"];
+}
+
+function customerCouponConvertor(coupon: CustomerCoupon) {
+	return [
+		coupon.id,
+		coupon.created_at,
+		coupon.customer_id,
+		coupon.order_id,
+		coupon.coupon_id
 	]
 }
 
