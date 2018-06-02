@@ -163,3 +163,24 @@ CREATE TABLE `{{store_id}}_coupons` (
 
 INSERT INTO `{{store_id}}_coupons` (coupon_id, customers_count)
 SELECT min(`{{store_id}}_customer_coupons`.coupon_id), count(`{{store_id}}_customer_coupons`.created_at) as customers_count FROM `{{store_id}}_customer_coupons` group by `{{store_id}}_customer_coupons`.coupon_id;
+
+########################
+# Credits Summary
+########################
+DROP TABLE IF EXISTS `{{store_id}}_credits_summary`;
+
+CREATE TABLE `{{store_id}}_credits_summary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` BIGINT NOT NULL,
+  `name` VARCHAR(100) NULL,
+  `original` INT NOT NULL,
+  `balance` INT DEFAULT 0,
+  `employee_id` varchar(10) NOT NULL,
+  `reason` INT NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `payment_method` varchar(50) NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_credits_summary` (created_at, `name`, original, balance, employee_id, reason, `description`, payment_method)
+SELECT `{{store_id}}_customer_credits`.`created_at`, `name`, `original`, `balance`, `employee_id`, `reason`, `description`, `payment_method` FROM `{{store_id}}_customer_credits` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_customer_credits.customer_id = {{store_id}}_customers.original_id;
