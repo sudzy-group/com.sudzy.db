@@ -198,7 +198,7 @@ function extract(collection, field, convertor, convertoFields, keyName, filterFu
 			}
 			async.series(ps, (err, results) => {
 				if (err) {
-					return reject(err);
+					console.log(err);
 				}
 				return resolve(results);
 			})
