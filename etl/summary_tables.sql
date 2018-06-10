@@ -184,3 +184,22 @@ CREATE TABLE `{{store_id}}_credits_summary` (
 
 INSERT INTO `{{store_id}}_credits_summary` (created_at, `name`, original, balance, employee_id, reason, `description`, payment_method)
 SELECT `{{store_id}}_customer_credits`.`created_at`, `name`, `original`, `balance`, `employee_id`, `reason`, `description`, `payment_method` FROM `{{store_id}}_customer_credits` LEFT JOIN `{{store_id}}_customers` ON {{store_id}}_customer_credits.customer_id = {{store_id}}_customers.original_id;
+
+
+########################
+# Rack report
+########################
+DROP TABLE IF EXISTS `{{store_id}}_rack_report`;
+
+CREATE TABLE `{{store_id}}_rack_report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` BIGINT NOT NULL,
+  `readable_id` VARCHAR(20) NULL,
+  `tag_number` int(10) NULL,
+  `formatted_mobile` VARCHAR(20) NULL,
+  `name` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `{{store_id}}_rack_report` (`created_at`, `readable_id`, `tag_number`, `formatted_mobile`, `name`)
+SELECT `{{store_id}}_orders`.created_at, `{{store_id}}_orders`.readable_id, `{{store_id}}_order_tags`.tag_number, `{{store_id}}_customers`.formatted_mobile, `{{store_id}}_customers`.name FROM `{{store_id}}_orders` left join `{{store_id}}_order_tags` ON (`{{store_id}}_orders`.original_id = `{{store_id}}_order_tags`.order_id AND `{{store_id}}_order_tags`.is_rack = 1) LEFT JOIN `{{store_id}}_customers` ON (`{{store_id}}_orders`.customer_id = `{{store_id}}_customers`.original_id) where `{{store_id}}_orders`.all_pickedup = 0 and `{{store_id}}_order_tags`.tag_number <> 0;
