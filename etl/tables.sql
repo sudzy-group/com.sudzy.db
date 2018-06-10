@@ -158,7 +158,7 @@ CREATE TABLE `{{store_id}}_timelines` (
   `created_at` BIGINT DEFAULT NULL,
   `employee_id` varchar(100) NOT NULL,
   `order_id` varchar(250) NOT NULL,
-  `operation` int(10) NULL,
+  `operation` varchar(30) NULL,
   `text` varchar(500) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
