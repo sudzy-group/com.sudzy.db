@@ -14,6 +14,7 @@ export class Discount {
     get type():             string  { return this._data['type'] };
     get amount():           number  { return this._data['amount'] };
     get isEnabled():        boolean { return this._data['is_enabled'] };
+    get isHidden():         boolean { return !this.isEnabled || this._data['is_hidden'] };
     get color():            string  { return this._data['color'] };
 }
 

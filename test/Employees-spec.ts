@@ -58,7 +58,7 @@ class EmployeesTest {
   @test("should save discounts and load store config")
   public testDiscountSaveAndLoad(done: Function) {
     let ic = new Discounts(EmployeesTest.appSettings);
-    let data = [{ "id": 1, "store_id": "aa0c19ba", "name": "$9 OFF DC", "item_type": "dc", "type": "fixed", "amount": 9, "is_enabled": 1, "color": "gray" }, { "id": 2, "store_id": "aa0c19ba", "name": "15% OFF", "item_type": "all", "type": "percent", "amount": 15, "is_enabled": 1, "color": "gray" }];
+    let data = [{ "id": 1, "store_id": "aa0c19ba", "name": "$9 OFF DC", "item_type": "dc", "type": "fixed", "amount": 9, "is_enabled": 1, "is_hidden": 1, "color": "gray" }, { "id": 2, "store_id": "aa0c19ba", "name": "15% OFF", "item_type": "all", "type": "percent", "amount": 15, "is_enabled": 1, "color": "gray" }];
     ic.save(data).then((discounts: Discounts) => {
       return discounts.reload();
     }).then((employees) => {
@@ -66,6 +66,7 @@ class EmployeesTest {
       expect(discount).to.not.equal(undefined);
       expect(discount.name).to.not.equal(undefined);
       expect(discount.isEnabled).to.equal(1);
+      expect(discount.isHidden).to.equal(1);
       expect(discount.itemType).to.equal('dc');
       expect(discount.type).to.equal('fixed');
       expect(discount.amount).to.equal(9);
