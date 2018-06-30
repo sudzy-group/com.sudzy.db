@@ -48,4 +48,24 @@ class ProductTest {
       .catch(m => console.log(m));
   }
 
+  //Update
+  @test("should update product")
+  public testUpdateProduct(done) {
+    let products = ProductTest.products;
+    products
+      .insert({
+        name: "Soap",
+        sku: "12",
+        image: "1.png",
+        price: 4.56,
+        goods_in_stock: 2
+      })
+      .then(product => {
+        return products.update(product, { updated_sku : "13"})
+      }).then(product => {
+        expect(product.getSku()).to.equal("13");
+        done();
+      })
+      .catch(m => console.log(m));
+  }
 }

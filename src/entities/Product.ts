@@ -46,4 +46,17 @@ export class Product extends Entity {
     })
     public goods_in_stock: number;
 
+    @EntityField({
+        group: "sku",
+        name: "updated_sku",
+        description: "Product's SKU updated"
+    })
+    public updated_sku: string;
+
+    /**
+     * Resolve SKU 
+     */
+    public getSku() {
+        return this.updated_sku || this.sku; 
+    }
 }
