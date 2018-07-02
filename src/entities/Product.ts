@@ -47,7 +47,7 @@ export class Product extends Entity {
     public goods_in_stock: number;
 
     @EntityField({
-        group: "sku",
+        group: "updated_sku",
         name: "updated_sku",
         description: "Product's SKU updated"
     })

@@ -55,7 +55,7 @@ class ProductTest {
     products
       .insert({
         name: "Soap",
-        sku: "12",
+        sku: "",
         image: "1.png",
         price: 4.56,
         goods_in_stock: 2

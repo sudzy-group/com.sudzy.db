@@ -164,7 +164,7 @@
 | image          | `string`   | default        | Product's image          |                |
 | price          | `number`   | price          | Product's price          |                |
 | goods_in_stock | `number`   | goods_in_stock | Goods in stock           |                |
-| updated_sku    | `string`   | sku            | Product's SKU updated    |                |
+| updated_sku    | `string`   | updated_sku    | Product's SKU updated    |                |
 # Purchase
 | Field Name   | Field Type | Group   | Description                   | Comments       |
 | ------------ | ---------- | ------- | ----------------------------- | -------------- |
