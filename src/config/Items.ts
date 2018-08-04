@@ -24,6 +24,7 @@ export class Item {
     get parent_isbn():      string  { return this._data['parent_isbn'] };
     get upcharges():        any[]   { return this._data['upcharges'] };
     get tax_rate():         number  { return this._data['tax_rate'] };
+    get is_tag_small():     boolean { return this._data['is_tag_small'] };
 }
 
 /**
