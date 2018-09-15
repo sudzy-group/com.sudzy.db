@@ -123,19 +123,24 @@
 | amount_refunded | `number`   | refund  | Amount refunded                    |                |
 | parent_id       | `string`   | parent  | The parent payment of this payment | Searchable     |
 # Delivery
-| Field Name      | Field Type | Group    | Description                      | Comments       |
-| --------------- | ---------- | -------- | -------------------------------- | -------------- |
-| id              | `string`   | default  | Entity id                        | Auto-generated |
-| created_at      | `number`   | default  | Creation datetime (unix)         | Auto-generated |
-| customer_id     | `string`   | default  | Customer id                      |                |
-| is_pickup       | `boolean`  | default  | Whether delivery is pickup       |                |
-| delivery_time   | `string`   | default  | Delivery time                    | Searchable     |
-| delivery_person | `string`   | person   | Delivery person                  | Validated      |
-| delivery_notes  | `string`   | notes    | Delivery notes                   |                |
-| is_confirmed    | `boolean`  | status   | Whether store confirmed delivery | Searchable     |
-| is_canceled     | `boolean`  | status   | Whether delivery is canceled     |                |
-| express_id      | `string`   | express  | Express id                       | Validated      |
-| external_id     | `string`   | external | Order id (eg. dcom or sudzy)     | Searchable     |
+| Field Name         | Field Type | Group       | Description                      | Comments       |
+| ------------------ | ---------- | ----------- | -------------------------------- | -------------- |
+| id                 | `string`   | default     | Entity id                        | Auto-generated |
+| created_at         | `number`   | default     | Creation datetime (unix)         | Auto-generated |
+| customer_id        | `string`   | default     | Customer id                      |                |
+| is_pickup          | `boolean`  | default     | Whether delivery is pickup       |                |
+| delivery_time      | `string`   | default     | Delivery time                    | Searchable     |
+| delivery_person    | `string`   | person      | Delivery person                  | Validated      |
+| delivery_notes     | `string`   | notes       | Delivery notes                   |                |
+| is_confirmed       | `boolean`  | status      | Whether store confirmed delivery | Searchable     |
+| is_canceled        | `boolean`  | status      | Whether delivery is canceled     |                |
+| express_id         | `string`   | express     | Express id                       | Validated      |
+| external_id        | `string`   | external    | Order id (eg. dcom or sudzy)     | Searchable     |
+| doorman_first_name | `string`   | doorman     | Doorman's first name             |                |
+| doorman_last_name  | `string`   | doorman     | Doorman's last name              |                |
+| doorman_signature  | `string`   | doorman     | Doorman's signature url          |                |
+| doorman_signed_at  | `number`   | doorman     | Doorman's signed at              |                |
+| orders             | `string[]` | orders_list | Orders                           |                |
 # Timesheet
 | Field Name  | Field Type | Group   | Description              | Comments       |
 | ----------- | ---------- | ------- | ------------------------ | -------------- |

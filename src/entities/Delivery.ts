@@ -77,4 +77,39 @@ export class Delivery extends Entity {
     description: "Order id (eg. dcom or sudzy)"
   })
   public external_id: string;
+
+  @EntityField({
+    group: "doorman",
+    name: "doorman_first_name",
+    description: "Doorman's first name"
+  })
+  public doorman_first_name: string;
+
+  @EntityField({
+    group: "doorman",
+    name: "doorman_last_name",
+    description: "Doorman's last name"
+  })
+  public doorman_last_name: string;
+
+  @EntityField({
+    group: "doorman",
+    name: "doorman_signature",
+    description: "Doorman's signature url"
+  })
+  public doorman_signature: string;
+
+  @EntityField({
+    group: "doorman",
+    name: "doorman_signed_at",
+    description: "Doorman's signed at"
+  })
+  public doorman_signed_at: number;
+
+  @EntityField({
+    group: "orders_list",
+    name: "orders",
+    description: "Orders"
+  })
+  public orders: string[];
 }
