@@ -136,6 +136,11 @@ CREATE TABLE `{{store_id}}_deliveries` (
   `is_confirmed` tinyint(1) DEFAULT NULL,
   `is_canceled` tinyint(1) DEFAULT NULL,
   `express_id` varchar(250) DEFAULT NULL,
+  `doorman_first_name` varchar(36) DEFAULT NULL,
+  `doorman_last_name` varchar(36) DEFAULT NULL,
+  `doorman_signature` varchar(250) DEFAULT NULL,
+  `doorman_signed_at` BIGINT DEFAULT NULL,
+  `orders` varchar(250) DEFAULT NULL,
    PRIMARY KEY (`id`)
 );
 

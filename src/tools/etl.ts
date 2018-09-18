@@ -370,7 +370,7 @@ function orderChargersFilter(order_charge: OrderCharge) {
 }
 
 function deliveriesConvertorFields() {
-	return [ "original_id", "created_at", "customer_id", "is_pickup", "delivery_time", "delivery_person", "is_confirmed", "is_canceled", "express_id" ];
+	return [ "original_id", "created_at", "customer_id", "is_pickup", "delivery_time", "delivery_person", "is_confirmed", "is_canceled", "express_id", "doorman_first_name", "doorman_last_name", "doorman_signature", "doorman_signed_at", "orders" ];
 }
 
 function deliveriesConvertor(delivery: Delivery) {
@@ -383,7 +383,12 @@ function deliveriesConvertor(delivery: Delivery) {
 		delivery.delivery_person,
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
-		delivery.express_id
+		delivery.express_id,
+		delivery.doorman_first_name, 
+		delivery.doorman_last_name, 
+		delivery.doorman_signature, 
+		delivery.doorman_signed_at, 
+		delivery.orders ? delivery.orders.join(',') : null,
 	]
 }
 
