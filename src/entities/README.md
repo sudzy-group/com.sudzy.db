@@ -141,6 +141,7 @@
 | doorman_signature  | `string`   | doorman     | Doorman's signature url          |                |
 | doorman_signed_at  | `number`   | doorman     | Doorman's signed at              |                |
 | orders             | `string[]` | orders_list | Orders                           |                |
+| priority           | `number`   | more        | Priority of the delivery         |                |
 # Timesheet
 | Field Name  | Field Type | Group   | Description              | Comments       |
 | ----------- | ---------- | ------- | ------------------------ | -------------- |

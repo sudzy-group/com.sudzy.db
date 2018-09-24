@@ -112,4 +112,11 @@ export class Delivery extends Entity {
     description: "Orders"
   })
   public orders: string[];
+
+  @EntityField({
+    group: "more",
+    name: "priority",
+    description: "Priority of the delivery"
+  })
+  public priority: number;
 }
