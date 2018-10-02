@@ -326,7 +326,7 @@ function orderItemsConvertor(order_item: OrderItem) {
 		order_item.type,
 		order_item.name,
 		order_item.quantity,
-		order_item.price,
+		_.reduce(order_item.extra, (sum, e) => (sum + e && e.price || 0), order_item.price),
 		toString(order_item.notes)
 	]
 }
