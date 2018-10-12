@@ -100,6 +100,7 @@
 | pickedup          | `boolean`  | status      | Specific pickedup status about this item |                |
 | extra             | `any[]`    | extra       | extra description and upcharges for item |                |
 | manual_name       | `string`   | manual_name | Item manual name                         |                |
+| label             | `string`   | lbl         | Label number                             |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description                                  | Comments       |
 | ---------- | ---------- | ------- | -------------------------------------------- | -------------- |
@@ -183,6 +184,21 @@
 | payment_type | `string`   | default | Payment's type (cash or card) |                |
 | payment_id   | `string`   | default | Payment's id                  | Searchable     |
 | refund_id    | `string`   | refund  | Refund's id                   |                |
+# Label
+| Field Name        | Field Type | Group   | Description                              | Comments       |
+| ----------------- | ---------- | ------- | ---------------------------------------- | -------------- |
+| id                | `string`   | default | Entity id                                | Auto-generated |
+| created_at        | `number`   | default | Creation datetime (unix)                 | Auto-generated |
+| label             | `string`   | default | Label's readable number                  | Searchable     |
+| isbn              | `string`   | desc    | isbn                                     |                |
+| type              | `string`   | desc    | Type                                     |                |
+| name              | `string`   | desc    | Item name                                |                |
+| quantity          | `number`   | desc    | Quantity of item                         |                |
+| price             | `number`   | desc    | Total price                              |                |
+| is_manual_pricing | `boolean`  | desc    | User selected manual pricing             |                |
+| notes             | `string[]` | desc    | Specific notes about this item           |                |
+| extra             | `any[]`    | extra   | extra description and upcharges for item |                |
+| order_id          | `string`   | order   | Current order id                         |                |
 # Task
 | Field Name    | Field Type | Group   | Description                                           | Comments       |
 | ------------- | ---------- | ------- | ----------------------------------------------------- | -------------- |

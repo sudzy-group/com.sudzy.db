@@ -98,5 +98,11 @@ export class OrderItem extends Entity {
         description: "Item manual name" 
     })
     public manual_name: string;
-    
+
+    @EntityField({
+        group: "lbl",
+        name: "label",
+        description: "Label number" 
+    })
+    public label_id: string;    
 }

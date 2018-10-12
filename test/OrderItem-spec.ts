@@ -148,6 +148,32 @@ class OrderItemTest {
     });
   }
 
+  @test("should not update order_id")
+  public testUpdateLabel(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "3a999",
+     type: "wf",
+     isbn: "1234",
+     price: 10.00,
+     name: "Washfold",
+     quantity: 1,
+     label_id: '12345'
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.order_id).to.equal("3a3");
+      expect(item.label_id).to.equal("12345");
+      let orderItemUpdated = {
+         order_id: "4a4",
+         label_id: '8748397'
+      }
+      return order_items.update(item, orderItemUpdated);
+      }).then(_.noop)
+      .catch((c) => {
+        done();
+    });
+  }  
+
   @test("should not update isbn")
   public testUpdateItemId(done) {
     let order_items = OrderItemTest.order_items;

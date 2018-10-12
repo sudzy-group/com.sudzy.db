@@ -15,6 +15,7 @@ export { Timelines } from "./collections/Timelines";
 export { Products } from "./collections/Products";
 export { Purchases } from "./collections/Purchases";
 export { Tasks } from "./collections/Tasks";
+export { Labels } from "./collections/Labels";
 export { TaskDatas } from "./collections/TaskDatas";
 export { Messages } from "./collections/Messages";
 
@@ -32,6 +33,7 @@ export { Timeline } from "./entities/Timeline";
 export { Product } from "./entities/Product";
 export { Purchase } from "./entities/Purchase";
 export { Task } from "./entities/Task";
+export { Label } from "./entities/Label";
 export { TaskData } from "./entities/TaskData";
 export { Message } from "./entities/Message";
 
