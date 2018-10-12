@@ -100,7 +100,7 @@
 | pickedup          | `boolean`  | status      | Specific pickedup status about this item |                |
 | extra             | `any[]`    | extra       | extra description and upcharges for item |                |
 | manual_name       | `string`   | manual_name | Item manual name                         |                |
-| label             | `string`   | lbl         | Label number                             |                |
+| label_id          | `string`   | lbl         | Label number                             |                |
 # OrderTag
 | Field Name | Field Type | Group   | Description                                  | Comments       |
 | ---------- | ---------- | ------- | -------------------------------------------- | -------------- |

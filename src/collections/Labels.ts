@@ -1,5 +1,5 @@
 import { Collection } from "pouchable";
-import { Label } from "../entities/label";
+import { Label } from "../entities/Label";
 
 /**
  * Represents the Labels collection such as Heat Seal Labels
