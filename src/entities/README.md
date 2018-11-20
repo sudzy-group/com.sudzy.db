@@ -128,7 +128,7 @@
 | ------------------ | ---------- | ----------- | -------------------------------- | -------------- |
 | id                 | `string`   | default     | Entity id                        | Auto-generated |
 | created_at         | `number`   | default     | Creation datetime (unix)         | Auto-generated |
-| customer_id        | `string`   | default     | Customer id                      |                |
+| customer_id        | `string`   | default     | Customer id                      | Searchable     |
 | is_pickup          | `boolean`  | default     | Whether delivery is pickup       |                |
 | delivery_time      | `string`   | default     | Delivery time                    | Searchable     |
 | delivery_person    | `string`   | person      | Delivery person                  | Validated      |

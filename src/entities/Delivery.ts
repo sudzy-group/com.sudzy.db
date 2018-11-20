@@ -11,7 +11,8 @@ export class Delivery extends Entity {
     group: "default",
     name: "customer_id",
     mandatory: true,
-    description: "Customer id"
+    description: "Customer id",
+    search_by: [identity]
   })
   public customer_id: string;
 
