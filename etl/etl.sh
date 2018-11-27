@@ -2,7 +2,7 @@
 
 usage()
 {
-    echo "usage: etl -s ... -m ... -u ... -p ... -c ... | [-h]]"
+    echo "usage: etl -s ... -m ... -u ... -p ... -c ... -r ... -f ... | [-h]]"
 }
 
 do_etl() 
@@ -19,6 +19,8 @@ mysql=
 user=
 pass=
 couchdb=
+remotePouchDB=
+statusFile=
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -37,6 +39,12 @@ while [ "$1" != "" ]; do
         -c | --couchdb )        shift
                                 couchdb=$1
                                 ;;
+        -r | --remotePouchDB )  shift
+                                remotePouchDB=$1
+                                ;;
+        -f | --statusFile )     shift
+                                statusFile=$1
+                                ;;
         -h | --help )           usage
                                 exit
                                 ;;
@@ -46,5 +54,10 @@ while [ "$1" != "" ]; do
     shift
 done
 
-do_etl
+node ../lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $statusFile
+updateAvailable=$?
 
+if [ $updateAvailable -eq 1 ]
+    then
+    do_etl;
+fi
