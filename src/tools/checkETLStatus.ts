@@ -7,16 +7,16 @@ import * as fs from 'fs';
 
 /**
  * Example: 
- * node lib/tools/checkETLStatus.js --remotePouchDB ****:5984  --storeId *** --statusFile ***
- * node lib/tools/checkETLStatus.js --remotePouchDB http://db-1.sudzy.co:5984  --storeId aa0c19ba --statusFile ../tmp/aa0c19ba_db_status.txt
- * ./new-etl.sh -r http://db-1.sudzy.co:5984 -s aa0c19ba -f ../../tmp/aa0c19ba_db_status.txt
+ * node lib/tools/checkETLStatus.js --remotePouchDB ****:5984  --storeId *** --filePath ***
+ * node lib/tools/checkETLStatus.js --remotePouchDB http://db-1.sudzy.co:5984  --storeId aa0c19ba --filePath ../tmp
+ * ./new-etl.sh -r http://db-1.sudzy.co:5984 -s aa0c19ba -f ../../tmp
  */
 let p = commander
     .version('0.0.1')
     .usage('[options]')
     .option('-p, --remotePouchDB [value]', 'The remote PouchDB url')
     .option('-s, --storeId [value]', 'The store user')
-	.option('-f, --statusFile [value]', 'The status csv file')
+	.option('-f, --filePath [value]', 'The status csv file')
     .parse(process.argv);
 
 if (!p.remotePouchDB || !p.storeId) {
@@ -25,15 +25,16 @@ if (!p.remotePouchDB || !p.storeId) {
 }
 
 getInfo(info => {
-    fs.readFile(p.statusFile, 'utf8', function readFileCallback(err, data){
+    var fullPath = p.filePath + '/' + p.storeId +  '_db_status.txt';
+    fs.readFile(fullPath, 'utf8', function readFileCallback(err, data){
         if (err) {
-            fs.writeFile(p.statusFile, JSON.stringify(info), 'utf8', function() {
+            fs.writeFile(fullPath, JSON.stringify(info), 'utf8', function() {
                 process.exit(1);
             }); 
         } else {
             var bs = JSON.parse(data);
             if (!bs.doc_count || bs.doc_count!=info.doc_count || bs.update_seq!=info.update_seq) {
-                fs.writeFile(p.statusFile, JSON.stringify(info), 'utf8', function() {
+                fs.writeFile(fullPath, JSON.stringify(info), 'utf8', function() {
                     process.exit(1);
                 }); 
             } else {

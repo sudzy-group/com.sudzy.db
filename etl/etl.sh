@@ -20,7 +20,7 @@ user=
 pass=
 couchdb=
 remotePouchDB=
-statusFile=
+filePath=
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -42,8 +42,8 @@ while [ "$1" != "" ]; do
         -r | --remotePouchDB )  shift
                                 remotePouchDB=$1
                                 ;;
-        -f | --statusFile )     shift
-                                statusFile=$1
+        -f | --filePath )       shift
+                                filePath=$1
                                 ;;
         -h | --help )           usage
                                 exit
@@ -54,7 +54,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-node ../lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $statusFile
+node ../lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $filePath
 updateAvailable=$?
 
 if [ $updateAvailable -eq 1 ]
