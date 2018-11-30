@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as PouchDB from "pouchdb";
 import * as PouchableAuthentication from 'pouchdb-authentication';
 PouchDB.plugin(PouchableAuthentication);

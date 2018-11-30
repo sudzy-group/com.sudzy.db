@@ -54,7 +54,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-node ../lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $filePath
+lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $filePath
 updateAvailable=$?
 
 if [ $updateAvailable -eq 1 ]
