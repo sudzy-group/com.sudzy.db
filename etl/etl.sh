@@ -19,7 +19,6 @@ mysql=
 user=
 pass=
 couchdb=
-remotePouchDB=
 filePath=
 
 while [ "$1" != "" ]; do
@@ -39,9 +38,6 @@ while [ "$1" != "" ]; do
         -c | --couchdb )        shift
                                 couchdb=$1
                                 ;;
-        -r | --remotePouchDB )  shift
-                                remotePouchDB=$1
-                                ;;
         -f | --filePath )       shift
                                 filePath=$1
                                 ;;
@@ -54,8 +50,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo "lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $filePath"
-lib/tools/checkETLStatus.js -p $remotePouchDB  -s $store -f $filePath
+lib/tools/checkETLStatus.js -p $couchdb -s $store -f $filePath
 updateAvailable=$?
 
 if [ $updateAvailable -eq 1 ]
