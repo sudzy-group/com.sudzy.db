@@ -27,6 +27,7 @@ if (!p.remotePouchDB || !p.storeId) {
 
 getInfo(info => {
     var fullPath = p.filePath + '/' + p.storeId +  '_db_status.txt';
+    console.log("fullPath", fullPath);
     fs.readFile(fullPath, 'utf8', function readFileCallback(err, data){
         if (err) {
             fs.writeFile(fullPath, JSON.stringify(info), 'utf8', function() {
