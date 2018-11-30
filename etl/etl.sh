@@ -2,7 +2,7 @@
 
 usage()
 {
-    echo "usage: etl -s ... -m ... -u ... -p ... -c ... -r ... -f ... | [-h]]"
+    echo "usage: etl -s ... -m ... -u ... -p ... -c ... -f ... | [-h]]"
 }
 
 do_etl() 
