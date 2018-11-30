@@ -19,6 +19,7 @@ mysql=
 user=
 pass=
 couchdb=
+filePath=
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -37,6 +38,9 @@ while [ "$1" != "" ]; do
         -c | --couchdb )        shift
                                 couchdb=$1
                                 ;;
+        -f | --filePath )       shift
+                                filePath=$1
+                                ;;
         -h | --help )           usage
                                 exit
                                 ;;
@@ -46,5 +50,10 @@ while [ "$1" != "" ]; do
     shift
 done
 
-do_etl
+lib/tools/checkETLStatus.js -p $couchdb -s $store -f $filePath -a '_factory'
+updateAvailable=$?
 
+if [ $updateAvailable -eq 1 ]
+    then
+    do_etl;
+fi

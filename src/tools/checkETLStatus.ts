@@ -8,16 +8,15 @@ import * as fs from 'fs';
 
 /**
  * Example: 
- * node lib/tools/checkETLStatus.js --remotePouchDB ****:5984  --storeId *** --filePath ***
- * node lib/tools/checkETLStatus.js --remotePouchDB http://db-1.sudzy.co:5984  --storeId aa0c19ba --filePath ../tmp
- * ./new-etl.sh -r http://db-1.sudzy.co:5984 -s aa0c19ba -f ../../tmp
+ * node lib/tools/checkETLStatus.js --remotePouchDB ****:5984  --storeId *** --filePath *** --addition ***
  */
 let p = commander
     .version('0.0.1')
     .usage('[options]')
     .option('-p, --remotePouchDB [value]', 'The remote PouchDB url')
     .option('-s, --storeId [value]', 'The store user')
-	.option('-f, --filePath [value]', 'The status csv file')
+    .option('-f, --filePath [value]', 'The status csv file')
+    .option('-a, --addition [value]', 'The status csv file')
     .parse(process.argv);
 
 if (!p.remotePouchDB || !p.storeId) {
@@ -47,7 +46,7 @@ getInfo(info => {
 })
 
 function getInfo(callback) {
-    let db = new PouchDB(p.remotePouchDB + "/" + p.storeId, {
+    let db = new PouchDB(p.remotePouchDB + "/" + p.storeId + (p.addition || ""), {
       auth: {
           username: p.storeId,
           password: p.storeId
