@@ -317,8 +317,8 @@ class DeliveryTest {
           delivery_time: "1489627534812"
       }
       return deliveries.update(deliv, updatedDeliv);
-    }).then(_.noop)
-      .catch((c) => {
+    }).catch(_.noop)
+      .then((c) => {
         done();
     });
  }

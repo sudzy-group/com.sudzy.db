@@ -201,8 +201,8 @@ class OrderTest {
          customer_id: "d2d",
       }
       return orders.update(ord, orderUpdated);
-      }).then(_.noop)
-      .catch((c) => {
+      }).catch(_.noop)
+      .then((c) => {
         done();
     });
   }
@@ -220,8 +220,8 @@ class OrderTest {
          readable_id: "g2d4707d-cd54-bed3-7570-6e9dbec307zz"
       }
       return orders.update(ord, orderUpdated);
-      }).then(_.noop)
-      .catch((c) => {
+      }).catch(_.noop)
+      .then((c) => {
         done();
     });
   }

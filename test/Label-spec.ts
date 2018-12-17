@@ -145,7 +145,7 @@ class LabelTest {
     }).then((items) => {
       expect(items[0].order_id).to.equal("4a4");
       done();
-    }).catch(done);
+    }).catch(_.noop);
   }
 }
 

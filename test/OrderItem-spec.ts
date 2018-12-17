@@ -142,8 +142,8 @@ class OrderItemTest {
          order_id: "4a4",
       }
       return order_items.update(item, orderItemUpdated);
-      }).then(_.noop)
-      .catch((c) => {
+      }).catch(_.noop)
+      .then((c) => {
         done();
     });
   }

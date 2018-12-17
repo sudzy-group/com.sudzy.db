@@ -1,6 +1,6 @@
 {
   "name": "sudzy-db",
-  "version": "0.5.20",
+  "version": "0.5.21",
   "description": "sudzy-db",
   "license": "MIT",
   "repository": "https://github.com/sudzy-group/com.sudzy.db.git",
@@ -28,7 +28,7 @@
     "fs": "0.0.1-security",
     "lodash": "^4.17.4",
     "metaphone": "^1.0.1",
-    "pouchable": "^1.1.24",
+    "pouchable": "^1.1.25",
     "pouchdb": "6.1.2",
     "pouchdb-authentication": "^0.5.5"
   },

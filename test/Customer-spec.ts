@@ -294,7 +294,7 @@ class CustomerTest {
   }  
 
   @test("should not update mobile")
-  public testNoMobileUpdate(done) {
+  public testMobileUpdate(done) {
     let customerObj = {
       mobile: "19292778392",
       name: "Mud Park"
@@ -306,10 +306,11 @@ class CustomerTest {
         mobile: "19292778322"
       }
       return customers.update(c, updatedCustomerObj);
-    }).then(_.noop)
-      .catch((c) => {
-        done();
-      });
+    }).then((c) => {
+      expect(c.mobile).to.equal("19292778322");
+      done();
+    })
+    .catch(_.noop);
   }
 
 
