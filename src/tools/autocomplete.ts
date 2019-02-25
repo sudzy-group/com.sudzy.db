@@ -1,5 +1,5 @@
 import { Promise } from 'ts-promise';
-import { map, forIn } from 'lodash';
+import { map, forIn, isEmpty } from 'lodash';
 import * as https from 'https';
 import * as commander from 'commander';
 import * as csv from 'csvtojson';
@@ -33,6 +33,7 @@ export class GoogleAutocompleteService {
 	 * @returns {Promise<Place[]>} 
 	 */
 	public autocomplete(input: string, center): Promise<Place[]> {
+		if (isEmpty(input)) { Promise.reject(null) }
 
 		return new Promise<Place[]>((resolve, reject) => {
 			var queryParams = querystring.stringify({input: input, key: 'AIzaSyBnVZV3mK99RV8RjOZEc32mMjYIkbcYC7w', location: center.latitude + ',' + center.longitude, radius : '3000'});
@@ -148,7 +149,10 @@ function resolveAddress(address) {
 			};
 			console.log("")
 			return callback(null, "");
-		})	
+		}).catch(e => {
+			console.log("")
+			return callback(null, "");
+		})
 	}
 }
 
