@@ -70,6 +70,27 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+  // Get
+  @test("should delete customer with just mobile")
+  public testGetCustomer(done) {
+    let id = "";
+    let customerObj = {
+      mobile: "19292778387",
+      formatted_mobile: '(929) 2778387'
+    }
+    const customers = new Customers(CustomerTest.db, Customer);
+    customers.insert(customerObj).then((c) => {
+      id = c.id;
+      return customers.get(id, ['']);
+    }).then((cus) => {
+      expect(cus.formatted_mobile).not.to.equal('(929) 2778387');
+      return customers.get(id, ['', 'formatted']);
+    }).then((cus) => {
+      expect(cus.formatted_mobile).to.equal('(929) 2778387');
+      done()
+    }).catch(_.noop);
+  }  
+
   //Search
   @test("should be searchable by mobile")
   public testSearchMobile(done) {
