@@ -81,7 +81,7 @@ class CustomerTest {
     const customers = new Customers(CustomerTest.db, Customer);
     customers.insert(customerObj).then((c) => {
       id = c.id;
-      return customers.get(id, ['']);
+      return customers.get(id, ['', 'pricing_group']);
     }).then((cus) => {
       expect(cus.formatted_mobile).not.to.equal('(929) 2778387');
       return customers.get(id, ['', 'formatted']);
