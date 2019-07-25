@@ -379,7 +379,7 @@ function deliveriesConvertor(delivery: Delivery) {
 		delivery.created_at,
 		delivery.customer_id,
 		delivery.is_pickup ? 1 : 0,
-		parseInt(delivery.delivery_time),
+		parseInt(delivery.delivery_time) || 0,
 		delivery.delivery_person,
 		delivery.is_confirmed ? 1 : 0,
 		delivery.is_canceled ? 1 : 0,
@@ -404,7 +404,7 @@ function timesheetsConvertor(timesheet: Timesheet) {
 		timesheet.created_at,
 		timesheet.employee_id,
 		timesheet.is_clockin ? 1 : 0,
-		parseInt(timesheet.event_time),
+		parseInt(timesheet.event_time) || 0,
 		timesheet.comment
 	]
 }
