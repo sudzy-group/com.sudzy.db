@@ -37,86 +37,116 @@ import { Product } from '../entities/Product';
 import * as commander from 'commander';
 import { CustomerCoupon, CustomerCoupons } from '..';
 
-const SKIP_INTERVAL = 100;
+const SKIP_INTERVAL = 500;
 
 let p = commander
   .version('0.0.1')
   .usage('[options]')
-  .option('-p, --remotePouchDB [value]', 'The remote PouchDB url source')
+  .option('-p, --remoteHost [value]', 'The remote PouchDB url source')
   .option('-U, --remotePouchDBUser [value]', 'The remote PouchDB user source')
 	.option('-P, --remotePouchDBPassword [value]', 'The remote PouchDB password source')
-  .option('-j, --remotePouchDBTarget [value]', 'The remote PouchDB url target')
+	.option('-o, --storeId [value]', 'The remote store source')
+  .option('-j, --remoteHostTarget [value]', 'The remote PouchDB url target')
   .option('-k, --remotePouchDBUserTarget [value]', 'The remote PouchDB user target')
-  .option('-l, --remotePouchDBPasswordTarget [value]', 'The remote PouchDB password target')	
-	.option('-s, --storeId [value]', 'The store id argument')
+	.option('-l, --remotePouchDBPasswordTarget [value]', 'The remote PouchDB password target')	
+	.option('-m, --storeIdTarget [value]', 'The store name target')	
 	.parse(process.argv);
 
 
-if (!p.remotePouchDB || !p.remotePouchDBTarget || !p.storeId) {
+if (!p.remoteHost || !p.remoteHostTarget) {
    console.error('no databases arguments given.');
    process.exit(1);
 }
 
-var pouch, pouchTarget;
+var localSource, localTarget;
+var remoteSource, remoteTarget;
+
 var customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
 var customers_target, customer_cards_target, customer_coupons_target, customer_credits_target, orders_target, deliveries_target, order_items_target, order_tags_target, order_charges_target, timesheets_target, timelines_target, purchases_target, products_target;
 
 var docs = 0;
 
+console.log(p);
+
 connectPouch();
-copyPouchToTarget();
+sync(localSource, remoteSource, () => {
+	sync(localSource, remoteSource, () => {
+		sync(localSource, remoteSource, () => {
+			copyPouchToTarget(() => {
+				sync(localTarget, remoteTarget, () => {
+					sync(localTarget, remoteTarget, () => {
+						sync(localTarget, remoteTarget, () => {
+							processExit(0)
+						})
+					})
+				})
+			});
+		})
+	})
+})
+
+function sync(local, remote, cb) {
+	let sync = local.sync(remote);
+	sync.on('complete', () => { 
+		cb && cb();
+	}).on('change', info => {
+		console.log('Changed ' + _.get(info, 'change.docs_read'));
+	}).on('error', () => {
+		cb && cb();
+	})
+}
 
 function connectPouch() {
-	console.log("remote pouch db", p.remotePouchDB);
-	pouch = new PouchDB(p.remotePouchDB, {
+	localSource = new PouchDB(p.storeId);
+	remoteSource = new PouchDB(p.remoteHost + '/' + p.storeId, p.remotePouchDBUser ? {
 		auth: {
 				username: p.remotePouchDBUser,
 				password: p.remotePouchDBPassword
 		}
-	});
+	} : {})
 
-	console.log("remote pouch target db", p.remotePouchDBTarget);
-	pouchTarget = new PouchDB(p.remotePouchDBTarget, {
+	localTarget = new PouchDB(p.storeIdTarget);
+	remoteTarget = new PouchDB(p.remoteHostTarget + '/' + p.storeIdTarget, p.remotePouchDBUserTarget ? {
 		auth: {
 				username: p.remotePouchDBUserTarget,
 				password: p.remotePouchDBPasswordTarget
 		}
-	});
+	} : {})
 
-	customers = new Customers(pouch, Customer);
-	customer_cards = new CustomerCards(pouch, CustomerCard);
-	customer_credits = new CustomerCredits(pouch, CustomerCredit);
-	customer_coupons = new CustomerCoupons(pouch, CustomerCoupon);
-	orders = new Orders(pouch, Order);
-	deliveries = new Deliveries(pouch, Delivery);
-	order_items = new OrderItems(pouch, OrderItem);
-	order_tags = new OrderTags(pouch, OrderTag);
-	order_charges = new OrderCharges(pouch, OrderCharge);
-	timesheets = new Timesheets(pouch, Timesheet);
-	timelines = new Timelines(pouch, Timeline);
-	products = new Products(pouch, Product);
-	purchases = new Purchases(pouch, Purchase);
+	customers = new Customers(localSource, Customer);
+	customer_cards = new CustomerCards(localSource, CustomerCard);
+	customer_credits = new CustomerCredits(localSource, CustomerCredit);
+	customer_coupons = new CustomerCoupons(localSource, CustomerCoupon);
+	orders = new Orders(localSource, Order);
+	deliveries = new Deliveries(localSource, Delivery);
+	order_items = new OrderItems(localSource, OrderItem);
+	order_tags = new OrderTags(localSource, OrderTag);
+	order_charges = new OrderCharges(localSource, OrderCharge);
+	timesheets = new Timesheets(localSource, Timesheet);
+	timelines = new Timelines(localSource, Timeline);
+	products = new Products(localSource, Product);
+	purchases = new Purchases(localSource, Purchase);
 
-	customers_target = new Customers(pouchTarget, Customer);
-	customer_cards_target = new CustomerCards(pouchTarget, CustomerCard);
-	customer_credits_target = new CustomerCredits(pouchTarget, CustomerCredit);
-	customer_coupons_target = new CustomerCoupons(pouchTarget, CustomerCoupon);
-	orders_target = new Orders(pouchTarget, Order);
-	deliveries_target = new Deliveries(pouchTarget, Delivery);
-	order_items_target = new OrderItems(pouchTarget, OrderItem);
-	order_tags_target = new OrderTags(pouchTarget, OrderTag);
-	order_charges_target = new OrderCharges(pouchTarget, OrderCharge);
-	timesheets_target = new Timesheets(pouchTarget, Timesheet);
-	products_target = new Products(pouchTarget, Product);
-	purchases_target = new Purchases(pouchTarget, Purchase);	
+	customers_target = new Customers(localTarget, Customer);
+	customer_cards_target = new CustomerCards(localTarget, CustomerCard);
+	customer_credits_target = new CustomerCredits(localTarget, CustomerCredit);
+	customer_coupons_target = new CustomerCoupons(localTarget, CustomerCoupon);
+	orders_target = new Orders(localTarget, Order);
+	deliveries_target = new Deliveries(localTarget, Delivery);
+	order_items_target = new OrderItems(localTarget, OrderItem);
+	order_tags_target = new OrderTags(localTarget, OrderTag);
+	order_charges_target = new OrderCharges(localTarget, OrderCharge);
+	timesheets_target = new Timesheets(localTarget, Timesheet);
+	products_target = new Products(localTarget, Product);
+	purchases_target = new Purchases(localTarget, Purchase);	
 }
 
-function copyPouchToTarget() {
+function copyPouchToTarget(cb) {
 
 	/////////////////////
 	// Customers
 	/////////////////////
-	pouch.info().then(function(info) {
+	localSource.info().then(function(info) {
 		console.log(info)
 		return extract(customers, "mobile", 'customers');
 	}).then(() => {
@@ -133,8 +163,8 @@ function copyPouchToTarget() {
 		return extract(deliveries, "delivery_time", 'deliveries');
 	}).then(() => {
 		return extract(timesheets, "event_time", 'timesheets');
-	}).then(() => {
-		return extract(timelines, "order_id", 'timelines');
+	// }).then(() => {
+	// 	return extract(timelines, "order_id", 'timelines');
 	}).then(() => {
 		return extract(products, "sku", 'products');
 	}).then(() => {
@@ -145,10 +175,10 @@ function copyPouchToTarget() {
 		return extract(customer_coupons, "customer_id", 'customer_coupons');
 	}).then(() => {
 		console.log("Disconnecting");
-		processExit()
+		cb()
 	}).catch(m => {
 		console.log(m);
-		processExit(1)
+		cb(1)
 	});
 }
 
@@ -222,7 +252,7 @@ function insertAll(es, tableName) {
 function getObjectData(object) {
 	let obj = {}
 	_.forIn((<any> object).metadata, function(value, key) {
-		if (value.mandatory || object[key] !== null) {
+		if (value.mandatory || (object[key] !== null && object[key] !== undefined) ) {
 			obj[key] = object[key];
 		}
 	})
