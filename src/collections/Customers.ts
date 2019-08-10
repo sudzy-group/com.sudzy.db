@@ -12,9 +12,9 @@ export class Customers extends Collection<Customer> {
         return "customer";
     }
 
-    public insert(data, created_at?)  {
+    public insert(data, created_at?, original_id?)  {
         data.allow_notifications = data.allow_notifications || true;
-        return super.insert(data, created_at);
+        return super.insert(data, created_at, original_id);
     }
 
     public findByName(name: string, options?) : Promise<Customer[]> {

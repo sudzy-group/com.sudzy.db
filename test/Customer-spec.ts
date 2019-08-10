@@ -36,6 +36,19 @@ class CustomerTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should insert customer with mobile")
+  public testInsertMobileWithOriginalId(done) {
+    const customers = new Customers(CustomerTest.db, Customer);
+    const ca = '' + Date.now();
+    const id = ca + Math.random();
+    customers.insert({ mobile: "6465490561" }, ca, id).then((c) => {
+      expect(c.mobile).to.equal("6465490561");
+      expect(c.id).to.equal(id);
+      expect(c.created_at).to.equal(ca);
+      done();
+    }).catch(m=>console.log(m));
+  }  
+
   @test("should insert all parameters")
   public testInsertAll(done) {
     let customerObj = {

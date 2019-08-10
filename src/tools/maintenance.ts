@@ -73,10 +73,12 @@ sync(localSource, remoteSource, () => {
 	sync(localSource, remoteSource, () => {
 		sync(localSource, remoteSource, () => {
 			copyPouchToTarget(() => {
-				sync(localTarget, remoteTarget, () => {
+				compact(localTarget, () => {
 					sync(localTarget, remoteTarget, () => {
 						sync(localTarget, remoteTarget, () => {
-							processExit(0)
+							sync(localTarget, remoteTarget, () => {
+								processExit(0)
+							})
 						})
 					})
 				})
@@ -84,6 +86,10 @@ sync(localSource, remoteSource, () => {
 		})
 	})
 })
+
+function compact(db, cb) {
+	db.compact().then(cb).catch(cb);
+}
 
 function sync(local, remote, cb) {
 	let sync = local.sync(remote);
@@ -243,7 +249,7 @@ function insertAll(es, tableName) {
 	const t = eval(tableName + '_target');
 	
 	_.each(es, e => {
-		inserts.push(t.insert(getObjectData(e)));
+		inserts.push(t.insert(getObjectData(e), e.created_at, e.id));
 	})
 
 	return Promise.all(inserts);
@@ -257,267 +263,4 @@ function getObjectData(object) {
 		}
 	})
 	return obj;
-}
-
-function customerConvertorFields() {
-	return [ "original_id", "created_at", "allow_notifications", "formatted_mobile", "mobile", "name", "capital_name", "email", "autocomplete", "street_num", "street_route", "apartment", "city", "state", "zip", "lat", "lng", "delivery_notes", "cleaning_notes", "payment_customer_id", "is_doorman" ];
-}
-
-function customerConvertor(customer: Customer) {
-		return [
-			customer.id,
-			customer.created_at,
-			customer.allow_notifications ? 1 : 0,
-			customer.formatted_mobile,
-			customer.mobile,
-			customer.name,
-			_.toUpper(customer.name),
-			customer.email,
-			customer.autocomplete,
-			customer.street_num,
-			customer.street_route,
-			customer.apartment,
-			customer.city,
-			customer.state,
-			customer.zip,
-			customer.lat,
-			customer.lng,
-			customer.delivery_notes,
-			customer.cleaning_notes,
-			customer.payment_customer_id,
-			customer.is_doorman ? 1 : 0
-		];
-}
-
-function customerCardsConvertorFields() {
-	return [ "original_id", "created_at", "customer_id", "card_id", "brand", "last4", "exp_month", "exp_year", "is_default", "is_forgotten", "in_stripe", "stripe_token" ]
-}
-
-function customerCardsConvertor(card: CustomerCard) {
-		return [
-			card.id,
-			card.created_at,
-			card.customer_id,
-			card.card_id,
-			card.brand,
-			card.last4,
-			card.exp_month,
-			card.exp_year,
-			card.is_default ? 1 : 0,
-			card.is_forgotten ? 1 : 0,
-			card.in_stripe ? 1 : 0,
-			card.stripe_token
-		]
-}
-
-function ordersConvertorFields() {
-	return [ "original_id", "created_at", "customer_id", "readable_id", "due_datetime", "rack", "notes", "tax", "tip", "discount_fixed", "discount_id", "balance", "all_ready", "all_pickedup", "delivery_pickup_id", "delivery_dropoff_id" ]
-}
-
-function ordersConvertor(order: Order) {
-	return [
-		order.id,
-		order.created_at,
-		order.customer_id,
-		order.readable_id,
-		order.due_datetime,
-		order.rack,
-		order.notes,
-		order.tax,
-		order.tip,
-		order.discount_fixed,
-		order.discount_id,
-		order.balance,
-		order.all_ready ? 1 : 0,
-		order.all_pickedup ? 1 : 0,
-		order.delivery_pickup_id,
-		order.delivery_dropoff_id
-	]
-}
-
-function orderItemsConvertorFields() {
-	return [ "original_id", "created_at", "order_id", "isbn", "type", "name", "quantity", "price", "notes" ];
-}
-
-function orderItemsConvertor(order_item: OrderItem) {
-	return [
-		order_item.id,
-		order_item.created_at,
-		order_item.order_id,
-		order_item.isbn,
-		order_item.type,
-		order_item.name,
-		order_item.quantity,
-		_.reduce(order_item.extra, (sum, e) => { return sum + (e && e.price ? parseFloat(e.price) : 0)}, order_item.price),
-		toString(order_item.notes)
-	]
-}
-
-function orderTagsConvertorFields() {
-	return [ "original_id", "created_at", "order_id", "tag_number", "is_rack" ];
-}
-
-function orderTagsConvertor(order_tag: OrderTag) {
-	return [
-		order_tag.id,
-		order_tag.created_at,
-		order_tag.order_id,
-		order_tag.tag_number,
-		order_tag.is_rack
-	]
-}
-
-function orderChargesConvertorFields() {
-	return [ "original_id", "created_at", "order_id", "amount", "charge_type", "charge_id", "card_id", "date_cash", "refund_id", "amount_refunded", "parent_id"];
-}
-
-function orderChargesConvertor(order_charge: OrderCharge) {
-	return [
-		order_charge.id,
-		order_charge.created_at,
-		order_charge.order_id,
-		order_charge.amount,
-		order_charge.charge_type,
-		order_charge.charge_id,
-		order_charge.card_id,
-		order_charge.date_cash ? new Date(order_charge.date_cash) : null,
-		order_charge.refund_id,
-		order_charge.amount_refunded,
-		order_charge.parent_id || null
-	]
-}
-
-function deliveriesConvertorFields() {
-	return [ "original_id", "created_at", "customer_id", "is_pickup", "delivery_time", "delivery_person", "is_confirmed", "is_canceled", "is_completed", "express_id", "doorman_first_name", "doorman_last_name", "doorman_signature", "doorman_signed_at", "orders" ];
-}
-
-function deliveriesConvertor(delivery: Delivery) {
-	return [
-		delivery.id,
-		delivery.created_at,
-		delivery.customer_id,
-		delivery.is_pickup ? 1 : 0,
-		parseInt(delivery.delivery_time) || 0,
-		delivery.delivery_person,
-		delivery.is_confirmed ? 1 : 0,
-		delivery.is_canceled ? 1 : 0,
-		delivery.delivery_notes == "completed" ? 1 : 0,
-		delivery.express_id,
-		delivery.doorman_first_name, 
-		delivery.doorman_last_name, 
-		delivery.doorman_signature, 
-		delivery.doorman_signed_at, 
-		delivery.orders ? delivery.orders.join(',') : null,
-	]
-}
-
-
-function timesheetsConvertorFields() {
-	return [ "original_id", "created_at", "employee_id", "is_clockin", "event_time", "comment" ];
-}
-
-function timesheetsConvertor(timesheet: Timesheet) {
-	return [
-		timesheet.id,
-		timesheet.created_at,
-		timesheet.employee_id,
-		timesheet.is_clockin ? 1 : 0,
-		parseInt(timesheet.event_time) || 0,
-		timesheet.comment
-	]
-}
-
-function timelinesConvertorFields() {
-	return [ "original_id", "created_at", "employee_id", "operation", "order_id", "text" ];
-}
-
-function timelinesConvertor(timeline: Timeline) {
-	return [
-		timeline.id,
-		timeline.created_at,
-		timeline.employee_id,
-		timeline.operation,
-		timeline.order_id,
-		timeline.text
-	]
-}
-
-function productsConvertorFields() {
-	return [ "original_id", "created_at", "name", "sku", "image", "price", "goods_in_stock" ];
-}
-
-function productsConvertor(product: Product) {
-	return [
-		product.id,
-		product.created_at,
-		product.name,
-		product.sku,
-		product.image,
-		product.price,
-		product.goods_in_stock
-	]
-}
-
-function purchasesConvertorFields() {
-	return [ "original_id", "created_at", "total_price", "payment_type", "payment_id", "refund_id", "number_of_items", 'tax', 'readable_id', 'product_ids'];
-}
-
-function purchasesConvertor(purchase: Purchase) {
-	return [
-		purchase.id,
-		purchase.created_at,
-		purchase.total_price,
-		purchase.payment_type,
-		purchase.payment_id,
-		purchase.refund_id,
-		purchase.product_ids ? purchase.product_ids.length : 0,
-		purchase.tax || 0,
-		purchase.readable_id || '',
-		purchase.product_ids ? purchase.product_ids.join(',') : ''
-	]
-}
-
-function customerCreditFields() {
-	return [ "original_id", "created_at", "customer_id", "original", "balance", "reason", "description", 'employee_id', 'payment_method', 'payment_id'];
-}
-
-function customerCreditConvertor(credit: CustomerCredit) {
-	return [
-		credit.id,
-		credit.created_at,
-		credit.customer_id,
-		credit.original,
-		credit.getBalance(),
-		credit.reason,
-		credit.description,
-		credit.employee_id,
-		credit.payment_method,
-		credit.payment_id
-	]
-}
-
-function customerCouponFields() {
-	return [ "original_id", "created_at", "customer_id", "order_id", "coupon_id"];
-}
-
-function customerCouponConvertor(coupon: CustomerCoupon) {
-	return [
-		coupon.id,
-		coupon.created_at,
-		coupon.customer_id,
-		coupon.order_id,
-		coupon.coupon_id
-	]
-}
-
-function toString(val) {
-	if (!val) {
-		return null;
-	}
-	if (_.isString(val)) {
-		return val;
-	}
-	if (_.isArray(val)) {
-		return val.join(', ');
-	}
 }
