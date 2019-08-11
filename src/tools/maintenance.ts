@@ -50,6 +50,7 @@ let p = commander
   .option('-k, --remotePouchDBUserTarget [value]', 'The remote PouchDB user target')
 	.option('-l, --remotePouchDBPasswordTarget [value]', 'The remote PouchDB password target')	
 	.option('-m, --storeIdTarget [value]', 'The store name target')	
+	.option('-d, --deliveryTimeout [value]', 'The milisecond to keep deliveries')	
 	.parse(process.argv);
 
 
@@ -66,7 +67,9 @@ var customers_target, customer_cards_target, customer_coupons_target, customer_c
 
 var docs = 0;
 
-console.log(p);
+const MONTH = 1000*60*60*24*31;
+
+const deliveryTimeout = Date.now() - (p.deliveryTimeout || MONTH);
 
 connectPouch();
 sync(localSource, remoteSource, () => {
@@ -166,7 +169,7 @@ function copyPouchToTarget(cb) {
 	}).then(() => {
 		return extract(order_charges, "order_id", 'order_charges');
 	}).then(() => {
-		return extract(deliveries, "delivery_time", 'deliveries');
+		return extract(deliveries, "delivery_time", 'deliveries', deliveriesFilter);
 	}).then(() => {
 		return extract(timesheets, "event_time", 'timesheets');
 	// }).then(() => {
@@ -253,6 +256,10 @@ function insertAll(es, tableName) {
 	})
 
 	return Promise.all(inserts);
+}
+
+function deliveriesFilter(d) {
+	return d.created_at > deliveryTimeout;
 }
 
 function getObjectData(object) {
