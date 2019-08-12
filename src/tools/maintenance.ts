@@ -54,7 +54,6 @@ let p = commander
   .option('-k, --remotePouchDBUserTarget [value]', 'The remote PouchDB user target')
 	.option('-l, --remotePouchDBPasswordTarget [value]', 'The remote PouchDB password target')	
 	.option('-m, --storeIdTarget [value]', 'The store name target')	
-	.option('-d, --deliveryTimeout [value]', 'The milisecond to keep deliveries')	
 	.parse(process.argv);
 
 
@@ -69,14 +68,16 @@ var remoteSource, remoteTarget;
 var customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products, messages, labels;
 var customers_target, customer_cards_target, customer_coupons_target, customer_credits_target, orders_target, deliveries_target, order_items_target, order_tags_target, order_charges_target, timesheets_target, timelines_target, purchases_target, products_target, messages_target, labels_target;
 const copiedCustomers = [];
+const copiedOrders = [];
 
 var docs = 0;
 
 const MONTH = 1000*60*60*24*31;
 
-const deliveryTimeout = Date.now() - (p.deliveryTimeout || MONTH);
 const MONTH_AGO = Date.now() - MONTH;
+const TWO_MONTH_AGO = Date.now() - MONTH * 2;
 const HALF_YEAR_AGO = Date.now() - MONTH * 6;
+const YEAR_AGO = Date.now() - MONTH * 12;
 
 connectPouch();
 sync(localSource, remoteSource, () => {
@@ -166,15 +167,15 @@ function copyPouchToTarget(cb) {
 
 	localSource.info().then(function(info) {
 		console.log(info)
+		return extract(order_items, "order_id", 'order_items', orderItemsFilter);
+	}).then(() => {
 		return extract(orders, "customer_id", 'orders', ordersFilter);
 	}).then(() => {
 		return extract(customers, "mobile", 'customers', customersFilter);
 	}).then(() => {
 		return extract(customer_cards, "customer_id", 'customer_cards', customerCardFilter);
 	}).then(() => {
-		return extract(order_items, "order_id", 'order_items');
-	}).then(() => {
-		return extract(order_tags, "order_id", 'order_tags');
+		return extract(order_tags, "order_id", 'order_tags', orderTagsFilter);
 	}).then(() => {
 		return extract(order_charges, "order_id", 'order_charges');
 	}).then(() => {
@@ -272,10 +273,13 @@ function insertAll(es, tableName) {
 }
 
 function deliveriesFilter(d) {
-	return d.created_at > deliveryTimeout;
+	return d.created_at > TWO_MONTH_AGO;
 }
 
 function ordersFilter(o) {
+	if (copiedOrders.indexOf(o.id) == -1) {
+		return false;
+	}
 	const oci = o.customer_id;
 	if (copiedCustomers.indexOf(oci) == -1) {
 		copiedCustomers.push(oci)
@@ -308,6 +312,23 @@ function timesheetsFilter(t) {
 
 function purchasesFilter(p) {
 	return p.created_at > HALF_YEAR_AGO;
+}
+
+function orderItemsFilter(oi) {
+	if (oi.created_at > YEAR_AGO) {
+		if (copiedOrders.indexOf(oi.order_id) == -1) {
+			copiedOrders.push(oi.order_id);
+		}
+		return true;
+	}
+	return false;
+}
+
+function orderTagsFilter(ot) {
+	if (ot.created_at < YEAR_AGO || copiedOrders.indexOf(ot.order_id) == -1) {
+		return false;
+	}
+	return true;
 }
 
 function getObjectData(object) {
