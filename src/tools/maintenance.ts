@@ -173,11 +173,11 @@ function copyPouchToTarget(cb) {
 	}).then(() => {
 		return extract(customers, "mobile", 'customers', customersFilter);
 	}).then(() => {
-		return extract(customer_cards, "customer_id", 'customer_cards', customerCardFilter);
+		return extract(customer_cards, "customer_id", 'customer_cards', customerObjectFilter);
 	}).then(() => {
-		return extract(order_tags, "order_id", 'order_tags', orderTagsFilter);
+		return extract(order_tags, "order_id", 'order_tags', orderObjectFilter);
 	}).then(() => {
-		return extract(order_charges, "order_id", 'order_charges');
+		return extract(order_charges, "order_id", 'order_charges', orderObjectFilter);
 	}).then(() => {
 		return extract(deliveries, "delivery_time", 'deliveries', deliveriesFilter);
 	}).then(() => {
@@ -189,9 +189,9 @@ function copyPouchToTarget(cb) {
 	}).then(() => {
 		return extract(purchases, "payment_id", 'purchases', purchasesFilter);
 	}).then(() => {
-		return extract(customer_credits, "customer_id", 'customer_credits');
+		return extract(customer_credits, "customer_id", 'customer_credits', customerObjectFilter);
 	}).then(() => {
-		return extract(customer_coupons, "customer_id", 'customer_coupons');
+		return extract(customer_coupons, "customer_id", 'customer_coupons', customerObjectFilter);
 	}).then(() => {
 		return extract(messages, "group_id", 'messages', messagesFilter);
 	}).then(() => {
@@ -298,7 +298,7 @@ function customersFilter(c) {
 	return false;
 }
 
-function customerCardFilter(cc) {
+function customerObjectFilter(cc) {
 	return copiedCustomers.indexOf(cc.customer_id) != -1;
 }
 
@@ -324,8 +324,8 @@ function orderItemsFilter(oi) {
 	return false;
 }
 
-function orderTagsFilter(ot) {
-	if (ot.created_at < YEAR_AGO || copiedOrders.indexOf(ot.order_id) == -1) {
+function orderObjectFilter(ot) {
+	if (copiedOrders.indexOf(ot.order_id) == -1) {
 		return false;
 	}
 	return true;
