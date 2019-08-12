@@ -54,6 +54,7 @@ let p = commander
   .option('-k, --remotePouchDBUserTarget [value]', 'The remote PouchDB user target')
 	.option('-l, --remotePouchDBPasswordTarget [value]', 'The remote PouchDB password target')	
 	.option('-m, --storeIdTarget [value]', 'The store name target')	
+	.option('-a, --syncWithTarget [value]', 'need to sync with target remote?')	
 	.parse(process.argv);
 
 
@@ -85,13 +86,20 @@ sync(localSource, remoteSource, () => {
 		sync(localSource, remoteSource, () => {
 			copyPouchToTarget(() => {
 				compact(localTarget, () => {
-					sync(localTarget, remoteTarget, () => {
-						sync(localTarget, remoteTarget, () => {
+					localTarget.info().then(function(info) {
+						console.log(info);
+						if (p.syncWithTarget) {
 							sync(localTarget, remoteTarget, () => {
-								processExit(0)
+								sync(localTarget, remoteTarget, () => {
+									sync(localTarget, remoteTarget, () => {
+										processExit(0)
+									})
+								})
 							})
-						})
-					})
+						} else {
+							processExit(0)
+						}
+					});
 				})
 			});
 		})
