@@ -20,6 +20,8 @@ import { Timesheets } from '../collections/Timesheets';
 import { Timelines } from '../collections/Timelines';
 import { Purchases } from '../collections/Purchases';
 import { Products } from '../collections/Products';
+import { Messages } from '../collections/Messages';
+import { Labels } from '../collections/Labels';
 
 import { Customer } from "../entities/Customer";
 import { CustomerCard } from "../entities/CustomerCard";
@@ -33,6 +35,8 @@ import { Timesheet } from '../entities/Timesheet';
 import { Timeline } from '../entities/Timeline';
 import { Purchase } from '../entities/Purchase';
 import { Product } from '../entities/Product';
+import { Message } from '../entities/Message';
+import { Label } from '../entities/Label';
 
 import * as commander from 'commander';
 import { CustomerCoupon, CustomerCoupons } from '..';
@@ -62,14 +66,17 @@ if (!p.remoteHost || !p.remoteHostTarget) {
 var localSource, localTarget;
 var remoteSource, remoteTarget;
 
-var customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products;
-var customers_target, customer_cards_target, customer_coupons_target, customer_credits_target, orders_target, deliveries_target, order_items_target, order_tags_target, order_charges_target, timesheets_target, timelines_target, purchases_target, products_target;
+var customers, customer_cards, customer_coupons, customer_credits, orders, deliveries, order_items, order_tags, order_charges, timesheets, timelines, purchases, products, messages, labels;
+var customers_target, customer_cards_target, customer_coupons_target, customer_credits_target, orders_target, deliveries_target, order_items_target, order_tags_target, order_charges_target, timesheets_target, timelines_target, purchases_target, products_target, messages_target, labels_target;
+const copiedCustomers = [];
 
 var docs = 0;
 
 const MONTH = 1000*60*60*24*31;
 
 const deliveryTimeout = Date.now() - (p.deliveryTimeout || MONTH);
+const MONTH_AGO = Date.now() - MONTH;
+const HALF_YEAR_AGO = Date.now() - MONTH * 6;
 
 connectPouch();
 sync(localSource, remoteSource, () => {
@@ -135,6 +142,8 @@ function connectPouch() {
 	timelines = new Timelines(localSource, Timeline);
 	products = new Products(localSource, Product);
 	purchases = new Purchases(localSource, Purchase);
+	messages = new Messages(localSource, Message);
+	labels = new Labels(localSource, Label);
 
 	customers_target = new Customers(localTarget, Customer);
 	customer_cards_target = new CustomerCards(localTarget, CustomerCard);
@@ -148,20 +157,20 @@ function connectPouch() {
 	timesheets_target = new Timesheets(localTarget, Timesheet);
 	products_target = new Products(localTarget, Product);
 	purchases_target = new Purchases(localTarget, Purchase);	
+	messages_target = new Messages(localTarget, Message);
+	labels_target = new Labels(localTarget, Label);
+
 }
 
 function copyPouchToTarget(cb) {
 
-	/////////////////////
-	// Customers
-	/////////////////////
 	localSource.info().then(function(info) {
 		console.log(info)
-		return extract(customers, "mobile", 'customers');
+		return extract(orders, "customer_id", 'orders', ordersFilter);
 	}).then(() => {
-		return extract(customer_cards, "customer_id", 'customer_cards');
+		return extract(customers, "mobile", 'customers', customersFilter);
 	}).then(() => {
-		return extract(orders, "customer_id", 'orders');
+		return extract(customer_cards, "customer_id", 'customer_cards', customerCardFilter);
 	}).then(() => {
 		return extract(order_items, "order_id", 'order_items');
 	}).then(() => {
@@ -171,17 +180,21 @@ function copyPouchToTarget(cb) {
 	}).then(() => {
 		return extract(deliveries, "delivery_time", 'deliveries', deliveriesFilter);
 	}).then(() => {
-		return extract(timesheets, "event_time", 'timesheets');
+		return extract(timesheets, "event_time", 'timesheets', timesheetsFilter);
 	// }).then(() => {
 	// 	return extract(timelines, "order_id", 'timelines');
 	}).then(() => {
 		return extract(products, "sku", 'products');
 	}).then(() => {
-		return extract(purchases, "payment_id", 'purchases');
+		return extract(purchases, "payment_id", 'purchases', purchasesFilter);
 	}).then(() => {
 		return extract(customer_credits, "customer_id", 'customer_credits');
 	}).then(() => {
 		return extract(customer_coupons, "customer_id", 'customer_coupons');
+	}).then(() => {
+		return extract(messages, "group_id", 'messages', messagesFilter);
+	}).then(() => {
+		return extract(labels, "label", 'labels');
 	}).then(() => {
 		console.log("Disconnecting");
 		cb()
@@ -260,6 +273,41 @@ function insertAll(es, tableName) {
 
 function deliveriesFilter(d) {
 	return d.created_at > deliveryTimeout;
+}
+
+function ordersFilter(o) {
+	const oci = o.customer_id;
+	if (copiedCustomers.indexOf(oci) == -1) {
+		copiedCustomers.push(oci)
+	}
+	return true;
+}
+
+function customersFilter(c) {
+	if (copiedCustomers.indexOf(c.id) != -1) {
+		return true;
+	}
+	if (c.created_at > MONTH_AGO) {
+		copiedCustomers.push(c.id);
+		return true;
+	}
+	return false;
+}
+
+function customerCardFilter(cc) {
+	return copiedCustomers.indexOf(cc.customer_id) != -1;
+}
+
+function messagesFilter(m) {
+	return m.created_at > MONTH_AGO;
+}
+
+function timesheetsFilter(t) {
+	return t.created_at > HALF_YEAR_AGO;
+}
+
+function purchasesFilter(p) {
+	return p.created_at > HALF_YEAR_AGO;
 }
 
 function getObjectData(object) {
