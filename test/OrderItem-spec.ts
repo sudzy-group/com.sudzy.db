@@ -54,6 +54,29 @@ class OrderItemTest {
     }).catch(m=>console.log(m));
   }
 
+  @test("should insert order item empty notes")
+  public testInsertOrderItemWithEmptyNotes(done) {
+    let order_items = OrderItemTest.order_items;
+    let orderItemObj = {
+     order_id: "111",
+     isbn: "1234",
+     type: 'wf',
+     name: "Washfold",     
+     price: 10.00,
+     quantity: 1,
+     manual_name: "ouch",
+   };
+   order_items.insert(orderItemObj).then((item) => {
+      expect(item.order_id).to.equal("111");
+      expect(item.isbn).to.equal("1234");
+      expect(item.price).to.equal(10.00);
+      expect(item.quantity).to.equal(1);
+      expect(item.manual_name).to.equal("ouch");
+      expect(item.notes).to.be.null;
+      done();
+    }).catch(m=>console.log(m));
+  }
+
   @test("should insert 3 order items")
   public testInsert3OrderItem(done) {
     let order_items = OrderItemTest.order_items;
