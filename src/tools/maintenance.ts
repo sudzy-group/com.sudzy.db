@@ -342,7 +342,7 @@ function orderObjectFilter(ot) {
 function getObjectData(object) {
 	let obj = {}
 	_.forIn((<any> object).metadata, function(value, key) {
-		if (value.mandatory || (object[key] !== null && object[key] !== undefined) ) {
+		if (value.mandatory || (object[key] !== null && object[key] !== undefined && (!_.isArray(object[key]) || object[key].length != 0)) ) {
 			obj[key] = object[key];
 		}
 	})
