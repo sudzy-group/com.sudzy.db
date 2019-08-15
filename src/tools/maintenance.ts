@@ -177,34 +177,34 @@ function copyPouchToTarget(cb) {
 		console.log(info)
 		return extract(order_items, "order_id", 'order_items', orderItemsFilter);
 	}).then(() => {
-		return extract(orders, "customer_id", 'orders', ordersFilter);
-	}).then(() => {
-		return extract(customers, "mobile", 'customers', customersFilter);
-	}).then(() => {
-		return extract(customer_cards, "customer_id", 'customer_cards', customerObjectFilter);
-	}).then(() => {
-		return extract(order_tags, "order_id", 'order_tags', orderObjectFilter);
-	}).then(() => {
-		return extract(order_charges, "order_id", 'order_charges', orderObjectFilter);
-	}).then(() => {
-		return extract(deliveries, "delivery_time", 'deliveries', deliveriesFilter);
-	}).then(() => {
-		return extract(timesheets, "event_time", 'timesheets', timesheetsFilter);
+	// 	return extract(orders, "customer_id", 'orders', ordersFilter);
 	// }).then(() => {
-	// 	return extract(timelines, "order_id", 'timelines');
-	}).then(() => {
-		return extract(products, "sku", 'products');
-	}).then(() => {
-		return extract(purchases, "payment_id", 'purchases', purchasesFilter);
-	}).then(() => {
-		return extract(customer_credits, "customer_id", 'customer_credits', customerObjectFilter);
-	}).then(() => {
-		return extract(customer_coupons, "customer_id", 'customer_coupons', customerObjectFilter);
-	}).then(() => {
-		return extract(messages, "group_id", 'messages', messagesFilter);
-	}).then(() => {
-		return extract(labels, "label", 'labels');
-	}).then(() => {
+	// 	return extract(customers, "mobile", 'customers', customersFilter);
+	// }).then(() => {
+	// 	return extract(customer_cards, "customer_id", 'customer_cards', customerObjectFilter);
+	// }).then(() => {
+	// 	return extract(order_tags, "order_id", 'order_tags', orderObjectFilter);
+	// }).then(() => {
+	// 	return extract(order_charges, "order_id", 'order_charges', orderObjectFilter);
+	// }).then(() => {
+	// 	return extract(deliveries, "delivery_time", 'deliveries', deliveriesFilter);
+	// }).then(() => {
+	// 	return extract(timesheets, "event_time", 'timesheets', timesheetsFilter);
+	// // }).then(() => {
+	// // 	return extract(timelines, "order_id", 'timelines');
+	// }).then(() => {
+	// 	return extract(products, "sku", 'products');
+	// }).then(() => {
+	// 	return extract(purchases, "payment_id", 'purchases', purchasesFilter);
+	// }).then(() => {
+	// 	return extract(customer_credits, "customer_id", 'customer_credits', customerObjectFilter);
+	// }).then(() => {
+	// 	return extract(customer_coupons, "customer_id", 'customer_coupons', customerObjectFilter);
+	// }).then(() => {
+	// 	return extract(messages, "group_id", 'messages', messagesFilter);
+	// }).then(() => {
+	// 	return extract(labels, "label", 'labels');
+	// }).then(() => {
 		console.log("Disconnecting");
 		cb()
 	}).catch(m => {
