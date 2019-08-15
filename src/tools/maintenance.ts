@@ -346,6 +346,5 @@ function getObjectData(object) {
 			obj[key] = object[key];
 		}
 	})
-	console.log(JSON.stringify(obj))
 	return obj;
 }
