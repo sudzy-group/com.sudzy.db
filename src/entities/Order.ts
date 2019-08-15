@@ -132,6 +132,13 @@ export class Order extends Entity {
     public delivery_dropoff_id: string;
 
     @EntityField({
+        group: "delivery",
+        name: "customer_name",
+        description: "Delivery Customer Name"
+    })
+    public customer_name: string;    
+
+    @EntityField({
         group: "wholesale",
         name: "original_id",
         description: "Original ticket id for wholesale order",
