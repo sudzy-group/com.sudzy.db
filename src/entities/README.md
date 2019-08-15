@@ -82,6 +82,7 @@
 | checkpoint          | `string`   | cp        | Free text checkpoint                     | Searchable            |
 | delivery_pickup_id  | `string`   | delivery  | Delivery pickup id                       | Validated             |
 | delivery_dropoff_id | `string`   | delivery  | Delivery dropoff id                      | Validated             |
+| customer_name       | `string`   | delivery  | Delivery Customer Name                   |                       |
 | original_id         | `string`   | wholesale | Original ticket id for wholesale order   | Searchable            |
 # OrderItem
 | Field Name        | Field Type | Group       | Description                              | Comments       |
