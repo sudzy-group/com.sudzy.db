@@ -77,7 +77,6 @@ var docs = 0;
 const MONTH = 1000*60*60*24*31;
 
 const MONTH_AGO = Date.now() - MONTH;
-const TWO_MONTH_AGO = Date.now() - MONTH * 2;
 const HALF_YEAR_AGO = Date.now() - MONTH * 6;
 const YEAR_AGO = Date.now() - MONTH * 12;
 
@@ -287,7 +286,7 @@ function deliveriesFilter(d) {
 }
 
 function ordersFilter(o) {
-	if (o.all_pickedup && pickedupOrder.indexOf(o.id) == -1) {
+	if (o.created_at < MONTH_AGO && o.all_pickedup && pickedupOrder.indexOf(o.id) == -1) {
 		pickedupOrder.push(o.id)
 	}
 	if (copiedOrders.indexOf(o.id) == -1) {
@@ -302,7 +301,7 @@ function ordersFilter(o) {
 
 function ordersShrink(o) {
 	delete o.checkpoint;
-	if (o.created_at < TWO_MONTH_AGO) {
+	if (o.created_at < MONTH_AGO) {
 		delete o.notes;
 		delete o.due_datetime;
 		delete o.delivery_pickup_id;
