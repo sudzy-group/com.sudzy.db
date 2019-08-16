@@ -70,6 +70,7 @@ var customers, customer_cards, customer_coupons, customer_credits, orders, deliv
 var customers_target, customer_cards_target, customer_coupons_target, customer_credits_target, orders_target, deliveries_target, order_items_target, order_tags_target, order_charges_target, timesheets_target, timelines_target, purchases_target, products_target, messages_target, labels_target;
 const copiedCustomers = [];
 const copiedOrders = [];
+const pickedupOrder = [];
 
 var docs = 0;
 
@@ -177,13 +178,13 @@ function copyPouchToTarget(cb) {
 		console.log(info)
 		return extract(order_items, "order_id", 'order_items', orderItemsFilter);
 	}).then(() => {
-		return extract(orders, "customer_id", 'orders', ordersFilter);
+		return extract(orders, "customer_id", 'orders', ordersFilter, ordersShrink);
 	}).then(() => {
 		return extract(customers, "mobile", 'customers', customersFilter);
 	}).then(() => {
 		return extract(customer_cards, "customer_id", 'customer_cards', customerObjectFilter);
 	}).then(() => {
-		return extract(order_tags, "order_id", 'order_tags', orderObjectFilter);
+		return extract(order_tags, "order_id", 'order_tags', orderTagsFilter);
 	}).then(() => {
 		return extract(order_charges, "order_id", 'order_charges', orderObjectFilter);
 	}).then(() => {
@@ -213,7 +214,7 @@ function copyPouchToTarget(cb) {
 	});
 }
 
-function extract(collection, field, keyName, filterFunction?) {
+function extract(collection, field, keyName, filterFunction?, shrinkFunction?) {
 	console.log('extracting ' + keyName);
 	return new Promise((resolve, reject) => {
 		collection.findIds(field, "", { startsWith: true }).then(ids => {
@@ -235,7 +236,7 @@ function extract(collection, field, keyName, filterFunction?) {
 						if (filterFunction) {
 							result = _.filter(result, filterFunction);
 						}
-						return insertAll(result, keyName);
+						return insertAll(result, keyName, shrinkFunction);
 					}).then((r) => {
 						callback(null, r);
 					}).catch(m=> {
@@ -262,7 +263,8 @@ function processExit(status = 0) {
 	process.exit(status);
 };
 
-function insertAll(es, tableName) {
+function insertAll(es, tableName, shrinkFunction?) {
+	shrinkFunction = shrinkFunction || _.identity;
 	console.log("Preparing conversion of " + tableName + ".");
 	console.log("Entities to convert: ", es.length);
 
@@ -274,17 +276,20 @@ function insertAll(es, tableName) {
 	const t = eval(tableName + '_target');
 	
 	_.each(es, e => {
-		inserts.push(t.insert(getObjectData(e), e.created_at, e.id));
+		inserts.push(t.insert(shrinkFunction(getObjectData(e)), e.created_at, e.id));
 	})
 
 	return Promise.all(inserts);
 }
 
 function deliveriesFilter(d) {
-	return d.created_at > TWO_MONTH_AGO;
+	return d.created_at > MONTH_AGO;
 }
 
 function ordersFilter(o) {
+	if (o.all_pickedup && pickedupOrder.indexOf(o.id) == -1) {
+		pickedupOrder.push(o.id)
+	}
 	if (copiedOrders.indexOf(o.id) == -1) {
 		return false;
 	}
@@ -293,6 +298,18 @@ function ordersFilter(o) {
 		copiedCustomers.push(oci)
 	}
 	return true;
+}
+
+function ordersShrink(o) {
+	delete o.checkpoint;
+	if (o.created_at < TWO_MONTH_AGO) {
+		delete o.notes;
+		delete o.due_datetime;
+		delete o.delivery_pickup_id;
+		delete o.delivery_dropoff_id;
+		delete o.customer_name;
+	}
+	return o;
 }
 
 function customersFilter(c) {
@@ -334,6 +351,17 @@ function orderItemsFilter(oi) {
 
 function orderObjectFilter(ot) {
 	if (copiedOrders.indexOf(ot.order_id) == -1) {
+		return false;
+	}
+	return true;
+}
+
+function orderTagsFilter(ot) {
+	if (!orderObjectFilter(ot)) {
+		return false;
+	}
+
+	if (pickedupOrder.indexOf(ot.order_id) != -1) {
 		return false;
 	}
 	return true;
