@@ -275,7 +275,7 @@ function insertAll(es, tableName, shrinkFunction?) {
 	const t = eval(tableName + '_target');
 	
 	_.each(es, e => {
-		inserts.push(t.insert(shrinkFunction(getObjectData(e)), e.created_at, e.id));
+		inserts.push(t.insert(shrinkFunction(getObjectData(e), e.created_at), e.created_at, e.id));
 	})
 
 	return Promise.all(inserts);
@@ -299,9 +299,9 @@ function ordersFilter(o) {
 	return true;
 }
 
-function ordersShrink(o) {
+function ordersShrink(o, created_at) {
 	delete o.checkpoint;
-	if (o.created_at < MONTH_AGO) {
+	if (created_at < MONTH_AGO) {
 		delete o.notes;
 		delete o.due_datetime;
 		delete o.delivery_pickup_id;
