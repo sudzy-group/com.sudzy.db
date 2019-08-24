@@ -308,6 +308,9 @@ function ordersShrink(o, created_at) {
 		delete o.delivery_dropoff_id;
 		delete o.customer_name;
 	}
+	if (o.balance === 0) {
+		delete o.balance;
+	}
 	return o;
 }
 
