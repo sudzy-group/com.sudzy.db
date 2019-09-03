@@ -203,7 +203,7 @@ function copyPouchToTarget(cb) {
 	}).then(() => {
 		return extract(messages, "group_id", 'messages', messagesFilter);
 	}).then(() => {
-		return extract(labels, "label", 'labels');
+		return extract(labels, "label", 'labels', labelsFilter);
 	}).then(() => {
 		console.log("Disconnecting");
 		cb()
@@ -331,6 +331,13 @@ function customerObjectFilter(cc) {
 
 function messagesFilter(m) {
 	return m.created_at > MONTH_AGO;
+}
+
+function labelsFilter(l) {
+	if (l.order_id && l.order_id.substr(0,13) < HALF_YEAR_AGO) {
+		return false;
+	}
+	return true;
 }
 
 function timesheetsFilter(t) {
