@@ -124,11 +124,11 @@ function copyPouchToSQL() {
 	}).then(() => {
 		return extract(customer_cards, "customer_id", customerCardsConvertor, customerCardsConvertorFields, 'customer_cards');
 	}).then(() => {
-		return extract(orders, "customer_id", ordersConvertor, ordersConvertorFields, 'orders', longFilter);
+		return extract(orders, "customer_id", ordersConvertor, ordersConvertorFields, 'orders', mediumFilter);
 	}).then(() => {
-		return extract(order_items, "order_id", orderItemsConvertor, orderItemsConvertorFields, 'order_items', longFilter);
+		return extract(order_items, "order_id", orderItemsConvertor, orderItemsConvertorFields, 'order_items', mediumFilter);
 	}).then(() => {
-		return extract(order_tags, "order_id", orderTagsConvertor, orderTagsConvertorFields, 'order_tags', longFilter);
+		return extract(order_tags, "order_id", orderTagsConvertor, orderTagsConvertorFields, 'order_tags', mediumFilter);
 	}).then(() => {
 		return extract(order_charges, "order_id", orderChargesConvertor, orderChargesConvertorFields, 'order_charges', orderChargersFilter);
 	}).then(() => {
