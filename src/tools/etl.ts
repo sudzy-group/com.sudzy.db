@@ -124,23 +124,23 @@ function copyPouchToSQL() {
 	}).then(() => {
 		return extract(customer_cards, "customer_id", customerCardsConvertor, customerCardsConvertorFields, 'customer_cards');
 	}).then(() => {
-		return extract(orders, "customer_id", ordersConvertor, ordersConvertorFields, 'orders');
+		return extract(orders, "customer_id", ordersConvertor, ordersConvertorFields, 'orders', longFilter);
 	}).then(() => {
-		return extract(order_items, "order_id", orderItemsConvertor, orderItemsConvertorFields, 'order_items');
+		return extract(order_items, "order_id", orderItemsConvertor, orderItemsConvertorFields, 'order_items', longFilter);
 	}).then(() => {
-		return extract(order_tags, "order_id", orderTagsConvertor, orderTagsConvertorFields, 'order_tags');
+		return extract(order_tags, "order_id", orderTagsConvertor, orderTagsConvertorFields, 'order_tags', longFilter);
 	}).then(() => {
 		return extract(order_charges, "order_id", orderChargesConvertor, orderChargesConvertorFields, 'order_charges', orderChargersFilter);
 	}).then(() => {
-		return extract(deliveries, "delivery_time", deliveriesConvertor, deliveriesConvertorFields, 'deliveries');
+		return extract(deliveries, "delivery_time", deliveriesConvertor, deliveriesConvertorFields, 'deliveries', shortFilter);
 	}).then(() => {
-		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets');
+		return extract(timesheets, "event_time", timesheetsConvertor, timesheetsConvertorFields, 'timesheets', mediumFilter);
 	}).then(() => {
-		return extract(timelines, "order_id", timelinesConvertor, timelinesConvertorFields, 'timelines');
+		return extract(timelines, "order_id", timelinesConvertor, timelinesConvertorFields, 'timelines', shortFilter);
 	}).then(() => {
 		return extract(products, "sku", productsConvertor, productsConvertorFields, 'products');
 	}).then(() => {
-		return extract(purchases, "payment_id", purchasesConvertor, purchasesConvertorFields, 'purchases');
+		return extract(purchases, "payment_id", purchasesConvertor, purchasesConvertorFields, 'purchases', mediumFilter);
 	}).then(() => {
 		return extract(customer_credits, "customer_id", customerCreditConvertor, customerCreditFields, 'customer_credits');
 	}).then(() => {
@@ -367,6 +367,22 @@ function orderChargesConvertor(order_charge: OrderCharge) {
 
 function orderChargersFilter(order_charge: OrderCharge) {
 	return !order_charge.parent_id;
+}
+
+var long = moment().subtract(6, 'months').format('x');
+var med = moment().subtract(3, 'months').format('x');
+var short = moment().subtract(1, 'month').format('x');
+
+function longFilter(obj: any) {
+	return obj.created_at > long ;
+}
+
+function mediumFilter(obj: any) {
+	return obj.created_at > med ;
+}
+
+function shortFilter(obj: any) {
+	return obj.created_at > short ;
 }
 
 function deliveriesConvertorFields() {
