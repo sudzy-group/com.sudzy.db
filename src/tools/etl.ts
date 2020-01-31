@@ -369,8 +369,8 @@ function orderChargersFilter(order_charge: OrderCharge) {
 	return !order_charge.parent_id;
 }
 
-var long = moment().subtract(6, 'months').format('x');
-var med = moment().subtract(3, 'months').format('x');
+var long = moment().subtract(7, 'months').format('x');
+var med = moment().subtract(5, 'months').format('x');
 var short = moment().subtract(1, 'month').format('x');
 
 function longFilter(obj: any) {
