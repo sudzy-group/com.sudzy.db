@@ -247,20 +247,20 @@ function insertAll(es, tableName, shrinkFunction?) {
 	console.log("Preparing conversion of " + tableName + ".");
 	console.log("Entities to convert: ", es.length);
 
-	return Promise.resolve([]);
+	// return Promise.resolve([]);
 
-	// if (es.length == 0) {
-	// 	return Promise.resolve([]);
-	// }
+	if (es.length == 0) {
+		return Promise.resolve([]);
+	}
 
-	// let inserts = [];
-	// const t = eval(tableName);
+	let removes = [];
+	const t = eval(tableName);
 	
-	// _.each(es, e => {
-	// 	inserts.push(t.remove(e));
-	// })
+	_.each(es, e => {
+		removes.push(t.remove(e));
+	})
 
-	// return Promise.all(inserts);
+	return Promise.all(removes);
 }
 
 function deliveriesFilter(d) {
