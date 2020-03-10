@@ -218,7 +218,7 @@ function extract(collection, field, keyName, filterFunction?, shrinkFunction?) {
 						if (filterFunction) {
 							result = _.filter(result, _.negate(filterFunction));
 						}
-						return insertAll(result, keyName, shrinkFunction);
+						return insertAll(result, collection, shrinkFunction);
 					}).then((r) => {
 						console.log('done converting...');
 						callback(null, r);
@@ -248,9 +248,9 @@ function processExit(status = 0) {
 	process.exit(status);
 };
 
-function insertAll(es, tableName, shrinkFunction?) {
+function insertAll(es, collection, shrinkFunction?) {
 	shrinkFunction = shrinkFunction || _.identity;
-	console.log("Preparing conversion of " + tableName + ".");
+	console.log("Preparing conversion");
 	console.log("Entities to convert: ", es.length);
 
 	// return Promise.resolve([]);
@@ -259,12 +259,7 @@ function insertAll(es, tableName, shrinkFunction?) {
 		return Promise.resolve([]);
 	}
 
-	let removes = [];
-	const t = eval(tableName);
-	
-	_.each(es, e => {
-		removes.push(t.remove(e));
-	})
+	let removes = _.map(es, e => (collection.remove(e)));
 
 	return Promise.all(removes);
 }
