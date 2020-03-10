@@ -87,11 +87,13 @@ sync(remoteSource, localSource, () => {
 							sync(localSource, remoteSource, () => {
 								sync(localSource, remoteSource, () => {
 									sync(localSource, remoteSource, () => {
+										console.log("exiting");
 										processExit(0)
 									})
 								})
 							})
 						} else {
+							console.log("exiting");
 							processExit(0)
 						}
 					});
@@ -107,7 +109,7 @@ function compact(db, cb) {
 
 function sync(local, remote, cb) {
 	console.log('start sync');
-	let sync = local.replicate.to(remote);
+	let sync = local.sync(remote);
 	sync.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
@@ -188,6 +190,7 @@ function copyPouchToTarget(cb) {
 		console.log("Disconnecting");
 		cb()
 	}).catch(m => {
+		console.log('error detected');
 		console.log(m);
 		cb(1)
 	});
@@ -229,6 +232,7 @@ function extract(collection, field, keyName, filterFunction?, shrinkFunction?) {
 			}
 			async.series(ps, (err, results) => {
 				if (err) {
+					console.log("async.series error");
 					console.log(err);
 				}
 				return resolve(results);
