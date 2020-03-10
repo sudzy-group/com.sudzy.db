@@ -220,6 +220,7 @@ function extract(collection, field, keyName, filterFunction?, shrinkFunction?) {
 						}
 						return insertAll(result, keyName, shrinkFunction);
 					}).then((r) => {
+						console.log('done converting...');
 						callback(null, r);
 					}).catch(m=> {
 						console.log('error converting...');
@@ -235,6 +236,7 @@ function extract(collection, field, keyName, filterFunction?, shrinkFunction?) {
 					console.log("async.series error");
 					console.log(err);
 				}
+				console.log('processing converting...');
 				return resolve(results);
 			})
 
