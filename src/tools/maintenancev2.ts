@@ -106,9 +106,18 @@ function compact(db, cb) {
 }
 
 function sync(local, remote, cb) {
+	console.log('start sync');
 	let sync = local.sync(remote);
 	sync.on('complete', () => { 
 		cb && cb();
+	}).on('paused', info => {
+		console.log('paused sync');
+		local.info().then(infoLocal => {
+			remote.info().then(infoRemote => {
+				console.log('infoLocal', infoLocal)
+				console.log('infoRemote', infoRemote)
+			})
+		})
 	}).on('change', info => {
 		console.log('Changed ' + _.get(info, 'change.docs_read'));
 	}).on('error', () => {
