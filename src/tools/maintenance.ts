@@ -112,8 +112,8 @@ function compact(db, cb) {
 
 function sync(local, remote, cb) {
 	console.log('start sync');
-	let sync = local.sync(remote);
-	sync.on('complete', () => { 
+	let syncOp = local.sync(remote);
+	syncOp.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');
