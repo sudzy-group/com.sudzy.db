@@ -120,11 +120,23 @@ function sync(local, remote, cb) {
 				console.log('infoRemote', infoRemote)
 			})
 		})
-	}).on('change', info => {
-		console.log('Changed ' + _.get(info, 'change.docs_read'));
+	}).on('change', info => {		
+		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
 	}).on('error', () => {
-		cb && cb();
+		console.log('paused sync');
+		local.info().then(infoLocal => {
+			remote.info().then(infoRemote => {
+				sync(local, remote, cb);
+				console.log('infoLocal', infoLocal)
+				console.log('infoRemote', infoRemote)
+			})
+		})
 	})
+}
+
+function progress(info) {
+	const s = _.get(info, 'change.last_seq');
+	return s ? Number(s.substring(0,s.indexOf('-'))) : '';
 }
 
 function connectPouch() {
