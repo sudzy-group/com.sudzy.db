@@ -123,7 +123,7 @@ function sync(local, remote, cb) {
 	}).on('change', info => {		
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
 	}).on('error', () => {
-		console.log('paused sync');
+		console.log('error sync');
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
 				sync(local, remote, cb);
