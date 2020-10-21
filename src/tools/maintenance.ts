@@ -117,16 +117,10 @@ function sync(local, remote, cb) {
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');
-		local.info().then(infoLocal => {
-			remote.info().then(infoRemote => {
-				console.log('infoLocal', infoLocal)
-				console.log('infoRemote', infoRemote)
-			})
-		})
 	}).on('change', info => {		
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
 	}).on('error', () => {
-		console.log('paused sync');
+		console.log('error sync');
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
 				sync(local, remote, cb);
