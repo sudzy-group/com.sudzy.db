@@ -25,6 +25,7 @@
 | cleaning_notes      | `string`   | notes         | Cleaning Notes                                       |                       |
 | payment_customer_id | `string`   | payment       | Payment customer id                                  | Validated             |
 | route_id            | `string`   | route         | Route id of the customer                             | Searchable            |
+| hidden_notes        | `string`   | hidden        | Hidden Notes                                         |                       |
 # CustomerCard
 | Field Name   | Field Type | Group    | Description                                  | Comments       |
 | ------------ | ---------- | -------- | -------------------------------------------- | -------------- |

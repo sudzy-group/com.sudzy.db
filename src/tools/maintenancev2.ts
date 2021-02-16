@@ -73,7 +73,7 @@ const MONTH = 1000*60*60*24*31;
 
 const MONTH_AGO = Date.now() - MONTH;
 const HALF_YEAR_AGO = Date.now() - MONTH * 6;
-const YEAR_AGO = Date.now() - MONTH * 6;
+const YEAR_AGO = Date.now() - MONTH * 10;
 
 connectPouch();
 sync(remoteSource, localSource, () => {

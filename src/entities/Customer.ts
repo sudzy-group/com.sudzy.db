@@ -183,6 +183,13 @@ export class Customer extends Entity {
     })
     public route_id: string;
 
+    @EntityField({
+        group: "hidden",
+        name: "hidden_notes",
+        description: "Hidden Notes"
+    })
+    public hidden_notes: string;
+
     protected last4(mobile) {
         return mobile.substr(-4);
     }
