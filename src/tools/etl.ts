@@ -39,7 +39,7 @@ import { Database } from '../access/Database';
 import * as commander from 'commander';
 import { CustomerCoupon, CustomerCoupons } from '..';
 
-const SKIP_INTERVAL = 500;
+const SKIP_INTERVAL = 100;
 
 let p = commander
   .version('0.0.1')
