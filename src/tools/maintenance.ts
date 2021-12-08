@@ -77,8 +77,8 @@ var docs = 0;
 const MONTH = 1000*60*60*24*31;
 
 const MONTH_AGO = Date.now() - MONTH;
-const HALF_YEAR_AGO = Date.now() - MONTH * 6;
-const YEAR_AGO = Date.now() - MONTH * 12;
+const HALF_YEAR_AGO = Date.now() - MONTH * 5;
+const YEAR_AGO = Date.now() - MONTH * 8;
 
 connectPouch();
 sync(localSource, remoteSource, () => {
