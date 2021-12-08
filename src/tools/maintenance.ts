@@ -113,11 +113,16 @@ function compact(db, cb) {
 function sync(local, remote, cb) {
 	console.log('start sync');
 	let syncOp = local.sync(remote);
+	let inProgress = false
 	syncOp.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');
+		if (!inProgress) {
+			cb && cb();
+		}
 	}).on('change', info => {		
+		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
 	}).on('error', () => {
 		console.log('error sync');
