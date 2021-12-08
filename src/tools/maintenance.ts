@@ -118,9 +118,7 @@ function sync(local, remote, cb) {
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');
-		if (!inProgress) {
-			cb && cb();
-		}
+		cb && cb();
 	}).on('change', info => {		
 		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
