@@ -37,7 +37,7 @@
     "@types/mocha": "^2.0.0",
     "@types/node": "^7.0.16",
     "acorn": "^4.0.11",
-    "async": "^2.4.1",
+    "async": "^3.2.2",
     "babel-plugin-istanbul": "^4.0.0",
     "chai": "^3.0.0",
     "commander": "^2.9.0",
