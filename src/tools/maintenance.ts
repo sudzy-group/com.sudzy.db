@@ -118,9 +118,15 @@ function sync(local, remote, cb) {
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');
-		if (!inProgress) {
-			cb && cb();
-		}
+		local.info().then(infoLocal => {
+			remote.info().then(infoRemote => {
+				console.log('infoLocal', infoLocal)
+				console.log('infoRemote', infoRemote)
+			})
+		})		
+		cb && cb();
+		// if (!inProgress) {
+		// }
 	}).on('change', info => {		
 		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
@@ -142,6 +148,7 @@ function progress(info) {
 }
 
 function connectPouch() {
+	console.log('*** connectPouch')
 	localSource = new PouchDB(p.storeId);
 	remoteSource = new PouchDB(p.remoteHost + '/' + p.storeId, p.remotePouchDBUser ? {
 		auth: {
@@ -192,8 +199,9 @@ function connectPouch() {
 }
 
 function copyPouchToTarget(cb) {
-
+	console.log('*** copyPouchToTarget')
 	localSource.info().then(function(info) {
+		console.log('*** localSource')
 		console.log(info)
 		return extract(order_items, "order_id", 'order_items', orderItemsFilter);
 	}).then(() => {
