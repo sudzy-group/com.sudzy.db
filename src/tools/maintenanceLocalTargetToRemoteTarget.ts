@@ -103,9 +103,14 @@ function sync(local, remote, cb) {
 		cb && cb();
 	}).on('paused', info => {
 		console.log('paused sync');	
-		cb && cb();
-		// if (!inProgress) {
-		// }
+		local.info().then(infoLocal => {
+			remote.info().then(infoRemote => {
+				sync(local, remote, cb);
+				console.log('infoLocal', infoLocal)
+				console.log('infoRemote', infoRemote)
+			})
+		})
+
 	}).on('change', info => {		
 		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
