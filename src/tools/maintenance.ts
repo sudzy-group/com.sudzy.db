@@ -321,7 +321,7 @@ function insertAll(es, tableName, shrinkFunction?) {
 }
 
 function deliveriesFilter(d) {
-	return d.created_at > MONTH_AGO;
+	return d.created_at > HALF_YEAR_AGO;
 }
 
 function ordersFilter(o) {
@@ -361,7 +361,7 @@ function customersFilter(c) {
 		copiedCustomers.push(c.id);
 		return true;
 	}
-	return false;
+	return true;
 }
 
 function customerObjectFilter(cc) {
