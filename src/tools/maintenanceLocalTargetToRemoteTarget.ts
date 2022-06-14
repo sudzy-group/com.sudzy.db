@@ -102,13 +102,7 @@ function sync(local, remote, cb) {
 	syncOp.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
-		console.log('paused sync');
-		local.info().then(infoLocal => {
-			remote.info().then(infoRemote => {
-				console.log('infoLocal', infoLocal)
-				console.log('infoRemote', infoRemote)
-			})
-		})		
+		console.log('paused sync');	
 		cb && cb();
 		// if (!inProgress) {
 		// }
