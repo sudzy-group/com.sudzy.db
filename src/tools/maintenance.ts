@@ -373,10 +373,11 @@ function messagesFilter(m) {
 }
 
 function labelsFilter(l) {
+	// TODO - no heatseals
 	if (l.order_id && l.order_id.substr(0,13) < HALF_YEAR_AGO) {
 		return false;
 	}
-	return true;
+	return false;
 }
 
 function timesheetsFilter(t) {
