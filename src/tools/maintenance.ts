@@ -92,6 +92,7 @@ sync(remoteSource, localSource, () => {
 
 			if (p.syncWithTarget === "false") {
 				console.log("exiting");
+				processExit(0)
 				return
 			}
 			copyPouchToTarget(() => {
