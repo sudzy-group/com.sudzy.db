@@ -90,7 +90,7 @@ sync(remoteSource, localSource, () => {
 				console.log(info)
 			})
 
-			if (!p.syncWithTarget) {
+			if (p.syncWithTarget === "false") {
 				console.log("exiting");
 				return
 			}
