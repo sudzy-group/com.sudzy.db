@@ -81,9 +81,19 @@ const HALF_YEAR_AGO = Date.now() - MONTH * 5;
 const YEAR_AGO = Date.now() - MONTH * 8;
 
 connectPouch();
-sync(localSource, remoteSource, () => {
-	sync(localSource, remoteSource, () => {
-		sync(localSource, remoteSource, () => {
+sync(remoteSource, localSource, () => {
+	sync(remoteSource, localSource, () => {
+		sync(remoteSource, localSource, () => {
+
+			localSource.info().then(function(info) {
+				console.log('*** localSource')
+				console.log(info)
+			})
+
+			if (!p.syncWithTarget) {
+				console.log("exiting");
+				return
+			}
 			copyPouchToTarget(() => {
 				compact(localTarget, () => {
 					localTarget.info().then(function(info) {
