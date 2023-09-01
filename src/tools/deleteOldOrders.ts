@@ -106,7 +106,7 @@ function format(value) {
 }
 
 function safeDelete(id, callback) {
-	orders.findByIds(1559044383211 + 24 * 60 * 60 * 1000 * 1, 1559044383211 + 24 * 60 * 60 * 1000 * 100, { limit: 40 })
+	orders.findByIds(1577907786000, 1672602186000, { limit: 40000 })
 	.then(os => {
 		console.log(os.length)
 		_.each(os, o => {
