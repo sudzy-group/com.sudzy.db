@@ -1,6 +1,10 @@
-import * as PouchDB from 'pouchdb';
+var PouchDB = require("pouchdb");
+if (PouchDB.default) { // workaround for TypeScript
+    PouchDB = PouchDB.default;
+}
+var PouchableAuthentication = require("pouchdb-authentication");
+
 import Promise from 'ts-promise';
-import * as PouchableAuthentication from 'pouchdb-authentication';
 
 PouchDB.plugin(PouchableAuthentication);
 

@@ -29,7 +29,7 @@ import * as commander from 'commander';
 
 /**
  * Example: 
- * node lib/tools/deleteCustomer.js --remotePouchDB ****:5984 --remotePouchDBUser *** --remotePouchDBPassword *** --storeId *** --id ***
+ * node lib/tools/deleteOldOrders.js --remotePouchDB ****:5984 --remotePouchDBUser *** --remotePouchDBPassword *** --storeId *** --id ***
  */
 let p = commander
   .version('0.0.1')
@@ -106,7 +106,7 @@ function format(value) {
 }
 
 function safeDelete(id, callback) {
-	orders.findByIds(1577907786000, 1672602186000, { limit: 40000 })
+	orders.findByIds(1670903186000, 1684903186000, { limit: 30000 })
 	.then(os => {
 		console.log(os.length)
 		_.each(os, o => {
