@@ -102,10 +102,13 @@ function sync(local, remote, cb) {
 	syncOp.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
-		console.log('paused sync');	
-		// setTimeout(() => {
-		// 	sync(local, remote, cb);
-		// }, 800)
+		local.info().then(infoLocal => {
+			remote.info().then(infoRemote => {
+				console.log('paused sync - dont panic just wait...');
+				console.log('info from', infoLocal)
+				console.log('info to', infoRemote)
+			})
+		})
 	}).on('change', info => {		
 		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));
@@ -113,7 +116,7 @@ function sync(local, remote, cb) {
 		console.log('error sync');
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
-				sync(local, remote, cb);
+				cb && cb();
 				console.log('infoLocal', infoLocal)
 				console.log('infoRemote', infoRemote)
 			})

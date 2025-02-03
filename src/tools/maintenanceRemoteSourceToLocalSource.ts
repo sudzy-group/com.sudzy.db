@@ -84,9 +84,7 @@ connectPouch();
 sync(remoteSource, localSource, () => {
 	sync(remoteSource, localSource, () => {
 		sync(remoteSource, localSource, () => {
-			
 			processExit(0)
-			
 		})
 	})
 })
@@ -102,18 +100,13 @@ function sync(local, remote, cb) {
 	syncOp.on('complete', () => { 
 		cb && cb();
 	}).on('paused', info => {
-		console.log('paused sync');	
-
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
+				console.log('paused sync - dont panic just wait...');
 				console.log('info from', infoLocal)
 				console.log('info to', infoRemote)
-				setTimeout(() => {
-					sync(local, remote, cb);
-				}, 800)
 			})
 		})	
-
 	}).on('change', info => {		
 		inProgress = true
 		console.log('Changed ', _.get(info, 'change.docs_read'), progress(info));

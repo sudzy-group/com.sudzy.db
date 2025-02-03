@@ -76,6 +76,7 @@ var docs = 0;
 
 const MONTH = 1000*60*60*24*31;
 
+const WEEK_AGO = Date.now() - (MONTH / 4);
 const MONTH_AGO = Date.now() - MONTH;
 const HALF_YEAR_AGO = Date.now() - MONTH * 5;
 const YEAR_AGO = Date.now() - MONTH * 8;
@@ -99,17 +100,13 @@ sync(remoteSource, localSource, () => {
 				compact(localTarget, () => {
 					localTarget.info().then(function(info) {
 						console.log(info);
-						if (p.syncWithTarget) {
+						sync(localTarget, remoteTarget, () => {
 							sync(localTarget, remoteTarget, () => {
 								sync(localTarget, remoteTarget, () => {
-									sync(localTarget, remoteTarget, () => {
-										processExit(0)
-									})
+									processExit(0)
 								})
 							})
-						} else {
-							processExit(0)
-						}
+						})
 					});
 				})
 			});
@@ -321,7 +318,7 @@ function insertAll(es, tableName, shrinkFunction?) {
 }
 
 function deliveriesFilter(d) {
-	return d.created_at > HALF_YEAR_AGO;
+	return d.created_at > MONTH_AGO;
 }
 
 function ordersFilter(o) {
@@ -369,7 +366,7 @@ function customerObjectFilter(cc) {
 }
 
 function messagesFilter(m) {
-	return m.created_at > MONTH_AGO;
+	return m.created_at > WEEK_AGO;
 }
 
 function labelsFilter(l) {
