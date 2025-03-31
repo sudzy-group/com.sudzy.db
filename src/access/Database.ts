@@ -28,8 +28,9 @@ export class Database {
      * Setup local database
      * @param name 
      */
-    public constructor(name : string, options?) {
+    public constructor(name : string, options?, prepare?: Function) {
         name = name.toLowerCase();
+        prepare && prepare(PouchDB);
         this._db = new PouchDB(name, options);
     }
 

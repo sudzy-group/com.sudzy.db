@@ -102,9 +102,9 @@ function sync(local, remote, cb) {
 	}).on('paused', info => {
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
-				console.log('paused sync - dont panic just wait...');
 				console.log('info from', infoLocal)
 				console.log('info to', infoRemote)
+				console.log('paused sync - dont panic just wait...');
 			})
 		})	
 	}).on('change', info => {		

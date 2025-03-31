@@ -116,7 +116,7 @@ function sync(local, remote, cb) {
 		console.log('error sync');
 		local.info().then(infoLocal => {
 			remote.info().then(infoRemote => {
-				cb && cb();
+				sync(local, remote, cb)
 				console.log('infoLocal', infoLocal)
 				console.log('infoRemote', infoRemote)
 			})
